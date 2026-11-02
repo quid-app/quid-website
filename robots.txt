@@ -1,4 +1,14 @@
 User-agent: *
 Allow: /
 
+# AI crawlers are welcome; answers on this site are checked against official sources.
+User-agent: GPTBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+
 Sitemap: https://quidapp.co.uk/sitemap.xml

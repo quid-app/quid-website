@@ -30,9 +30,20 @@
 <link rel="icon" href="quid-logo-white.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="og-image.png">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="preload" href="fonts/plus-jakarta-sans-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:"Inter";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/inter-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Inter";font-style:normal;font-weight:500;font-display:swap;src:url(fonts/inter-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:"Inter";font-style:normal;font-weight:600;font-display:swap;src:url(fonts/inter-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Inter";font-style:normal;font-weight:700;font-display:swap;src:url(fonts/inter-latin-700-normal.woff2) format("woff2")}
+@font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:600;font-display:swap;src:url(fonts/plus-jakarta-sans-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:700;font-display:swap;src:url(fonts/plus-jakarta-sans-latin-700-normal.woff2) format("woff2")}
+@font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:800;font-display:swap;src:url(fonts/plus-jakarta-sans-latin-800-normal.woff2) format("woff2")}
+@font-face{font-family:"Instrument Serif";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/instrument-serif-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Instrument Serif";font-style:italic;font-weight:400;font-display:swap;src:url(fonts/instrument-serif-latin-400-italic.woff2) format("woff2")}
+</style>
 <style>
 /* ---------- tokens ---------- */
 :root{
@@ -57,6 +68,8 @@
 .theme-footer{--background:var(--footer-ink);--card:#1c1c1c}
 
 html,:root{color-scheme:dark !important}
+.skip-link{position:absolute;left:-9999px;top:8px;z-index:200;background:var(--lime);color:var(--ink);padding:10px 16px;border-radius:999px;font-weight:600}
+.skip-link:focus{left:16px}
 /* ---------- base ---------- */
 *,::before,::after{box-sizing:border-box;border:0 solid var(--border);margin:0;padding:0}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
@@ -440,15 +453,16 @@ header img{height:32px;width:auto}
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://quidapp.co.uk/#organization", "name": "Quid", "url": "https://quidapp.co.uk/", "logo": {"@type": "ImageObject", "url": "https://quidapp.co.uk/quid-logo-white.svg"}, "description": "Quid is a free iOS app that helps international students settle in the UK: a daily budget in pounds and your home currency, a first-week checklist, student deals, a community and Quid AI.", "email": "contactquidapp@gmail.com", "founder": [{"@type": "Person", "name": "Arjun Bubbar", "jobTitle": "Co-founder"}, {"@type": "Person", "name": "Nurlyza Lubis", "jobTitle": "Co-founder"}], "sameAs": ["https://www.instagram.com/quid.uk/", "https://www.tiktok.com/@quid.app", "https://www.linkedin.com/company/quid-app", "https://x.com/quidappuk", "https://apps.apple.com/gb/app/quid-uk-student-life/id6791167493"], "areaServed": {"@type": "Country", "name": "United Kingdom"}}, {"@type": "WebSite", "@id": "https://quidapp.co.uk/#website", "url": "https://quidapp.co.uk/", "name": "Quid", "publisher": {"@id": "https://quidapp.co.uk/#organization"}, "inLanguage": "en-GB"}, {"@type": "MobileApplication", "@id": "https://quidapp.co.uk/#app", "name": "Quid: UK Student Life", "alternateName": "Quid", "operatingSystem": "iOS 15.1 or later", "applicationCategory": "FinanceApplication", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "GBP"}, "installUrl": "https://apps.apple.com/gb/app/quid-uk-student-life/id6791167493", "downloadUrl": "https://apps.apple.com/gb/app/quid-uk-student-life/id6791167493", "url": "https://quidapp.co.uk/", "image": "https://quidapp.co.uk/og-image.png", "author": {"@id": "https://quidapp.co.uk/#organization"}, "publisher": {"@id": "https://quidapp.co.uk/#organization"}, "description": "Moving to the UK, sorted. Quid turns your monthly budget into a daily allowance, gives you a first-week checklist (bank account, National Insurance number, GP, SIM, Oyster), student deals, a community of international students and Quid AI.", "featureList": ["Daily allowance in pounds and your home currency", "First-week settling-in checklist", "Student deals", "Community filtered by university and home country", "Quid AI assistant", "Home-screen widget"], "countriesSupported": "GB", "inLanguage": "en-GB"}, {"@type": "WebPage", "@id": "https://quidapp.co.uk/#webpage", "url": "https://quidapp.co.uk/", "name": "Quid: the free app for international students moving to the UK", "isPartOf": {"@id": "https://quidapp.co.uk/#website"}, "about": {"@id": "https://quidapp.co.uk/#app"}, "primaryImageOfPage": "https://quidapp.co.uk/og-image.png", "inLanguage": "en-GB"}, {"@type": "FAQPage", "@id": "https://quidapp.co.uk/#faq", "mainEntity": [{"@type": "Question", "name": "What is Quid?", "acceptedAnswer": {"@type": "Answer", "text": "Quid is a free iOS app for international students moving to the UK. It turns your monthly budget into a daily allowance in pounds and your home currency, gives you a first-week checklist (bank account, SIM, GP, National Insurance number, Oyster), a community of students at your university and from your country, student deals, and Quid AI for questions about UK life."}}, {"@type": "Question", "name": "Where can I get Quid?", "acceptedAnswer": {"@type": "Answer", "text": "Quid is on the App Store for iPhone and needs iOS 15.1 or later. Search \"Quid: UK Student Life\" or tap Download on the App Store on this page. An Android version is planned."}}, {"@type": "Question", "name": "Is Quid free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The core app is free for students. There is no trial that turns into a bill. Quid earns a commission on some of the deals in the app, which is how the free app pays for itself."}}, {"@type": "Question", "name": "Which cities and universities does Quid cover?", "acceptedAnswer": {"@type": "Answer", "text": "Quid launched at universities in London and is adding more UK student cities as it grows. The budget, checklist, Quid AI and deals work wherever you are in the UK; the community is filtered to your university and home country, so it gets better as more students at your university join."}}, {"@type": "Question", "name": "Does Quid connect to my bank account?", "acceptedAnswer": {"@type": "Answer", "text": "No. Quid never connects to your bank and has no access to your accounts or transactions. You log spends yourself, in a couple of taps or from the home-screen widget, and your data stays yours. There is no bank login and no credit check."}}, {"@type": "Question", "name": "Does Quid work in my home currency?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Your daily allowance is shown in pounds and in your home currency, so you always know what a coffee or a weekly shop means in money you understand."}}, {"@type": "Question", "name": "I've already moved to the UK. Is Quid still useful?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The budget resets every term, deals come round again when rent and tuition are due, and the community answers second-year questions too. Settling in is the start; spending smart is the habit."}}, {"@type": "Question", "name": "Can an international student open a UK bank account without UK credit history?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Most high-street banks ask for your passport, proof of your student status (a bank letter from your university showing your UK address) and proof of a UK address. App-based banks such as Starling verify you with an official ID document, a video selfie and proof of UK address. Bring enough money for one to two weeks in case the account takes time to open. Quid's checklist tells you which letter to request from your university and when."}}, {"@type": "Question", "name": "Do international students pay council tax in the UK?", "acceptedAnswer": {"@type": "Answer", "text": "Not if everyone in your home is a full-time student. For council tax, a full-time course lasts at least one year and involves at least 21 hours of study a week. You still need to apply to your council for the exemption, usually with a student status certificate from your university. If a non-student lives with you, the household gets a bill, although it may qualify for a discount."}}, {"@type": "Question", "name": "How do I register with a GP as an international student?", "acceptedAnswer": {"@type": "Answer", "text": "Registering with a GP surgery in England is free and you do not need ID, proof of address or proof of immigration status. Find a surgery near you on the NHS website and complete its online form; it takes about 15 minutes and you are usually told within five days. Do it in your first weeks, before you need a doctor."}}, {"@type": "Question", "name": "What is the 18+ Student Oyster photocard and is it worth it?", "acceptedAnswer": {"@type": "Answer", "text": "It gives students aged 18 or over who live in a London borough and study at an institution on the TfL scheme 30% off adult-rate Travelcards and Bus & Tram Pass season tickets. There is a £20 administration fee. It does not discount pay-as-you-go fares on its own; add a 16-25 Railcard to the photocard to save a third on off-peak pay-as-you-go fares and daily caps. If you travel most days, a discounted monthly Travelcard usually beats pay-as-you-go."}}, {"@type": "Question", "name": "Should I get a 16-25 Railcard?", "acceptedAnswer": {"@type": "Answer", "text": "If you will take more than a couple of train trips a year, yes. It gives a third off rail fares across Britain and costs £35 for one year or £80 for three. Anyone aged 16 to 25 can get one, and full-time students aged 26 and over can too with a signed application form and student ID. A £12 minimum fare applies before 10am on weekdays, except in July and August."}}, {"@type": "Question", "name": "Do I need a National Insurance number before I can work in the UK?", "acceptedAnswer": {"@type": "Answer", "text": "No. You can start work before your National Insurance number arrives if you can prove your right to work (for example with an eVisa share code). Apply once you are in the UK; it can take up to four weeks to arrive. You only need one if you plan to work or claim benefits, so most students apply once they have a job offer."}}, {"@type": "Question", "name": "How many hours can I work on a UK Student visa?", "acceptedAnswer": {"@type": "Answer", "text": "Up to 20 hours a week during term time on a degree-level course, 10 hours a week on a course below degree level, and full time during official vacations. A week runs Monday to Sunday and the limit covers paid, unpaid and voluntary work together. You cannot be self-employed, run a business, work as a professional sportsperson or entertainer, or fill a permanent full-time job. Check your university's term dates, because the limit follows them."}}, {"@type": "Question", "name": "Do students need a TV licence in the UK?", "acceptedAnswer": {"@type": "Answer", "text": "You need a TV licence if you watch live TV on any channel or service, or anything on BBC iPlayer, on any device. You do not need one for on-demand streaming on services other than BBC iPlayer, or for user content on YouTube. In halls your own room must be covered; in a joint-tenancy house share one licence covers the whole address. It costs £180 a year with no student discount, and you can claim a refund for unused full months when you leave for the summer."}}, {"@type": "Question", "name": "What is an eVisa and why do I need a UKVI account?", "acceptedAnswer": {"@type": "Answer", "text": "Your eVisa is the online record of your identity and immigration status, replacing the physical biometric residence permit. You view it by signing in to your UKVI account with your passport details and the phone number or email you registered. From there you generate a share code, valid for 90 days, to prove your status to an employer, a landlord or a bank. Setting up the account is the first item on Quid's checklist."}}, {"@type": "Question", "name": "Is my money data safe with Quid?", "acceptedAnswer": {"@type": "Answer", "text": "Your budget figures are self-reported and stored with our hosting provider in the UK/EU region, protected by row-level security. Quid never moves your money and has no access to your bank. We do not sell personal data. Full details are in the Privacy Policy."}}]}]}</script>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 <div class="framed">
 <header>
   <nav class="page-container">
-    <a aria-label="Quid home" href="#"><img src="quid-logo-white.svg" alt="Quid logo" width="379" height="152"></a>
+    <a aria-label="Quid home" href="/"><img src="quid-logo-white.svg" alt="Quid logo" width="379" height="152"></a>
     <div class="site-header-links">
       <a class="quid-button quid-button-secondary" href="#features">Features</a>
       <a class="quid-button quid-button-secondary" href="#how">How it works</a>
-      <a class="quid-button quid-button-secondary" href="deals.html">Deals</a>
-      <a class="quid-button quid-button-secondary" href="about.html">About</a>
+      <a class="quid-button quid-button-secondary" href="/deals">Deals</a>
+      <a class="quid-button quid-button-secondary" href="/about">About</a>
     </div>
     <div class="nav-right">
       <a href="https://apps.apple.com/gb/app/quid-uk-student-life/id6791167493?uo=4" target="_blank" rel="noopener noreferrer" class="quid-button quid-button-primary quid-button-nav pill">
@@ -472,11 +486,11 @@ header img{height:32px;width:auto}
     </button>
   </div>
   <div class="mobile-menu-links">
-    <a href="#features">Features</a><a href="#how">How it works</a><a href="deals.html">Deals</a><a href="about.html">About</a><a href="#faq">FAQ</a>
+    <a href="#features">Features</a><a href="#how">How it works</a><a href="/deals">Deals</a><a href="/about">About</a><a href="#faq">FAQ</a>
   </div>
 </div>
 
-<div class="quid-line-scope">
+<main id="main" class="quid-line-scope">
 
 <!-- ================= HERO ================= -->
 <section class="hero-section grain">
@@ -750,7 +764,7 @@ header img{height:32px;width:auto}
   </div>
 </section>
 
-</div><!-- /quid-line-scope -->
+</main><!-- /quid-line-scope -->
 
 <!-- ================= FOOTER ================= -->
 <footer class="site-footer theme-footer grain">
@@ -765,8 +779,8 @@ header img{height:32px;width:auto}
       <a class="quid-button quid-button-footer" href="#features">Features</a>
       <a class="quid-button quid-button-footer" href="#how">How it works</a>
       <a class="quid-button quid-button-footer" href="#faq">FAQ</a>
-      <a class="quid-button quid-button-footer" href="deals.html">Deals</a>
-      <a class="quid-button quid-button-footer" href="about.html">About</a>
+      <a class="quid-button quid-button-footer" href="/deals">Deals</a>
+      <a class="quid-button quid-button-footer" href="/about">About</a>
     </div>
     <div class="footer-col">
       <p>Contact</p>
@@ -779,16 +793,16 @@ header img{height:32px;width:auto}
     </div>
     <div class="footer-col">
       <p>Legal</p>
-      <a class="quid-button quid-button-footer" href="privacy.html">Privacy Policy</a>
-      <a class="quid-button quid-button-footer" href="terms.html">Terms of Service</a>
+      <a class="quid-button quid-button-footer" href="/privacy">Privacy Policy</a>
+      <a class="quid-button quid-button-footer" href="/terms">Terms of Service</a>
     </div>
   </div>
   <div class="page-container">
     <div class="footer-bottom-bar">
       <div class="footer-legal">
         <p>© 2026 Quid</p>
-        <a class="quid-button quid-button-footer" href="privacy.html">Privacy Policy</a>
-        <a class="quid-button quid-button-footer" href="terms.html">Terms of Service</a>
+        <a class="quid-button quid-button-footer" href="/privacy">Privacy Policy</a>
+        <a class="quid-button quid-button-footer" href="/terms">Terms of Service</a>
       </div>
       <div class="footer-social">
         <a href="https://www.instagram.com/quid.uk/" target="_blank" rel="noopener noreferrer" aria-label="Quid on Instagram" class="quid-button quid-button-social"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a>

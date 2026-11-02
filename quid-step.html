@@ -5,9 +5,17 @@
 <meta name="color-scheme" content="dark">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Quid How It Works</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:"Inter";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/inter-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Inter";font-style:normal;font-weight:500;font-display:swap;src:url(fonts/inter-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:"Inter";font-style:normal;font-weight:600;font-display:swap;src:url(fonts/inter-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Inter";font-style:normal;font-weight:700;font-display:swap;src:url(fonts/inter-latin-700-normal.woff2) format("woff2")}
+@font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:600;font-display:swap;src:url(fonts/plus-jakarta-sans-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:700;font-display:swap;src:url(fonts/plus-jakarta-sans-latin-700-normal.woff2) format("woff2")}
+@font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:800;font-display:swap;src:url(fonts/plus-jakarta-sans-latin-800-normal.woff2) format("woff2")}
+@font-face{font-family:"Instrument Serif";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/instrument-serif-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Instrument Serif";font-style:italic;font-weight:400;font-display:swap;src:url(fonts/instrument-serif-latin-400-italic.woff2) format("woff2")}
+</style>
 <style>
 :root{color-scheme:dark !important}
 :root{
@@ -272,6 +280,7 @@ $('s2list').style.cssText = 'opacity:0;transform:translateY(-14px)'; await sleep
 /* ---------- STEP 3 ---------- */
 const MIN = 600, MAX = 4200;
 function setBudget(v){
+v = Math.min(MAX, Math.max(MIN, v));
 const pct = (v - MIN) / (MAX - MIN) * 100;
 $('fill').style.width = pct + '%'; $('knob').style.left = pct + '%';
 $('amt').textContent = money(Math.round(v / 50) * 50);
@@ -280,7 +289,7 @@ const t = v < 1500 ? 0 : v < 3000 ? 1 : 2;
 }
 function slide(from, to, ms){
 const t0 = performance.now();
-return new Promise(res => { (function f(t){ const p = Math.min(1,(t-t0)/ms), e = p<.5 ? 2*p*p : 1-Math.pow(-2*p+2,2)/2; setBudget(from + (to-from)*e); p < 1 ? requestAnimationFrame(f) : res(); })(t0); });
+return new Promise(res => { (function f(){ const p = Math.min(1, Math.max(0, (performance.now()-t0)/ms)), e = p<.5 ? 2*p*p : 1-Math.pow(-2*p+2,2)/2; setBudget(from + (to-from)*e); p < 1 ? requestAnimationFrame(f) : res(); })(); });
 }
 async function step3(){
 const targets = [2500, 1200, 3600];
