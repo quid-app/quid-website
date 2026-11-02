@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quid How It Works</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark !important}
+:root{
+--page:#FFFFFF; --card:#FFFFFF; --field:#F3F3F1; --ink:#0D0D0D; --muted:#8a8a8a;
+--line:rgba(0,0,0,.08); --shadow:0 24px 60px rgba(13,13,13,.10),0 2px 8px rgba(13,13,13,.05);
+--lime:#C6FF3D; --lime2:#D4F553; --teal:#427C80; --plum:#6B3E5C; --coral:#FF5869; --green:#2fbf4a;
+}
+body.dark{
+--page:#0D0D0D; --card:#1A1A1A; --field:#111; --ink:#fff; --muted:rgba(255,255,255,.5);
+--line:rgba(255,255,255,.08); --shadow:0 24px 60px rgba(0,0,0,.5);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{background:var(--page);color:var(--ink);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+body.transparent{background:transparent}
+#viewport{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+.stage{position:relative;width:560px;height:460px;flex:none;display:none}
+.stage.active{display:block}
+/* shared */
+.card{position:absolute;background:var(--card);border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow);transition:transform .7s cubic-bezier(.32,.72,0,1),opacity .5s}
+.hd{display:flex;justify-content:space-between;align-items:baseline}
+.ttl{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:22px;letter-spacing:-.4px}
+.stepn{font-size:13px;font-weight:600;color:var(--muted)}.stepn b{color:#7fb800}
+body.dark .stepn b{color:var(--lime)}
+.field{height:52px;border-radius:14px;background:var(--field);border:1.5px solid transparent;display:flex;align-items:center;gap:10px;padding:0 14px;font-size:15px;margin-top:12px;position:relative;transition:border-color .3s,background .3s}
+.field.focus{border-color:var(--ink)}
+.field .ph{color:var(--muted)}
+.field svg{flex:none}
+.field .chev{margin-left:auto}
+.caret{display:inline-block;width:2px;height:18px;background:var(--ink);margin-left:1px;vertical-align:middle;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.btn{height:52px;border-radius:30px;background:var(--lime);color:#0D0D0D;display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;letter-spacing:.8px;font-weight:600;position:relative;overflow:hidden;transition:transform .15s,background .3s}
+.btn.press{transform:scale(.97)}
+.tap{position:absolute;left:var(--x,50%);top:var(--y,50%);width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:rgba(13,13,13,.18);pointer-events:none;animation:tap .55s ease-out forwards;z-index:5}
+@keyframes tap{0%{transform:scale(.2);opacity:1}100%{transform:scale(2.4);opacity:0}}
+.pop{opacity:0;transform:translateY(14px) scale(.97)}
+.in{opacity:1!important;transform:none!important}
+.glowdot{position:absolute;border-radius:50%;filter:blur(40px);opacity:.55;pointer-events:none}
+/* step 1 */
+#s1 .form{left:80px;top:40px;width:400px;padding:24px}
+.flag{font-size:20px;line-height:1}
+.dd{position:absolute;left:24px;right:24px;top:196px;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:6px;z-index:6;opacity:0;transform:translateY(-6px);transition:all .3s;pointer-events:none}
+.dd.in{transform:none}
+.dd .row{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;font-size:14px;transition:background .2s}
+.dd .row.hl{background:var(--field)}
+.chiprow{display:flex;gap:8px;margin-top:14px;min-height:30px}
+.tagchip{padding:6px 12px;border-radius:20px;font-size:12px;font-weight:600;background:#E7F0F0;color:var(--teal);opacity:0;transform:scale(.8);transition:all .35s cubic-bezier(.32,1.4,.5,1)}
+body.dark .tagchip{background:rgba(66,124,128,.25);color:#8fd0d4}
+.tagchip.in{opacity:1;transform:none}
+#s1 .btn{margin-top:18px}
+#s1 .done{position:absolute;right:-26px;top:-22px;width:56px;height:56px;border-radius:50%;background:var(--lime);display:grid;place-items:center;box-shadow:0 10px 30px rgba(198,255,61,.5);opacity:0;transform:scale(.4) rotate(-20deg);transition:all .5s cubic-bezier(.32,1.6,.5,1)}
+/* step 2 */
+#s2 .q{left:50px;top:20px;width:460px;padding:22px 22px 20px}
+.sub{font-size:13px;color:var(--muted);margin-top:4px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.opt{height:84px;border-radius:16px;background:var(--field);border:1.5px solid transparent;padding:12px 14px;font-size:13.5px;line-height:1.3;position:relative;overflow:hidden;transition:background .3s,transform .2s,border-color .3s}
+.opt .e{display:block;font-size:16px;margin-bottom:4px}
+.opt.sel{background:var(--lime);color:#0D0D0D}
+.opt.press{transform:scale(.96)}
+.building{position:absolute;left:50%;top:210px;transform:translate(-50%,10px);background:#0D0D0D;color:#fff;border-radius:30px;padding:12px 18px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:500;opacity:0;transition:all .4s;z-index:4;white-space:nowrap}
+.building.in{transform:translate(-50%,0)}
+.spin{width:16px;height:16px;border-radius:50%;border:2px solid rgba(198,255,61,.3);border-top-color:var(--lime);animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#s2 .list{left:90px;top:40px;width:380px;padding:22px;opacity:0;transform:translateX(60px)}
+.prog{display:flex;justify-content:space-between;align-items:center;margin-top:2px}
+.prog span{font-size:13px;color:#7fb800;font-weight:600}
+body.dark .prog span{color:var(--lime)}
+.segs{display:flex;gap:6px;margin:14px 0 6px}.segs i{flex:1;height:5px;border-radius:5px;background:var(--field);transition:background .5s}.segs i.on{background:var(--green)}
+.li{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:14px;background:var(--field);margin-top:10px;opacity:0;transform:translateY(10px);transition:all .45s cubic-bezier(.32,.72,0,1)}
+.li .t{font-size:14px;font-weight:600}.li .d{font-size:12px;color:var(--muted);margin-top:2px}
+.li .box{margin-left:auto;width:22px;height:22px;border-radius:50%;border:1.5px solid #c9c9c9;display:grid;place-items:center;transition:all .3s}
+.li.done{background:#E6FBE9}
+body.dark .li.done{background:rgba(47,191,74,.15)}
+.li.done .box{background:var(--green);border-color:var(--green)}
+.li .box svg{opacity:0;transition:opacity .2s}.li.done .box svg{opacity:1}
+/* step 3 */
+#s3 .bud{left:70px;top:24px;width:420px;padding:24px}
+.big{font-family:'Plus Jakarta Sans',sans-serif;font-size:40px;font-weight:800;letter-spacing:-1px;margin-top:18px}
+.est{font-size:13px;color:var(--muted)}
+.track{position:relative;height:30px;border-radius:30px;background:var(--field);margin:20px 0 18px}
+.fill{position:absolute;left:0;top:0;bottom:0;border-radius:30px;background:var(--lime);width:40%}
+.knob{position:absolute;top:50%;left:40%;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;background:#fff;box-shadow:0 4px 14px rgba(0,0,0,.2);border:1px solid rgba(0,0,0,.06)}
+.tiers{border:1px solid var(--line);border-radius:16px;padding:6px}
+.tier{display:flex;justify-content:space-between;align-items:center;padding:11px 12px;border-radius:11px;font-size:14px;color:var(--muted);transition:all .3s}
+.tier small{font-size:12px}
+.tier.on{background:var(--ink);color:var(--page)}
+body.transparent .tier.on{color:#fff}
+.allow{left:300px;top:300px;width:230px;padding:18px;background:var(--lime);color:#0D0D0D;border:none;opacity:0;transform:translateY(20px) scale(.95)}
+.allow .a{font-family:'Plus Jakarta Sans',sans-serif;font-size:30px;font-weight:800;letter-spacing:-.6px}
+.allow .l{font-size:13px;margin-top:2px}
+.allow .ok{position:absolute;right:16px;top:18px;font-size:11px;display:flex;align-items:center;gap:5px;font-weight:600}
+.allow .ok i{width:7px;height:7px;border-radius:50%;background:var(--green)}
+.allow .bar{height:6px;border-radius:6px;background:#fff;margin-top:14px;overflow:hidden}
+.allow .bar b{display:block;height:100%;width:0;background:var(--teal);border-radius:6px;transition:width 1s cubic-bezier(.65,0,.35,1)}
+@media (prefers-reduced-motion: reduce){ .caret,.spin{animation:none} }
+</style>
+</head>
+<body>
+<div id="viewport">
+<div class="stage" id="s1">
+<div class="glowdot" style="left:340px;top:20px;width:220px;height:220px;background:var(--lime)"></div>
+<div class="glowdot" style="left:20px;top:280px;width:180px;height:180px;background:var(--teal);opacity:.25"></div>
+<div class="card form" id="s1card">
+<div class="hd"><div class="ttl">About you</div><div class="stepn"><b>1</b>/4</div></div>
+<div class="field" id="fName">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" opacity=".55"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>
+<span id="nameTxt" class="ph">Full name</span>
+</div>
+<div class="field" id="fCountry">
+<span id="ctryIcon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" opacity=".55"><path d="M3 11l9-7 9 7v9a1 1 0 01-1 1H4a1 1 0 01-1-1z"/></svg></span>
+<span id="ctryTxt" class="ph">Home country</span>
+<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" opacity=".6"><path d="M6 9l6 6 6-6"/></svg>
+</div>
+<div class="field" id="fUni">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" opacity=".55"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2.5 9 2.5 12 0v-5"/></svg>
+<span id="uniTxt" class="ph">University</span>
+</div>
+<div class="chiprow"><span class="tagchip" id="cityChip">📍 London</span><span class="tagchip" id="intakeChip">🎓 Sept intake</span></div>
+<div class="btn" id="s1btn">CONTINUE</div>
+<div class="dd" id="dd"></div>
+<div class="done" id="s1done"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0D0D0D" stroke-width="3"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+</div>
+</div>
+<div class="stage" id="s2">
+<div class="glowdot" style="left:20px;top:10px;width:200px;height:200px;background:var(--lime)"></div>
+<div class="card q" id="s2q">
+<div class="hd"><div class="ttl">What's most on your mind?</div><div class="stepn"><b>3</b>/4</div></div>
+<div class="sub">Pick a few. We'll build your first-week checklist around these.</div>
+<div class="grid">
+<div class="opt" data-i="0"><span class="e">💳</span>Opening a UK bank account</div>
+<div class="opt" data-i="1"><span class="e">🏠</span>Sorting out my accommodation</div>
+<div class="opt" data-i="2"><span class="e">📱</span>Getting a UK SIM</div>
+<div class="opt" data-i="3"><span class="e">🩺</span>Registering with a GP</div>
+<div class="opt" data-i="4"><span class="e">🎓</span>My visa and work-hour rules</div>
+<div class="opt" data-i="5"><span class="e">👫</span>Making friends</div>
+</div>
+</div>
+<div class="building" id="building"><span class="spin"></span>Building your checklist...</div>
+<div class="card list" id="s2list">
+<div class="ttl">First Week Setup</div>
+<div class="prog"><div class="sub" style="margin:0">Your progress</div><span id="s2prog">0 of 4 done</span></div>
+<div class="segs" id="s2segs"><i></i><i></i><i></i><i></i></div>
+<div id="s2items"></div>
+</div>
+</div>
+<div class="stage" id="s3">
+<div class="glowdot" style="left:330px;top:250px;width:220px;height:220px;background:var(--lime)"></div>
+<div class="card bud">
+<div class="hd"><div class="ttl">What's your monthly target?</div><div class="stepn"><b>4</b>/4</div></div>
+<div class="big" id="amt">£1,200</div>
+<div class="est">Estimated monthly budget</div>
+<div class="track"><div class="fill" id="fill"></div><div class="knob" id="knob"></div></div>
+<div class="tiers">
+<div class="tier" id="t0">Essentials &amp; High Savings<small>under £1,500</small></div>
+<div class="tier" id="t1">Comfort &amp; Smart Goals<small>£1,500 to £3,000</small></div>
+<div class="tier" id="t2">Premium Lifestyle<small>£3,000+</small></div>
+</div>
+</div>
+<div class="card allow" id="allow">
+<div class="ok"><i></i>On track</div>
+<div class="a" id="daily">£83</div>
+<div class="l">your daily allowance</div>
+<div class="bar"><b id="dbar"></b></div>
+</div>
+</div>
+</div>
+<script>
+(function(){
+const $ = id => document.getElementById(id);
+const q = new URLSearchParams(location.search);
+if (q.get('theme') === 'dark') document.body.classList.add('dark');
+if (q.get('transparent') === '1') document.body.classList.add('transparent');
+const step = ['1','2','3'].includes(q.get('step')) ? q.get('step') : '1';
+const stage = $('s' + step); stage.classList.add('active');
+function fit(){ const s = Math.min(innerWidth / 560, innerHeight / 460); stage.style.transform = 'scale(' + s + ')'; }
+addEventListener('resize', fit); fit();
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+function tap(el){ const t = document.createElement('span'); t.className = 'tap'; el.appendChild(t); setTimeout(() => t.remove(), 600); }
+async function type(el, text, ms){ el.classList.remove('ph'); el.innerHTML = '<span></span><i class="caret"></i>'; const s = el.firstChild; for (const c of text){ s.textContent += c; await sleep(ms); } }
+function settle(el){ const c = el.querySelector('.caret'); if (c) c.remove(); }
+const money = n => '£' + Math.round(n).toLocaleString('en-GB');
+/* ---------- STEP 1 ---------- */
+const people = [
+{name:'Arjun', flag:'🇮🇳', ctry:'India', uni:'University College London', city:'📍 London'},
+{name:'Amara', flag:'🇳🇬', ctry:'Nigeria', uni:'University of Manchester', city:'📍 Manchester'},
+{name:'Linh', flag:'🇻🇳', ctry:'Vietnam', uni:"King's College London", city:'📍 London'},
+{name:'Lucas', flag:'🇧🇷', ctry:'Brazil', uni:'University of Edinburgh', city:'📍 Edinburgh'}
+];
+const list = [['🇧🇷','Brazil'],['🇨🇳','China'],['🇮🇳','India'],['🇳🇬','Nigeria'],['🇻🇳','Vietnam']];
+function s1reset(){
+$('nameTxt').className='ph'; $('nameTxt').textContent='Full name';
+$('ctryTxt').className='ph'; $('ctryTxt').textContent='Home country';
+$('ctryIcon').innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" opacity=".55"><path d="M3 11l9-7 9 7v9a1 1 0 01-1 1H4a1 1 0 01-1-1z"/></svg>';
+$('uniTxt').className='ph'; $('uniTxt').textContent='University';
+['cityChip','intakeChip','dd'].forEach(id => $(id).classList.remove('in'));
+$('s1done').style.cssText=''; $('s1card').style.transform=''; $('s1card').style.opacity=1;
+}
+async function step1(){
+let k = 0;
+while (true){
+const p = people[k++ % people.length];
+s1reset(); await sleep(700);
+$('fName').classList.add('focus'); await type($('nameTxt'), p.name, 110); await sleep(300);
+settle($('nameTxt')); $('fName').classList.remove('focus');
+// country dropdown
+$('fCountry').classList.add('focus'); tap($('fCountry')); await sleep(250);
+$('dd').innerHTML = list.map(r => '<div class="row"><span class="flag">'+r[0]+'</span>'+r[1]+'</div>').join('');
+$('dd').classList.add('in'); await sleep(450);
+const rows = [...$('dd').children]; const target = list.findIndex(r => r[1] === p.ctry);
+for (let i = 0; i <= target; i++){ rows.forEach(r => r.classList.remove('hl')); rows[i].classList.add('hl'); await sleep(170); }
+tap(rows[target]); await sleep(300);
+$('dd').classList.remove('in');
+$('ctryIcon').innerHTML = '<span class="flag">'+p.flag+'</span>'; $('ctryTxt').className=''; $('ctryTxt').textContent = p.ctry;
+$('fCountry').classList.remove('focus'); await sleep(400);
+// uni
+$('fUni').classList.add('focus'); await type($('uniTxt'), p.uni, 45); await sleep(250);
+settle($('uniTxt')); $('fUni').classList.remove('focus');
+$('cityChip').textContent = p.city; $('cityChip').classList.add('in'); await sleep(200);
+$('intakeChip').classList.add('in'); await sleep(700);
+// continue
+$('s1btn').classList.add('press'); tap($('s1btn')); await sleep(160); $('s1btn').classList.remove('press');
+$('s1done').style.cssText = 'opacity:1;transform:none'; await sleep(1500);
+$('s1card').style.transform = 'translateY(-16px)'; $('s1card').style.opacity = 0; await sleep(600);
+}
+}
+/* ---------- STEP 2 ---------- */
+const picks = [
+[1,2,0,4],[0,1,3,5],[1,2,4,5]
+];
+const itemData = [
+['💳','Open a bank account','Monzo, Revolut or a high street bank'],
+['🏠','Find accommodation','SpareRoom, Rightmove or uni halls'],
+['📱','Get a SIM card','giffgaff, Lebara or SMARTY'],
+['🩺','Register with a GP','Takes 5 minutes, saves a lot of stress'],
+['🎓','Know your work-hour rules','What your visa lets you work in term time'],
+['👫','Find your people','Groups for your course, uni and country']
+];
+async function step2(){
+let k = 0; const opts = [...document.querySelectorAll('#s2 .opt')];
+while (true){
+const pk = picks[k++ % picks.length];
+opts.forEach(o => o.classList.remove('sel'));
+$('s2q').style.cssText=''; $('s2list').style.cssText=''; $('s2items').innerHTML='';
+[...$('s2segs').children].forEach(s => s.classList.remove('on')); $('s2prog').textContent='0 of 4 done';
+await sleep(800);
+for (const i of pk){ const o = opts[i]; o.classList.add('press'); tap(o); await sleep(140); o.classList.remove('press'); o.classList.add('sel'); await sleep(520); }
+await sleep(500);
+$('s2q').style.cssText = 'transform:translateX(-60px) scale(.96);opacity:0';
+$('building').classList.add('in'); await sleep(1300);
+$('building').classList.remove('in'); await sleep(250);
+$('s2items').innerHTML = pk.map(i => '<div class="li"><span style="font-size:18px">'+itemData[i][0]+'</span><div><div class="t">'+itemData[i][1]+'</div><div class="d">'+itemData[i][2]+'</div></div><span class="box"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></div>').join('');
+$('s2list').style.cssText = 'opacity:1;transform:none';
+const lis = [...$('s2items').children];
+for (const li of lis){ await sleep(140); li.classList.add('in'); }
+await sleep(900);
+for (let i = 0; i < 2; i++){ tap(lis[i]); lis[i].classList.add('done'); $('s2segs').children[i].classList.add('on'); $('s2prog').textContent = (i+1)+' of 4 done'; await sleep(800); }
+await sleep(1600);
+$('s2list').style.cssText = 'opacity:0;transform:translateY(-14px)'; await sleep(600);
+}
+}
+/* ---------- STEP 3 ---------- */
+const MIN = 600, MAX = 4200;
+function setBudget(v){
+const pct = (v - MIN) / (MAX - MIN) * 100;
+$('fill').style.width = pct + '%'; $('knob').style.left = pct + '%';
+$('amt').textContent = money(Math.round(v / 50) * 50);
+const t = v < 1500 ? 0 : v < 3000 ? 1 : 2;
+[0,1,2].forEach(i => $('t'+i).classList.toggle('on', i === t));
+}
+function slide(from, to, ms){
+const t0 = performance.now();
+return new Promise(res => { (function f(t){ const p = Math.min(1,(t-t0)/ms), e = p<.5 ? 2*p*p : 1-Math.pow(-2*p+2,2)/2; setBudget(from + (to-from)*e); p < 1 ? requestAnimationFrame(f) : res(); })(t0); });
+}
+async function step3(){
+const targets = [2500, 1200, 3600];
+let k = 0;
+while (true){
+const end = targets[k++ % targets.length];
+$('allow').style.cssText=''; $('dbar').style.width='0';
+setBudget(1200); await sleep(700);
+await slide(1200, 3800, 1300); await sleep(250);
+await slide(3800, 900, 1300); await sleep(250);
+await slide(900, end, 1000); await sleep(500);
+$('daily').textContent = money(end / 30);
+$('allow').style.cssText = 'opacity:1;transform:none'; await sleep(400);
+$('dbar').style.width = '35%'; await sleep(2600);
+$('allow').style.cssText = 'opacity:0;transform:translateY(10px) scale(.97)'; await sleep(500);
+}
+}
+if (reduce){
+if (step==='1'){ $('nameTxt').className=''; $('nameTxt').textContent='Arjun'; $('ctryIcon').innerHTML='<span class="flag">🇮🇳</span>'; $('ctryTxt').className=''; $('ctryTxt').textContent='India'; $('uniTxt').className=''; $('uniTxt').textContent='University College London'; $('cityChip').classList.add('in'); $('intakeChip').classList.add('in'); }
+if (step==='2'){ [1,2,4].forEach(i => document.querySelectorAll('#s2 .opt')[i].classList.add('sel')); }
+if (step==='3'){ setBudget(2500); $('allow').style.cssText='opacity:1;transform:none'; $('dbar').style.width='35%'; }
+return;
+}
+({'1':step1,'2':step2,'3':step3})[step]();
+})();
+</script>
+</body>
+</html>

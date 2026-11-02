@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Checklist visual</title>
+<style>
+:root{color-scheme:dark !important}
+:root{--card:#1A1A1A;--line:rgba(255,255,255,.07);--text:#f2f4f3;--muted:#7f8785;--accent:#C6FF3D;--accent-dim:rgba(198,255,61,.10)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:transparent;font-family:Inter,system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+.stage{height:100%;display:grid;place-items:center;padding:24px}
+.panel{width:min(360px,100%);background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 24px 48px rgba(0,0,0,.4)}
+.top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
+.title{color:var(--text);font-weight:600;font-size:14px}
+.count{color:var(--accent);font-size:12px;font-weight:600;font-variant-numeric:tabular-nums}
+.bar{height:6px;border-radius:99px;background:rgba(255,255,255,.06);overflow:hidden;margin-bottom:14px}
+.fill{height:100%;width:0;background:var(--accent);border-radius:inherit;transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:12px;transition:background .4s}
+.item+.item{margin-top:2px}
+.box{width:22px;height:22px;border-radius:50%;border:1.5px solid rgba(255,255,255,.18);display:grid;place-items:center;flex:none;transition:background .3s,border-color .3s,transform .3s}
+.box svg{width:12px;height:12px;stroke:#0D0D0D;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:20;stroke-dashoffset:20;transition:stroke-dashoffset .35s .1s}
+.label{color:var(--text);font-size:13px;transition:color .4s}
+.tag{margin-left:auto;font-size:11px;color:var(--muted);white-space:nowrap}
+.item.active{background:var(--accent-dim)}
+.item.active .box{border-color:var(--accent)}
+.item.done .box{background:var(--accent);border-color:var(--accent);transform:scale(1.06)}
+.item.done svg{stroke-dashoffset:0}
+.item.done .label{color:var(--muted);text-decoration:line-through;text-decoration-color:rgba(255,255,255,.25)}
+</style>
+</head>
+<body>
+<div class="stage">
+<div class="panel">
+<div class="top"><span class="title">Week 1 in the UK</span><span class="count" id="count">0 of 4</span></div>
+<div class="bar"><div class="fill" id="fill"></div></div>
+<div id="list"></div>
+</div>
+</div>
+<script>
+const tasks=[["Set up your UKVI account (eVisa)","Day 1"],["Get a UK SIM card","Day 1"],["Open a bank account","Day 2"],["Register with a GP","Day 4"]];
+const list=document.getElementById('list'),fill=document.getElementById('fill'),count=document.getElementById('count');
+list.innerHTML=tasks.map(t=>`<div class="item"><span class="box"><svg viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3 4.7-5"/></svg></span><span class="label">${t[0]}</span><span class="tag">${t[1]}</span></div>`).join('');
+const items=[...list.children];
+function render(n){
+items.forEach((el,i)=>{el.classList.toggle('done',i<n);el.classList.toggle('active',i===n)});
+fill.style.width=(n/tasks.length*100)+'%';
+count.textContent=n+' of '+tasks.length;
+}
+if(matchMedia('(prefers-reduced-motion: reduce)').matches){render(3)}
+else{
+let n=0;render(0);
+(function step(){
+setTimeout(()=>{n++;render(n);if(n<tasks.length)step();else setTimeout(()=>{n=0;render(0);step()},2200)},n===0?900:1100);
+})();
+}
+</script>
+</body>
+</html>

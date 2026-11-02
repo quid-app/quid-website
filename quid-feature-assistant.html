@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Assistant visual</title>
+<style>
+:root{color-scheme:dark !important}
+:root{--card:#1A1A1A;--line:rgba(255,255,255,.07);--text:#f2f4f3;--muted:#7f8785;--accent:#C6FF3D}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:transparent;font-family:Inter,system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+.stage{height:100%;display:grid;place-items:center;padding:24px}
+.panel{width:min(360px,100%);background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;box-shadow:0 24px 48px rgba(0,0,0,.4)}
+.hdr{display:flex;align-items:center;gap:10px;padding-bottom:12px;border-bottom:1px solid var(--line);margin-bottom:12px}
+.av{width:28px;height:28px;border-radius:50%;background:rgba(198,255,61,.14);display:grid;place-items:center}
+.av svg{width:15px;height:15px;stroke:var(--accent);fill:none;stroke-width:1.8;stroke-linejoin:round}
+.nm{color:var(--text);font-size:13px;font-weight:600}
+.st{color:var(--accent);font-size:11px}
+.chat{height:170px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;overflow:hidden}
+.msg{max-width:84%;padding:10px 12px;border-radius:14px;font-size:13px;line-height:1.45;opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s}
+.msg.in{opacity:1;transform:none}
+.me{align-self:flex-end;background:var(--accent);color:#0D0D0D;border-bottom-right-radius:4px}
+.ai{align-self:flex-start;background:rgba(255,255,255,.06);color:var(--text);border-bottom-left-radius:4px}
+.dots{display:inline-flex;gap:4px;padding:2px 0}
+.dots i{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:b 1s infinite}
+.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
+@keyframes b{0%,60%,100%{opacity:.3;transform:none}30%{opacity:1;transform:translateY(-3px)}}
+</style>
+</head>
+<body>
+<div class="stage">
+<div class="panel">
+<div class="hdr">
+<div class="av"><svg viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/></svg></div>
+<div><div class="nm">Quid assistant</div><div class="st">Online</div></div>
+</div>
+<div class="chat" id="chat"></div>
+</div>
+</div>
+<script>
+const convos=[
+["Do I need a TV licence as a student?","Only if you watch live TV or use BBC iPlayer. If you just stream on-demand, you don't need one."],
+["How do I register with a GP?","Find a surgery near you on the NHS website and fill in their registration form. It's free."]
+];
+const chat=document.getElementById('chat');
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+function add(cls,html){const m=document.createElement('div');m.className='msg '+cls;m.innerHTML=html;chat.appendChild(m);requestAnimationFrame(()=>requestAnimationFrame(()=>m.classList.add('in')));return m}
+async function play(q,a){
+chat.innerHTML='';await wait(500);
+add('me',q);await wait(700);
+const m=add('ai','<span class="dots"><i></i><i></i><i></i></span>');await wait(1200);
+m.textContent='';const w=a.split(' ');
+for(let i=0;i<w.length;i++){m.textContent+=(i?' ':'')+w[i];await wait(55)}
+await wait(2600);
+}
+if(matchMedia('(prefers-reduced-motion: reduce)').matches){add('me',convos[0][0]).classList.add('in');add('ai',convos[0][1]).classList.add('in')}
+else{(async()=>{let i=0;for(;;){await play(...convos[i%convos.length]);i++}})()}
+</script>
+</body>
+</html>

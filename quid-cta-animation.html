@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quid CTA Animation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark !important}
+:root{--bg:#0D0D0D;--card:#1A1A1A;--card2:#141414;--line:rgba(255,255,255,.08);--muted:rgba(255,255,255,.55);
+--lime:#C6FF3D;--lime2:#D4F553;--teal:#427C80;--plum:#6B3E5C;--coral:#FF5869;--green:#2fbf4a;
+--ease:cubic-bezier(.32,.72,0,1);--spring:cubic-bezier(.34,1.56,.64,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);color:#fff;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+body.transparent{background:transparent}
+#vp{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+#stage{position:relative;width:1040px;height:500px;flex:none}
+.copy,.prog{display:none!important}
+#stage.narrow{width:760px;height:880px}
+/* copy column */
+.copy{position:absolute;left:60px;top:70px;width:480px}
+.narrow .copy{left:40px;top:36px;width:680px}
+.m{overflow:hidden;display:block}
+.m>span{display:block;transform:translateY(0);transition:transform .55s var(--ease)}
+.m.out>span{transform:translateY(-105%)}
+.m.pre>span{transform:translateY(105%);transition:none}
+.num{font-size:13px;font-weight:600;letter-spacing:1.5px;color:var(--muted)}
+.num b{color:var(--lime)}
+.eyebrow{margin-top:26px;display:inline-flex}
+.eyebrow span{display:inline-flex;align-items:center;gap:8px;height:30px;padding:0 14px;border-radius:20px;background:rgba(198,255,61,.1);border:1px solid rgba(198,255,61,.25);color:var(--lime);font-size:12px;font-weight:600;letter-spacing:.8px;text-transform:uppercase}
+.h{margin-top:18px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:54px;line-height:1.04;letter-spacing:-1.6px}
+.narrow .h{font-size:46px}
+.p{margin-top:16px;font-size:18px;line-height:1.5;color:var(--muted)}
+.prog{position:absolute;left:60px;top:440px;width:480px;display:flex;gap:8px}
+.narrow .prog{left:40px;top:300px;width:680px}
+.seg{flex:1}
+.seg .t{height:4px;border-radius:4px;background:rgba(255,255,255,.12);overflow:hidden}
+.seg .t b{display:block;height:100%;width:0;background:var(--lime);border-radius:4px}
+.seg .l{font-size:11.5px;color:var(--muted);margin-top:10px;font-weight:500;transition:color .3s}
+.seg.on .l{color:#fff}
+/* ui canvas */
+.ui{position:absolute;left:0;top:0;width:1040px;height:500px;border-radius:32px;background:
+radial-gradient(ellipse at 60% 40%,rgba(198,255,61,.10),transparent 60%),
+linear-gradient(var(--card2),var(--card2));border:1px solid var(--line);overflow:hidden}
+.scene{left:180px!important;width:680px;right:auto!important}
+.ui::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px);background-size:22px 22px;mask-image:radial-gradient(ellipse at center,#000 30%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse at center,#000 30%,transparent 75%)}
+.scene{position:absolute;inset:0;opacity:0;transition:opacity .5s;pointer-events:none}
+.scene.on{opacity:1}
+.c{position:absolute;background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:0 30px 60px rgba(0,0,0,.45)}
+.w{background:#fff;color:#111;border:none}
+.hide{opacity:0;transform:translateY(24px) scale(.96)}
+.anim{transition:opacity .5s var(--ease),transform .6s var(--ease)}
+.show{opacity:1!important;transform:none!important}
+.tap{position:absolute;left:50%;top:50%;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:rgba(255,255,255,.45);pointer-events:none;animation:tap .55s ease-out forwards;z-index:9}
+.tap.d{background:rgba(0,0,0,.2)}
+@keyframes tap{0%{transform:scale(.2);opacity:1}100%{transform:scale(2.4);opacity:0}}
+.sm{font-size:12.5px;color:var(--muted)}
+.big{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;letter-spacing:-.8px}
+.av{width:34px;height:34px;border-radius:50%;flex:none}
+.caret{display:inline-block;width:2px;height:16px;background:currentColor;vertical-align:middle;margin-left:1px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.toast{position:absolute;left:50%;bottom:20px;transform:translate(-50%,30px);opacity:0;background:#fff;color:#111;border-radius:16px;padding:12px 16px;display:flex;align-items:center;gap:10px;font-size:13.5px;box-shadow:0 20px 40px rgba(0,0,0,.4);transition:all .5s var(--ease);white-space:nowrap;z-index:8}
+.toast.show{transform:translate(-50%,0)!important}
+.toast i{width:24px;height:24px;border-radius:50%;background:#d8f6dd;display:grid;place-items:center;font-style:normal}
+/* S1 checklist */
+#s1 .list{left:130px;top:24px;width:420px;padding:22px}
+.ring{position:absolute;right:20px;top:16px}
+.ring circle{fill:none;stroke-width:6}
+.ring .fg{stroke:var(--green);stroke-linecap:round;transition:stroke-dashoffset .6s var(--ease);transform:rotate(-90deg);transform-origin:50% 50%}
+.ringtxt{position:absolute;inset:0;display:grid;place-items:center;font-size:12px;font-weight:700}
+.it{display:flex;align-items:center;gap:12px;height:52px;border-radius:14px;background:#222;margin-top:10px;padding:0 14px;position:relative;transition:background .4s,transform .5s var(--ease)}
+.it .t{display:inline-block;font-size:14.5px;font-weight:600;position:relative;transition:color .4s}
+.it .t::after{content:"";position:absolute;left:0;top:52%;height:1.5px;width:0;background:currentColor;transition:width .4s var(--ease)}
+.it .d{font-size:11.5px;color:var(--muted)}
+.it .ck{margin-left:auto;width:24px;height:24px;border-radius:50%;border:1.5px solid #555;display:grid;place-items:center;transition:all .3s var(--spring)}
+.it .ck svg{opacity:0;transform:scale(.4);transition:all .3s var(--spring)}
+.it.done{background:rgba(47,191,74,.12)}
+.it.done .t{color:var(--muted)}.it.done .t::after{width:100%}
+.it.done .ck{background:var(--green);border-color:var(--green);transform:scale(1.1)}
+.it.done .ck svg{opacity:1;transform:none}
+.swipebg{position:absolute;inset:0;border-radius:14px;background:var(--green);display:flex;align-items:center;padding-left:14px;font-size:12px;font-weight:600;opacity:0;transition:opacity .2s}
+.it .inner{position:absolute;inset:0;border-radius:14px;background:#222;display:flex;align-items:center;gap:12px;padding:0 14px;transition:transform .6s var(--ease),background .4s}
+.conf{position:absolute;width:8px;height:14px;border-radius:2px;pointer-events:none}
+/* S2 money */
+#s2 .allow{left:60px;top:70px;width:340px;padding:22px;background:var(--lime);color:#0D0D0D;border:none}
+.allow .a{font-size:52px;transition:transform .3s var(--spring);transform-origin:left center;display:inline-block}
+.allow .bar{height:8px;border-radius:8px;background:#fff;margin:18px 0 8px;overflow:hidden}
+.allow .bar b{display:block;height:100%;width:58%;background:var(--teal);border-radius:8px;transition:width .9s var(--ease)}
+.btnd{margin-top:16px;height:48px;border-radius:30px;background:#0D0D0D;color:#fff;display:grid;place-items:center;font-size:12px;letter-spacing:.8px;font-weight:600;position:relative;overflow:hidden}
+#s2 .donut{left:430px;top:70px;width:200px;padding:18px}
+.donut svg circle{fill:none;stroke-width:16;transition:stroke-dasharray .9s var(--ease),stroke-dashoffset .9s var(--ease)}
+.lg{display:flex;align-items:center;gap:6px;font-size:11.5px;margin-top:6px;color:var(--muted)}
+.lg i{width:8px;height:8px;border-radius:3px}
+#s2 .sheet{left:300px;top:250px;width:310px;padding:18px}
+.fld{height:48px;border-radius:12px;background:#f2f2f2;display:flex;align-items:center;gap:8px;padding:0 14px;font-size:18px;font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{padding:7px 11px;border-radius:16px;background:#f1f1f1;font-size:12px;position:relative;overflow:hidden;transition:all .25s}
+.chip.sel{background:#0D0D0D;color:#fff}
+.btnl{margin-top:14px;height:46px;border-radius:30px;background:var(--lime);color:#0D0D0D;display:grid;place-items:center;font-size:12px;letter-spacing:.8px;font-weight:700;position:relative;overflow:hidden}
+/* S3 AI */
+#s3 .chat{left:80px;top:34px;width:520px;height:430px;padding:20px;background:#0f0f0f}
+.bu{position:absolute;right:20px;top:24px;max-width:70%;background:#262626;border-radius:16px 16px 4px 16px;padding:11px 14px;font-size:14px;line-height:1.4}
+.ba{position:absolute;left:20px;top:100px;max-width:86%;background:var(--lime);color:#0D0D0D;border-radius:16px 16px 16px 4px;padding:14px 16px;font-size:14px;line-height:1.5}
+.ba small{display:block;margin-top:8px;font-size:11px;font-weight:700;font-style:italic}
+.think{position:absolute;left:24px;top:110px;display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);font-style:italic;opacity:0;transition:opacity .3s}
+.dots i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--lime);margin-right:4px;animation:dot 1s infinite}
+.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
+@keyframes dot{0%,100%{opacity:.25;transform:translateY(0)}50%{opacity:1;transform:translateY(-3px)}}
+.inp{position:absolute;left:16px;right:16px;bottom:16px;height:58px;border-radius:18px;background:#181818;border:1px solid var(--line);display:flex;align-items:center;gap:10px;padding:0 10px 0 16px;font-size:14px}
+.inp .tx{flex:1}
+.send{width:40px;height:40px;border-radius:50%;background:var(--lime);display:grid;place-items:center;position:relative;overflow:hidden}
+.act{position:absolute;left:20px;top:260px;display:flex;gap:8px}
+.act span{height:36px;padding:0 14px;border-radius:20px;border:1px solid rgba(198,255,61,.4);color:var(--lime);font-size:12.5px;font-weight:600;display:inline-flex;align-items:center;gap:6px;position:relative;overflow:hidden;transition:background .3s,color .3s}
+.act span.sel{background:var(--lime);color:#0D0D0D}
+#s3 .added{left:360px;top:300px;width:280px;padding:14px;display:flex;align-items:center;gap:12px}
+/* S4 community */
+#s4 .filters{position:absolute;left:80px;top:30px;display:flex;gap:8px}
+.fc{height:32px;padding:0 14px;border-radius:18px;background:#222;font-size:12px;display:inline-flex;align-items:center;color:var(--muted);transition:all .3s}
+.fc.sel{background:var(--lime);color:#0D0D0D;font-weight:600}
+#s4 .post{left:80px;top:80px;width:520px;padding:18px}
+.tag{font-size:10.5px;font-weight:600;padding:3px 8px;border-radius:6px;background:var(--teal);color:#fff;letter-spacing:.3px}
+.pill{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border-radius:20px;background:#0f0f0f;border:1px solid var(--line);font-size:12px;color:var(--muted)}
+.heart{display:inline-block;transition:transform .3s var(--spring),color .3s}
+.heart.pop{transform:scale(1.5);color:var(--coral)}
+.rep{position:absolute;left:110px;width:490px;padding:12px 14px;display:flex;gap:10px;border-radius:16px}
+.rep .n{font-size:12.5px;font-weight:600}.rep .x{font-size:13px;line-height:1.45;margin-top:2px;color:rgba(255,255,255,.85)}
+.thread{position:absolute;left:96px;width:2px;background:rgba(255,255,255,.1);top:262px;height:0;transition:height .8s var(--ease)}
+/* S5 deals */
+#s5 .src{left:50px;top:80px;width:270px;padding:16px}
+#s5 .deal{left:380px;top:150px;width:260px;padding:0;overflow:hidden}
+.dealimg{height:110px;background:linear-gradient(135deg,#1f3a8a,#427C80);position:relative;display:flex;align-items:flex-end;padding:12px 16px;font-size:34px}
+.stamp{position:absolute;right:14px;top:14px;background:var(--coral);color:#fff;font-weight:800;font-size:13px;padding:6px 10px;border-radius:10px;transform:scale(2.4) rotate(-18deg);opacity:0;transition:all .45s var(--spring)}
+.stamp.show{transform:scale(1) rotate(-6deg)!important}
+.price{display:flex;align-items:baseline;gap:10px;margin-top:8px}
+.old{color:var(--muted);font-size:14px;position:relative}
+.old::after{content:"";position:absolute;left:-2px;right:-2px;top:52%;height:2px;background:var(--coral);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease)}
+.old.cut::after{transform:scaleX(1)}
+.bm{position:absolute;right:14px;bottom:16px;width:36px;height:36px;border-radius:50%;background:#262626;display:grid;place-items:center;overflow:hidden;transition:background .3s}
+.bm.sel{background:var(--lime)}
+.link path{fill:none;stroke:var(--lime);stroke-width:2.5;stroke-dasharray:6 8;stroke-linecap:round}
+.matched{position:absolute;left:380px;top:110px;font-size:11.5px;color:var(--lime);font-weight:600;letter-spacing:.6px;text-transform:uppercase}
+/* ---- colour-only override (appended): UI elements on the host canvas ----
+The host page paints the hero animation's light teal + grid behind this iframe.
+The animation's own dark canvas is removed and every surface is flipped to the
+site's light surfaces, so only the UI elements remain. Colour only: markup,
+script, motion, timing and layout are untouched. */
+:root{--card:#FFFFFF;--card2:#FFFFFF;--line:rgba(13,13,13,.10);--muted:#6f6f6f}
+body{color:#111}
+.ui{background:transparent;border-color:transparent}
+.ui::before{background-image:none}
+.c{background:#fff;border-color:rgba(13,13,13,.10);box-shadow:0 24px 48px rgba(13,13,13,.14);color:#111}
+.toast{background:#fff;color:#111;box-shadow:0 18px 36px rgba(13,13,13,.14)}
+.thread{background:rgba(13,13,13,.12)}
+.tap{background:rgba(13,13,13,.18)}
+.it,.it .inner{background:#F3F3F1;color:#111}
+.it .ck{border-color:#c9c9c9}
+.it.done{background:rgba(47,191,74,.14)}
+.ring circle{stroke:#e4e4e4}
+.ring .fg{stroke:var(--green)}
+#s3 .chat{background:#fff}
+.bu{background:#ECECEC;color:#111}
+.inp{background:#F3F3F1;border-color:rgba(13,13,13,.10);color:#8a8a8a}
+.dots i{background:var(--teal)}
+.fc{background:#EFEFEF;color:#666}
+.pill{background:#fff;border-color:rgba(13,13,13,.12);color:#666}
+.bm{background:#EFEFEF}
+.rep .x{color:#333}
+.act span{border-color:rgba(66,124,128,.45);color:var(--teal)}
+.matched{color:var(--teal)}
+.link path{stroke:var(--teal)}
+.donut svg g circle:first-child{stroke:#ececec}
+.donut svg text{fill:#111}
+.donut svg text:last-of-type{fill:#6f6f6f}
+.lg i[style*="C6FF3D"]{background:#7FB800 !important}
+#s5src > div[style*="#222"]{background:#F3F3F1 !important}
+#s5new{color:#7FB800 !important}
+.inp > span:first-child{color:#7FB800 !important}
+</style>
+</head>
+<body>
+<div id="vp"><div id="stage">
+<div class="copy">
+<div class="m num" id="cNum"><span><b>01</b> / 05</span></div>
+<div class="m eyebrow" id="cEye"><span>Checklist</span></div>
+<div class="m h" id="cH1"><span>Your first week,</span></div>
+<div class="m h" id="cH2" style="margin-top:0"><span>sorted.</span></div>
+<div class="m p" id="cP"><span>A checklist built around you. Swipe it done.</span></div>
+</div>
+<div class="prog" id="prog"></div>
+<div class="ui">
+<div class="scene" id="s1">
+<div class="c list anim hide" id="s1list">
+<div style="font-weight:700;font-size:18px">First Week Setup</div>
+<div class="sm" style="margin-top:4px" id="s1count">0 of 5 done</div>
+<div class="ring" style="width:56px;height:56px">
+<svg width="56" height="56" viewBox="0 0 56 56"><circle cx="28" cy="28" r="22" stroke="#2b2b2b"/><circle class="fg" id="s1ring" cx="28" cy="28" r="22" stroke-dasharray="138.2" stroke-dashoffset="138.2"/></svg>
+<div class="ringtxt" id="s1pct">0%</div>
+</div>
+<div id="s1items" style="margin-top:8px"></div>
+</div>
+<div class="toast" id="s1toast"><i>🎉</i><b>Checklist complete.</b> Proper Brit behaviour.</div>
+</div>
+<div class="scene" id="s2">
+<div class="c allow anim hide" id="s2allow">
+<div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600"><span style="opacity:.7;letter-spacing:.6px">DAILY ALLOWANCE</span><span style="display:flex;align-items:center;gap:6px"><i style="width:8px;height:8px;border-radius:50%;background:var(--green)"></i>On track</span></div>
+<div class="big a" id="s2amt" style="margin-top:10px">£35</div>
+<div style="font-size:14px">left to spend today</div>
+<div class="bar"><b id="s2bar"></b></div>
+<div style="font-size:12.5px" id="s2spent">£48 spent of £83 today</div>
+<div class="btnd" id="s2log">+ LOG A SPEND</div>
+</div>
+<div class="c donut anim hide" id="s2donut">
+<div class="sm" style="font-size:11px;letter-spacing:.6px;font-weight:600">THIS MONTH</div>
+<svg width="164" height="120" viewBox="0 0 164 120" style="margin-top:6px">
+<g transform="translate(82 60) rotate(-90)">
+<circle r="44" stroke="#2b2b2b"/>
+<circle id="dRent" r="44" stroke="#427C80"/>
+<circle id="dFood" r="44" stroke="#C6FF3D"/>
+<circle id="dGo" r="44" stroke="#FF5869"/>
+<circle id="dTr" r="44" stroke="#6B3E5C"/>
+</g>
+<text x="82" y="58" text-anchor="middle" fill="#fff" font-size="15" font-weight="800" font-family="Plus Jakarta Sans">£1,250</text>
+<text x="82" y="74" text-anchor="middle" fill="rgba(255,255,255,.5)" font-size="10">spent</text>
+</svg>
+<div class="lg"><i style="background:#427C80"></i>Rent<i style="background:#C6FF3D;margin-left:8px"></i>Food</div>
+<div class="lg">
+<i style="background:#FF5869"></i>Going out<i style="background:#6B3E5C;margin-left:8px"></i>Travel</div>
+</div>
+<div class="c w sheet anim hide" id="s2sheet">
+<div style="text-align:center;font-weight:600;font-size:15px;margin-bottom:12px">Log a spend</div>
+<div class="fld">£<span id="s2in"></span><i class="caret"></i></div>
+<div class="chips"><span class="chip">🛒 Food</span><span class="chip">🚌 Transport</span><span class="chip" id="s2go">🎉 Going Out</span></div>
+<div class="btnl" id="s2save">SAVE</div>
+</div>
+<div class="toast" id="s2toast"><i>✓</i>Nice, added to your budget!</div>
+</div>
+<div class="scene" id="s3">
+<div class="c chat anim hide" id="s3chat">
+<div class="bu anim hide" id="s3q">Do I have to pay council tax as a student?</div>
+<div class="think" id="s3think"><span class="dots"><i></i><i></i><i></i></span>Thinking....</div>
+<div class="ba anim hide" id="s3a"><span id="s3atx"></span><small>QUID AI</small></div>
+<div class="act anim hide" id="s3act"><span id="s3add">＋ Add to my checklist</span><span>Show me how</span></div>
+<div class="inp"><span style="color:var(--lime)">✦</span><span class="tx" id="s3in" style="color:var(--muted)">Ask Quid AI anything</span><span class="send" id="s3send"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D0D0D" stroke-width="2.4"><path d="M4 12L3 4l18 8-18 8 1-8zm0 0h8"/></svg></span></div>
+</div>
+<div class="c w added anim hide" id="s3added">
+<span style="width:30px;height:30px;border-radius:50%;background:var(--green);display:grid;place-items:center;flex:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+<div><div style="font-weight:600;font-size:13.5px">Added to First Week Setup</div><div style="font-size:12px;color:#777">Send council tax exemption letter</div></div>
+</div>
+</div>
+<div class="scene" id="s4">
+<div class="filters"><span class="fc">Public</span><span class="fc" id="s4f">🏠 Housing</span><span class="fc">UCL</span><span class="fc">Asia</span></div>
+<div class="c post anim hide" id="s4post">
+<div style="display:flex;gap:10px;align-items:center"><div class="av" style="background:linear-gradient(135deg,#6B3E5C,#c97b8e)"></div><div><div style="font-size:13px;font-weight:600">Adison <span class="sm" style="font-weight:400">· just now</span></div><div class="sm" style="font-size:11.5px">UCL <span class="tag">HOUSING</span></div></div></div>
+<div style="font-weight:700;font-size:18px;margin-top:12px">Anyone else charged a 6-week deposit?</div>
+<div class="sm" style="margin-top:6px;line-height:1.5;font-size:13.5px">Letting agent in Stratford wants 6 weeks upfront. How do I push back?</div>
+<div style="display:flex;gap:8px;margin-top:14px"><span class="pill"><span class="heart" id="s4h">♥</span><span id="s4hc">0</span></span><span class="pill">💬 <span id="s4rc">0</span></span></div>
+</div>
+<div class="thread" id="s4thread"></div>
+<div id="s4reps"></div>
+</div>
+<div class="scene" id="s5">
+<div class="c src anim hide" id="s5src">
+<div class="sm" style="font-size:11px;letter-spacing:.6px;font-weight:600">YOUR CHECKLIST</div>
+<div style="display:flex;align-items:center;gap:12px;margin-top:12px;background:#222;border-radius:14px;padding:12px 14px">
+<span style="font-size:20px">🚇</span><div><div style="font-weight:600;font-size:14px">Get an Oyster card</div><div style="font-size:11.5px;color:var(--muted)">Pick one up at any Tube station</div></div>
+</div>
+<div style="display:flex;align-items:center;gap:12px;margin-top:8px;background:#222;border-radius:14px;padding:12px 14px;opacity:.5">
+<span style="font-size:20px">🏠</span><div><div style="font-weight:600;font-size:14px">Find accommodation</div><div style="font-size:11.5px;color:var(--muted)">SpareRoom or uni halls</div></div>
+</div>
+</div>
+<svg class="link" width="680" height="500" style="position:absolute;left:0;top:0;pointer-events:none"><path id="s5path" d="M320 128 C 360 128, 350 210, 380 215"/></svg>
+<div class="matched anim hide" id="s5m">✦ Matched to your checklist</div>
+<div class="c deal anim hide" id="s5deal">
+<div class="dealimg">🚌<span class="stamp" id="s5stamp">30% OFF</span></div>
+<div style="padding:14px 16px 18px;position:relative">
+<div style="font-weight:700;font-size:16px">18+ Student Oyster</div>
+<div class="sm" style="margin-top:3px">Travelcards and bus passes</div>
+<div class="price"><span class="old" id="s5old">£100.00</span><span class="big" style="font-size:24px;color:var(--lime)" id="s5new">£100.00</span></div>
+<div class="bm" id="s5bm"><svg width="14" height="16" viewBox="0 0 14 16" fill="none" stroke="currentColor" stroke-width="2" id="s5bmi"><path d="M2 1h10v14l-5-4-5 4z"/></svg></div>
+</div>
+</div>
+<div class="toast" id="s5toast"><i>🔖</i>Saved to your deals</div>
+</div>
+</div>
+</div></div>
+<script>
+(function(){
+const $ = id => document.getElementById(id);
+const q = new URLSearchParams(location.search);
+if (q.get('transparent') === '1') document.body.classList.add('transparent');
+const stage = $('stage');
+function fit(){
+const W = 1040, H = 500;
+stage.style.transform = 'scale(' + Math.min(innerWidth / W, innerHeight / H) + ')';
+}
+addEventListener('resize', fit); fit();
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const tap = (el, dark) => { const t = document.createElement('span'); t.className = 'tap' + (dark ? ' d' : ''); el.appendChild(t); setTimeout(() => t.remove(), 600); };
+const show = (...ids) => ids.forEach(id => $(id).classList.add('show'));
+const hide = (...ids) => ids.forEach(id => $(id).classList.remove('show'));
+function count(el, a, b, ms, f){ const t0 = performance.now(); return new Promise(r => { (function s(t){ const p = Math.min(1,(t-t0)/ms), e = 1-Math.pow(1-p,3); el.textContent = f(a+(b-a)*e); p<1 ? requestAnimationFrame(s) : r(); })(t0); }); }
+async function type(el, txt, ms){ el.style.color = '#fff'; el.innerHTML = '<span></span><i class="caret"></i>'; const s = el.firstChild; for (const c of txt){ s.textContent += c; await sleep(ms); } }
+/* chapters */
+const chapters = [
+{label:'Checklist', eye:'Checklist', h1:'Your first week,', h2:'sorted.', p:'A checklist built around you. Swipe it done.', dur:7200, run:s1, clean:c1},
+{label:'Money', eye:'Budget', h1:'Know what you', h2:'can spend today.', p:'Your monthly budget, turned into a daily allowance.', dur:7800, run:s2, clean:c2},
+{label:'Quid AI', eye:'Quid AI', h1:'Ask the', h2:'awkward stuff.', p:'Straight answers about UK life, turned into next steps.', dur:9800, run:s3, clean:c3},
+{label:'Community', eye:'Community', h1:"Someone's been", h2:'here before.', p:'Real questions, answered by students who landed last year.', dur:8400, run:s4, clean:c4},
+{label:'Deals', eye:'Deals', h1:'Settle in', h2:'for less.', p:'Student deals matched to your checklist.', dur:7400, run:s5, clean:c5}
+];
+$('prog').innerHTML = chapters.map(c => '<div class="seg"><div class="t"><b></b></div><div class="l">'+c.label+'</div></div>').join('');
+const segs = [...$('prog').children];
+async function setCopy(i){
+const c = chapters[i];
+const parts = [['cNum','<b>0'+(i+1)+'</b> / 05'],['cEye',c.eye],['cH1',c.h1],['cH2',c.h2],['cP',c.p]];
+parts.forEach(([id],k) => setTimeout(() => $(id).classList.add('out'), k*40));
+await sleep(450);
+parts.forEach(([id,txt]) => { $(id).firstElementChild.innerHTML = txt; $(id).classList.remove('out'); $(id).classList.add('pre'); });
+void document.body.offsetHeight;
+parts.forEach(([id],k) => setTimeout(() => $(id).classList.remove('pre'), 30 + k*60));
+}
+function setProg(i, dur){
+segs.forEach((s,k) => { const b = s.querySelector('b'); s.classList.toggle('on', k===i); b.style.transition = 'none'; b.style.width = k < i ? '100%' : '0'; });
+void document.body.offsetHeight;
+const b = segs[i].querySelector('b'); b.style.transition = 'width ' + dur + 'ms linear'; b.style.width = '100%';
+}
+/* ---------- S1 Checklist ---------- */
+const items = [['🏠','Find accommodation','SpareRoom, Rightmove or uni halls'],['📱','Get a SIM card','giffgaff, Lebara or SMARTY'],['💳','Open a bank account','Monzo, Revolut or a high street bank'],['🚇','Get an Oyster card','Pick one up at any Tube station'],['🩺','Register with a GP','Takes 5 minutes']];
+async function s1(){
+$('s1items').innerHTML = items.map(t => '<div class="it"><div class="swipebg">Swipe right to mark done</div><div class="inner"><span style="font-size:18px">'+t[0]+'</span><div><div class="t">'+t[1]+'</div><div class="d">'+t[2]+'</div></div><span class="ck"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></div></div>').join('');
+const rows = [...$('s1items').children];
+$('s1ring').style.strokeDashoffset = 138.2; $('s1pct').textContent = '0%'; $('s1count').textContent = '0 of 5 done';
+await sleep(150); show('s1list'); await sleep(800);
+for (let i = 0; i < rows.length; i++){
+const r = rows[i], inner = r.querySelector('.inner');
+if (i === 0){ r.querySelector('.swipebg').style.opacity = 1; inner.style.transform = 'translateX(170px)'; await sleep(750); inner.style.transform = ''; await sleep(250); r.querySelector('.swipebg').style.opacity = 0; }
+else { tap(r.querySelector('.ck')); }
+r.classList.add('done'); inner.style.background = 'transparent';
+const n = i + 1; $('s1count').textContent = n + ' of 5 done';
+$('s1ring').style.strokeDashoffset = 138.2 * (1 - n/5); $('s1pct').textContent = (n*20) + '%';
+await sleep(i === 0 ? 500 : 420);
+}
+confetti($('s1'), 340, 120);
+show('s1toast');
+}
+function c1(){ hide('s1toast','s1list'); }
+function confetti(host, x, y){
+const cols = ['#C6FF3D','#D4F553','#427C80','#FF5869','#fff'];
+for (let i = 0; i < 28; i++){
+const c = document.createElement('i'); c.className = 'conf'; c.style.background = cols[i%5]; c.style.left = x+'px'; c.style.top = y+'px';
+host.appendChild(c);
+const a = Math.random()*Math.PI*2, d = 120 + Math.random()*160;
+c.animate([{transform:'translate(0,0) rotate(0)',opacity:1},{transform:`translate(${Math.cos(a)*d}px,${Math.sin(a)*d+120}px) rotate(${Math.random()*720}deg)`,opacity:0}],{duration:1400+Math.random()*600,easing:'cubic-bezier(.2,.7,.3,1)',fill:'forwards'});
+setTimeout(() => c.remove(), 2200);
+}
+}
+/* ---------- S2 Money ---------- */
+const C = 2*Math.PI*44;
+function donut(go){
+const seg = [['dRent',.42],['dFood',.22],['dGo',go],['dTr',.12]]; let off = 0;
+seg.forEach(([id,v]) => { const e = $(id); e.style.strokeDasharray = (v*C - 3) + ' ' + C; e.style.strokeDashoffset = -off*C; off += v; });
+}
+function donutZero(){ ['dRent','dFood','dGo','dTr'].forEach(id => { $(id).style.strokeDasharray = '0 ' + C; $(id).style.strokeDashoffset = 0; }); }
+async function s2(){
+$('s2amt').textContent = '£35'; $('s2bar').style.width = '58%'; $('s2spent').textContent = '£48 spent of £83 today';
+$('s2in').textContent = ''; $('s2go').classList.remove('sel'); $('s2sheet').style.transform = ''; donutZero();
+await sleep(150); show('s2allow'); await sleep(250); show('s2donut'); await sleep(200); donut(.10); await sleep(1100);
+tap($('s2log')); await sleep(250); show('s2sheet'); await sleep(600);
+for (const ch of '12'){ $('s2in').textContent += ch; await sleep(220); }
+await sleep(250); tap($('s2go'), true); $('s2go').classList.add('sel'); await sleep(500);
+tap($('s2save'), true); await sleep(250);
+// sheet flies into the allowance card
+$('s2sheet').style.transition = 'transform .6s var(--ease), opacity .45s'; $('s2sheet').style.transform = 'translate(-180px,-140px) scale(.2)'; $('s2sheet').style.opacity = 0; $('s2sheet').classList.remove('show');
+await sleep(450);
+$('s2amt').style.transform = 'scale(1.12)'; $('s2bar').style.width = '72%'; donut(.16);
+count($('s2spent'), 48, 60, 800, n => '£' + Math.round(n) + ' spent of £83 today');
+await count($('s2amt'), 35, 23, 800, n => '£' + Math.round(n));
+$('s2amt').style.transform = ''; show('s2toast');
+}
+function c2(){ hide('s2toast','s2allow','s2donut'); setTimeout(() => { $('s2sheet').style.cssText = ''; }, 600); }
+/* ---------- S3 AI ---------- */
+const answer = "Not if you're a full-time student. Get a student status letter from your uni, send it to your council, and you're exempt.";
+async function s3(){
+$('s3in').textContent = 'Ask Quid AI anything'; $('s3in').style.color = ''; $('s3atx').textContent = ''; $('s3add').classList.remove('sel');
+await sleep(150); show('s3chat'); await sleep(600);
+await type($('s3in'), 'Do I have to pay council tax as a student?', 32); await sleep(250);
+tap($('s3send'), true); await sleep(150);
+$('s3in').textContent = 'Ask Quid AI anything'; $('s3in').style.color = 'var(--muted)';
+show('s3q'); await sleep(350); $('s3think').style.opacity = 1; await sleep(1100); $('s3think').style.opacity = 0;
+show('s3a');
+for (const w of answer.split(' ')){ $('s3atx').textContent += ($('s3atx').textContent ? ' ' : '') + w; await sleep(55); }
+await sleep(400); show('s3act'); await sleep(800);
+tap($('s3add'), true); $('s3add').classList.add('sel'); await sleep(300);
+show('s3added');
+}
+function c3(){ hide('s3chat','s3q','s3a','s3act','s3added'); }
+/* ---------- S4 Community ---------- */
+const reps = [
+['James','KCL','linear-gradient(135deg,#427C80,#9fd3c7)',"Cap is 5 weeks if rent is under £50k. Quote the Tenant Fees Act."],
+['Priya','LSE','linear-gradient(135deg,#f3c27a,#FF5869)',"Same happened to me. The agent backed down in a day."],
+['Tomi','UCL','linear-gradient(135deg,#C6FF3D,#427C80)',"Also check your deposit is protected within 30 days."]
+];
+async function s4(){
+$('s4f').classList.remove('sel'); $('s4hc').textContent = '0'; $('s4rc').textContent = '0'; $('s4thread').style.height = '0';
+$('s4reps').innerHTML = reps.map((r,i) => '<div class="c rep anim hide" style="top:'+(278+i*70)+'px"><div class="av" style="background:'+r[2]+';width:30px;height:30px"></div><div><div class="n">'+r[0]+' <span class="sm" style="font-weight:400">· '+r[1]+'</span></div><div class="x">'+r[3]+'</div></div></div>').join('');
+await sleep(300); $('s4f').classList.add('sel'); await sleep(400); show('s4post'); await sleep(900);
+$('s4thread').style.height = '180px';
+const els = [...$('s4reps').children];
+for (let i = 0; i < els.length; i++){
+els[i].classList.add('show'); $('s4rc').textContent = i + 1; await sleep(700);
+$('s4h').classList.add('pop'); count($('s4hc'), [0,8,19][i], [8,19,34][i], 500, n => Math.round(n)); await sleep(250); $('s4h').classList.remove('pop'); $('s4h').style.color = 'var(--coral)';
+await sleep(500);
+}
+}
+function c4(){ [...$('s4reps').children].forEach(e => e.classList.remove('show')); hide('s4post'); $('s4f').classList.remove('sel'); $('s4h').style.color = ''; $('s4thread').style.height = '0'; }
+/* ---------- S5 Deals ---------- */
+async function s5(){
+const path = $('s5path'), L = path.getTotalLength();
+path.style.transition = 'none'; path.style.strokeDasharray = L; path.style.strokeDashoffset = L;
+$('s5old').classList.remove('cut'); $('s5new').textContent = '£100.00'; $('s5stamp').classList.remove('show'); $('s5bm').classList.remove('sel'); $('s5bmi').setAttribute('fill','none');
+await sleep(150); show('s5src'); await sleep(900);
+void path.getBoundingClientRect(); path.style.transition = 'stroke-dashoffset .8s var(--ease)'; path.style.strokeDashoffset = 0;
+await sleep(500); show('s5m'); await sleep(250); show('s5deal'); await sleep(700);
+show('s5stamp'); await sleep(400);
+$('s5old').classList.add('cut'); await count($('s5new'), 100, 70, 900, n => '£' + n.toFixed(2)); await sleep(700);
+path.style.strokeDasharray = '6 8';
+tap($('s5bm')); $('s5bm').classList.add('sel'); $('s5bmi').setAttribute('fill','#0D0D0D'); $('s5bmi').setAttribute('stroke','#0D0D0D');
+await sleep(250); show('s5toast');
+}
+function c5(){ const path = $('s5path'), L = path.getTotalLength(); hide('s5toast','s5src','s5m','s5deal'); $('s5bmi').setAttribute('stroke','currentColor'); path.style.transition = 'stroke-dashoffset .4s'; path.style.strokeDasharray = L; path.style.strokeDashoffset = L; }
+/* ---------- loop ---------- */
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+async function main(){
+let i = 0, first = true;
+while (true){
+const c = chapters[i];
+if (!first) await setCopy(i); first = false;
+setProg(i, c.dur);
+document.querySelectorAll('.scene').forEach((s,k) => s.classList.toggle('on', k === i));
+const t0 = performance.now();
+await c.run();
+await sleep(Math.max(0, c.dur - (performance.now() - t0)));
+c.clean(); await sleep(450);
+i = (i + 1) % chapters.length;
+}
+}
+if (reduce){ setCopy(1); setProg(1, 0); $('s2').classList.add('on'); show('s2allow','s2donut'); donut(.16); return; }
+main();
+})();
+</script>
+</body>
+</html>
