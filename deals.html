@@ -470,6 +470,10 @@ header img{height:32px;width:auto}
 .deal-link:hover .n{color:var(--lime)}
 .deal-link:hover .n span{transform:translateX(2px)}
 .deal-link .d{color:var(--muted-foreground)}
+.deal-code{margin-top:8px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;font-size:13px;color:var(--muted-foreground)}
+.deal-code code{font-family:var(--font-sans);font-weight:600;letter-spacing:.04em;color:var(--foreground);border:1px dashed rgba(198,255,61,.5);border-radius:8px;padding:3px 8px}
+.copy-code{font:inherit;font-size:12px;font-weight:600;color:var(--ink);background:var(--lime);border:0;border-radius:999px;padding:5px 12px;cursor:pointer}
+.copy-code:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
 .deal-feature{border-top:1px solid var(--border);padding-top:12px;font-size:14px}
 .deal-feature .brand{font-weight:600;color:var(--foreground)}
 .deal-feature .offer{margin-top:4px;font-size:16px;font-weight:600;color:var(--foreground)}
@@ -641,6 +645,7 @@ header img{height:32px;width:auto}
         <p class="card-sub">Getting around the UK and back home.</p>
         <ul class="deal-list">
           <li><a href="https://www.awin1.com/cread.php?awinmid=6235&amp;awinaffid=3125056&amp;ued=https%3A%2F%2Fwww.railcard.co.uk%2F" target="_blank" rel="sponsored noopener" class="deal-link"><span class="n">Railcard<span>→</span></span><span class="d">Save on eligible rail fares with a Railcard, including the 16-25 Railcard. Eligibility, minimum fares and restrictions apply.</span></a></li>
+          <li><a href="https://hostelworld.prf.hn/click/camref:1011l6uH6U" target="_blank" rel="sponsored noopener" class="deal-link"><span class="n">Hostelworld<span>→</span></span><span class="d">Book hostels for trips and short stays.</span></a></li>
         </ul>
       </article>
       <article class="site-card" data-reveal="card">
@@ -654,7 +659,13 @@ header img{height:32px;width:auto}
       <article class="site-card" data-reveal="card" style="--reveal-delay:.08s">
         <span class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/><path d="M3.22 13H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/></svg></span>
         <h2 class="card-title">Health and housing</h2>
-        <p class="card-sub">Gym, wellbeing and somewhere to live. Offers in the app.</p>
+        <p class="card-sub">Gym, wellbeing and somewhere to live.</p>
+        <ul class="deal-list">
+          <li><a href="https://lovespace.co.uk/student-storage/?utm_source=app&amp;utm_medium=referral&amp;utm_campaign=quid" target="_blank" rel="sponsored noopener" class="deal-link"><span class="n">LOVESPACE<span>→</span></span><span class="d">£10 off student storage with code QUID10.</span></a>
+            <div class="deal-code"><span>Code</span><code>QUID10</code><button type="button" class="copy-code" data-code="QUID10" aria-label="Copy LOVESPACE code QUID10">Copy</button></div></li>
+          <li><a href="https://www.awin1.com/cread.php?awinmid=3196&amp;awinaffid=3125056&amp;p=https%3A%2F%2Fwww.myprotein.com%2Fnutrition%2Fbestsellers-en-gb.list" target="_blank" rel="sponsored noopener" class="deal-link"><span class="n">Myprotein<span>→</span></span><span class="d">Shop sports nutrition and fitness essentials.</span></a>
+            <div class="deal-code"><span>Extra discount on eligible items at checkout</span><code>MYPCHECKOUT</code><button type="button" class="copy-code" data-code="MYPCHECKOUT" aria-label="Copy Myprotein code MYPCHECKOUT">Copy</button></div></li>
+        </ul>
       </article>
     </div>
     <p class="deal-note">Quid is free for students. We may earn a commission when you sign up through some of our links.</p>
@@ -753,5 +764,16 @@ header img{height:32px;width:auto}
 })();
 </script>
 
+<p id="copy-status" class="sr-only" aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)"></p>
+<script>
+document.querySelectorAll('.copy-code').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var code = btn.getAttribute('data-code'), status = document.getElementById('copy-status');
+    var done = function () { btn.textContent = 'Copied'; status.textContent = code + ' copied'; setTimeout(function () { btn.textContent = 'Copy'; }, 1800); };
+    var fallback = function () { var r = document.createRange(); r.selectNodeContents(btn.previousElementSibling); var sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); status.textContent = 'Code selected, copy it with your keyboard'; };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(code).then(done, fallback); else fallback();
+  });
+});
+</script>
 </body>
 </html>
