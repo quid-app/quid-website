@@ -62,6 +62,16 @@
 .guide-more{margin-top:40px}
 .guide-more a{font-weight:600;text-decoration:underline;text-decoration-color:var(--lime);text-underline-offset:3px;text-decoration-thickness:2px}
 @media (width <= 1023px){.guide-grid{grid-template-columns:minmax(0,1fr)}}
+
+/* ---------- cookie consent ---------- */
+.consent{position:fixed;left:16px;right:16px;bottom:max(16px,env(safe-area-inset-bottom));z-index:150;max-width:420px;margin-inline:auto;background:#1a1a1a;color:#fff;border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:18px 20px;box-shadow:0 24px 48px rgba(0,0,0,.4);font-size:14px;line-height:1.5;display:none}
+.consent[data-open]{display:block}
+.consent p{margin:0;color:rgba(255,255,255,.8)}
+.consent p a{color:#fff;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--lime,#c6ff3d)}
+.consent-actions{display:flex;gap:10px;margin-top:14px}
+.consent-actions button{font:inherit;font-weight:600;font-size:13px;border-radius:999px;padding:10px 16px;cursor:pointer;border:1px solid rgba(255,255,255,.18);background:transparent;color:#fff}
+.consent-actions button.yes{background:var(--lime,#c6ff3d);color:#0d0d0d;border-color:transparent}
+@media (min-width:768px){.consent{left:24px;right:auto;bottom:24px}}
 </style>
 <style>
 /* ---------- tokens ---------- */
@@ -578,6 +588,14 @@ header img{height:32px;width:auto}
 }
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "@id": "https://quidapp.co.uk/guides/council-tax-exemption-students#article", "headline": "Council tax for students: who pays, who doesn't.", "description": "Full-time students are exempt from council tax if everyone in the home is a student. What counts as full-time, what happens in mixed households, and how to apply.", "url": "https://quidapp.co.uk/guides/council-tax-exemption-students", "mainEntityOfPage": "https://quidapp.co.uk/guides/council-tax-exemption-students", "datePublished": "2026-11-05", "dateModified": "2026-11-05", "inLanguage": "en-GB", "author": {"@id": "https://quidapp.co.uk/#organization"}, "publisher": {"@id": "https://quidapp.co.uk/#organization"}, "image": "https://quidapp.co.uk/og-image.png", "isPartOf": {"@id": "https://quidapp.co.uk/#website"}, "about": "International students in the UK", "citation": ["https://www.gov.uk/council-tax/discounts-for-full-time-students", "https://www.gov.uk/council-tax/who-has-to-pay", "https://www.lambeth.gov.uk/council-tax/discounts-exemptions/student-discount-or-exemption"]}, {"@type": "Organization", "@id": "https://quidapp.co.uk/#organization", "name": "Quid", "url": "https://quidapp.co.uk/", "logo": {"@type": "ImageObject", "url": "https://quidapp.co.uk/quid-logo-white.svg"}, "description": "Quid is a free iOS app that helps international students settle in the UK: a daily budget in pounds and your home currency, a first-week checklist, student deals, a community and Quid AI.", "email": "contactquidapp@gmail.com", "founder": [{"@type": "Person", "name": "Arjun Bubbar", "jobTitle": "Co-founder"}, {"@type": "Person", "name": "Nurlyza Lubis", "jobTitle": "Co-founder"}], "sameAs": ["https://www.instagram.com/quid.uk/", "https://www.tiktok.com/@quid.app", "https://www.linkedin.com/company/quid-app", "https://x.com/quidappuk", "https://apps.apple.com/gb/app/quid-uk-student-life/id6791167493"], "areaServed": {"@type": "Country", "name": "United Kingdom"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://quidapp.co.uk/"}, {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://quidapp.co.uk/guides/"}, {"@type": "ListItem", "position": 3, "name": "Council tax exemption", "item": "https://quidapp.co.uk/guides/council-tax-exemption-students"}]}]}</script>
+<!-- ga4-consent -->
+<script>
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}
+gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',wait_for_update:500});
+try{if(localStorage.getItem('quid-consent')==='granted'){gtag('consent','update',{analytics_storage:'granted'})}}catch(e){}
+gtag('js',new Date());gtag('config','G-NHKZQNR4QR',{anonymize_ip:true,send_page_view:true});
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NHKZQNR4QR"></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -753,6 +771,18 @@ header img{height:32px;width:auto}
   }
   addEventListener('scroll',act,{passive:true});addEventListener('resize',act);act();
 })();
+</script>
+
+<aside class="consent" id="consent" role="dialog" aria-live="polite" aria-label="Cookie consent">
+  <p>We use Google Analytics cookies to see which pages help students. Nothing is tracked until you say yes. <a href="/privacy#legal-section-6">Privacy policy</a></p>
+  <div class="consent-actions"><button type="button" class="yes" id="consent-yes">Accept analytics</button><button type="button" id="consent-no">Decline</button></div>
+</aside>
+<script>
+(function(){var b=document.getElementById('consent');var k='quid-consent';var v=null;try{v=localStorage.getItem(k)}catch(e){}
+if(!v){b.setAttribute('data-open','')}
+function set(val){try{localStorage.setItem(k,val)}catch(e){}b.removeAttribute('data-open');if(val==='granted'&&window.gtag){gtag('consent','update',{analytics_storage:'granted'})}}
+document.getElementById('consent-yes').addEventListener('click',function(){set('granted')});
+document.getElementById('consent-no').addEventListener('click',function(){set('denied')});})();
 </script>
 </body>
 </html>
