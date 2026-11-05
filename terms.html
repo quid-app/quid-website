@@ -443,6 +443,7 @@ header img{height:32px;width:auto}
   .year-timeline::before{width:1px;height:auto;inset:0 auto 0 30px}
   .footer-columns{padding-top:64px;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
   .footer-columns>:first-child{grid-column:1/-1}
+  .footer-col .quid-button-footer{white-space:normal;text-align:left;overflow-wrap:anywhere}
   .footer-bottom-bar{text-align:center;flex-direction:column-reverse;align-items:center;gap:16px}
 }
 @media (prefers-reduced-motion:reduce){
@@ -470,6 +471,10 @@ header img{height:32px;width:auto}
 .deal-link:hover .n{color:var(--lime)}
 .deal-link:hover .n span{transform:translateX(2px)}
 .deal-link .d{color:var(--muted-foreground)}
+.deal-code{margin-top:8px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;font-size:13px;color:var(--muted-foreground)}
+.deal-code code{font-family:var(--font-sans);font-weight:600;letter-spacing:.04em;color:var(--foreground);border:1px dashed rgba(198,255,61,.5);border-radius:8px;padding:3px 8px}
+.copy-code{font:inherit;font-size:12px;font-weight:600;color:var(--ink);background:var(--lime);border:0;border-radius:999px;padding:5px 12px;cursor:pointer}
+.copy-code:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
 .deal-feature{border-top:1px solid var(--border);padding-top:12px;font-size:14px}
 .deal-feature .brand{font-weight:600;color:var(--foreground)}
 .deal-feature .offer{margin-top:4px;font-size:16px;font-weight:600;color:var(--foreground)}
@@ -526,7 +531,7 @@ header img{height:32px;width:auto}
 .legal-section.legal-section-highlight{border-bottom:0}
 .legal-inline-link{display:inline;font:inherit;white-space:normal;color:#0d0d0d;text-decoration:underline;text-decoration-color:var(--lime);text-underline-offset:3px;text-decoration-thickness:2px;transition:background .25s}
 .legal-inline-link:hover{background:var(--lime)}
-.legal-support{margin-top:16px;color:#fff;--foreground:#fff;--muted-foreground:#ffffffb3;background:#0d0d0d;border-radius:28px;padding:40px}
+.legal-panel section.legal-support{margin-top:16px;color:#fff;--foreground:#fff;--muted-foreground:#ffffffb3;background:#0d0d0d;border-radius:28px;padding:40px}
 .legal-support h2{font-size:36px;font-weight:800;line-height:1.1}
 .legal-support .actions{margin-top:24px;display:flex;gap:24px;flex-wrap:wrap}
 .legal-support .quid-button-primary{padding:14px 24px;height:48px;gap:8px}
@@ -549,7 +554,7 @@ header img{height:32px;width:auto}
   .site-card{padding:24px 0}
   .legal-header h1{font-size:36px}
   .legal-section{padding-bottom:32px}
-  .legal-support{padding:28px}
+  .legal-panel section.legal-support{padding:28px}
   .legal-support h2{font-size:28px}
 }
 </style>
@@ -638,7 +643,7 @@ header img{height:32px;width:auto}
       <a class="quid-button quid-button-footer" href="/#how">How it works</a>
       <a class="quid-button quid-button-footer" href="/#faq">FAQ</a>
       <a class="quid-button quid-button-footer" href="/deals">Deals</a>
-      <a class="quid-button quid-button-footer" href="/about">About</a>
+      <a class="quid-button quid-button-footer" href="/about">About</a><a class="quid-button quid-button-footer" href="/guides/">Guides</a>
     </div>
     <div class="footer-col">
       <p>Contact</p>

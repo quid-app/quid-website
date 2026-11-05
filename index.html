@@ -443,6 +443,7 @@ header img{height:32px;width:auto}
   .year-timeline::before{width:1px;height:auto;inset:0 auto 0 30px}
   .footer-columns{padding-top:64px;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
   .footer-columns>:first-child{grid-column:1/-1}
+  .footer-col .quid-button-footer{white-space:normal;text-align:left;overflow-wrap:anywhere}
   .footer-bottom-bar{text-align:center;flex-direction:column-reverse;align-items:center;gap:16px}
 }
 @media (prefers-reduced-motion:reduce){
@@ -523,7 +524,7 @@ header img{height:32px;width:auto}
         </div>
       </div>
       <div class="hero-stage">
-        <div class="hero-animation"><iframe src="quid-hero-animation.html?transparent=1" title="Quid app preview" loading="eager"></iframe></div>
+        <div class="hero-animation"><iframe src="/quid-hero-animation?transparent=1" title="Quid app preview" loading="eager"></iframe></div>
         <span class="sticker sticker-lime">Proper Brit behaviour ✓</span>
         <span class="sticker sticker-white">No bank login needed</span>
       </div>
@@ -601,7 +602,7 @@ header img{height:32px;width:auto}
             <p class="step-p">Where you're from, your uni, your city. That's it.</p>
             <p class="step-detail">Your country · Your uni · Your city</p>
           </div>
-          <div class="step-visual" data-reveal="card" style="--reveal-delay:.1s"><div class="onboarding-demo"><iframe src="quid-step.html?step=1&transparent=1" title="Step 1 demo" loading="lazy"></iframe></div></div>
+          <div class="step-visual" data-reveal="card" style="--reveal-delay:.1s"><div class="onboarding-demo"><iframe src="/quid-step?step=1&transparent=1" title="Step 1 demo" loading="lazy"></iframe></div></div>
         </li>
         <li class="step-row step-row-flip" aria-label="Step 2: Pick what's on your mind.">
           <div class="step-copy" data-reveal>
@@ -610,7 +611,7 @@ header img{height:32px;width:auto}
             <p class="step-p">Bank account, accommodation, SIM, GP, visa rules, making friends.</p>
             <p class="step-detail">Your priorities. Your first-week checklist.</p>
           </div>
-          <div class="step-visual" data-reveal="card" style="--reveal-delay:.1s"><div class="onboarding-demo"><iframe src="quid-step.html?step=2&transparent=1" title="Step 2 demo" loading="lazy"></iframe></div></div>
+          <div class="step-visual" data-reveal="card" style="--reveal-delay:.1s"><div class="onboarding-demo"><iframe src="/quid-step?step=2&transparent=1" title="Step 2 demo" loading="lazy"></iframe></div></div>
         </li>
         <li class="step-row" aria-label="Step 3: Set your monthly target.">
           <div class="step-copy" data-reveal>
@@ -619,7 +620,7 @@ header img{height:32px;width:auto}
             <p class="step-p">Slide to your budget. Essentials, Comfort or Premium. No judgement.</p>
             <p class="step-detail">A daily allowance built around you.</p>
           </div>
-          <div class="step-visual" data-reveal="card" style="--reveal-delay:.1s"><div class="onboarding-demo"><iframe src="quid-step.html?step=3&transparent=1" title="Step 3 demo" loading="lazy"></iframe></div></div>
+          <div class="step-visual" data-reveal="card" style="--reveal-delay:.1s"><div class="onboarding-demo"><iframe src="/quid-step?step=3&transparent=1" title="Step 3 demo" loading="lazy"></iframe></div></div>
         </li>
       </ol>
     </div>
@@ -641,7 +642,7 @@ header img{height:32px;width:auto}
             <p class="story-label">Checklist</p>
             <h3>Settling-in checklist</h3>
             <p class="story-p">Every task for your first weeks in the UK, in the right order.</p>
-            <div class="story-inline-visual"><div class="feature-visual" data-feature="Checklist"><iframe src="quid-feature-checklist.html" title="Checklist" loading="lazy"></iframe></div></div>
+            <div class="story-inline-visual"><div class="feature-visual" data-feature="Checklist"><iframe src="/quid-feature-checklist" title="Checklist" loading="lazy"></iframe></div></div>
           </article>
           <article class="story-block" data-active="false" data-reveal>
             <span class="story-number">02</span>
@@ -662,7 +663,7 @@ header img{height:32px;width:auto}
             <p class="story-label">Quid AI</p>
             <h3>Ask anything. Get a straight answer.</h3>
             <p class="story-p">Quid AI knows your uni, your budget and what things actually cost students here. 24/7, no judgement.</p>
-            <div class="story-inline-visual"><div class="feature-visual" data-feature="Quid AI"><iframe src="quid-feature-assistant.html" title="Quid AI" loading="lazy"></iframe></div></div>
+            <div class="story-inline-visual"><div class="feature-visual" data-feature="Quid AI"><iframe src="/quid-feature-assistant" title="Quid AI" loading="lazy"></iframe></div></div>
           </article>
           <article class="story-block" data-active="false" data-reveal>
             <span class="story-number">05</span>
@@ -674,10 +675,10 @@ header img{height:32px;width:auto}
         </div>
         <div class="story-pin" aria-hidden="true">
           <div class="story-stage">
-            <div class="story-frame" data-active="true"><div class="feature-visual" data-feature="Checklist"><iframe src="quid-feature-checklist.html" title="Checklist" loading="lazy"></iframe></div></div>
+            <div class="story-frame" data-active="true"><div class="feature-visual" data-feature="Checklist"><iframe src="/quid-feature-checklist" title="Checklist" loading="lazy"></iframe></div></div>
             <div class="story-frame" data-active="false"><div class="feature-visual"><div class="fv fv-deals" aria-hidden="true"><div class="fv-card fv-deal"><div><p class="fv-title">Get a SIM card</p><p class="fv-sub">giffgaff · Free SIM, £6/m</p></div><span class="fv-tag">When you land</span></div><div class="fv-card fv-deal"><div><p class="fv-title">Pay tuition from home</p><p class="fv-sub">Better exchange rate than your bank</p></div><span class="fv-tag">Tuition</span></div><div class="fv-card fv-deal"><div><p class="fv-title">Guarantor for your flat</p><p class="fv-sub">Sorted before you view</p></div><span class="fv-tag">Flat-hunting</span></div></div></div></div>
             <div class="story-frame" data-active="false"><div class="feature-visual"><div class="fv fv-budget" aria-hidden="true"><div class="fv-allowance"><p class="fv-eyebrow">Daily allowance</p><p class="fv-big">£23</p><p class="fv-allow-line">left to spend today</p><p class="fv-allow-small">≈ in your home currency</p><div class="fv-bar"><span></span></div></div><div class="fv-widget"><span class="fv-widget-q">Q</span><span class="fv-widget-amt">£23</span><span class="fv-widget-lbl">today</span></div></div></div></div>
-            <div class="story-frame" data-active="false"><div class="feature-visual" data-feature="Quid AI"><iframe src="quid-feature-assistant.html" title="Quid AI" loading="lazy"></iframe></div></div>
+            <div class="story-frame" data-active="false"><div class="feature-visual" data-feature="Quid AI"><iframe src="/quid-feature-assistant" title="Quid AI" loading="lazy"></iframe></div></div>
             <div class="story-frame" data-active="false"><div class="feature-visual"><div class="fv fv-community" aria-hidden="true"><div class="fv-card fv-post"><div><span class="fv-avatar">MW</span><span>Mei</span><span class="fv-teal-tag">Housing</span></div><p class="fv-title">Anyone else charged a 6-week deposit?</p></div><div class="fv-card fv-post"><div><span class="fv-avatar">AK</span><span>Aarav</span><span class="fv-teal-tag">Money</span></div><p class="fv-title">Monzo vs Revolut for day one?</p></div><div class="fv-card fv-group"><div><span class="fv-avatar fv-avatar-sm">S</span><span class="fv-avatar fv-avatar-sm">J</span><span class="fv-avatar fv-avatar-sm">R</span></div><span>Homies</span><span class="fv-sub">+15</span></div></div></div></div>
           </div>
         </div>
@@ -720,7 +721,7 @@ header img{height:32px;width:auto}
           </a>
         </div>
         <p class="cta-fine" data-reveal="soft" style="--reveal-delay:.3s">Free for students. Available on iPhone.</p>
-        <div class="cta-embed" data-reveal="card"><iframe src="quid-cta-animation.html?transparent=1" title="Quid in action" loading="lazy"></iframe></div>
+        <div class="cta-embed" data-reveal="card"><iframe src="/quid-cta-animation?transparent=1" title="Quid in action" loading="lazy"></iframe></div>
       </div>
     </div>
   </div>
@@ -748,10 +749,10 @@ header img{height:32px;width:auto}
 </div>
 <h3 class="faq-group" data-reveal="soft">Moving to the UK, answered</h3>
 <div class="faq-list">
-<details data-reveal="soft" style="--reveal-delay:0.24s"><summary class="quid-button quid-button-faq"><span>Can an international student open a UK bank account without UK credit history?</span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></summary><div class="faq-answer"><div><p>Yes. Most high-street banks ask for your passport, proof of your student status (a bank letter from your university showing your UK address) and proof of a UK address. App-based banks such as Starling verify you with an official ID document, a video selfie and proof of UK address. Bring enough money for one to two weeks in case the account takes time to open. Quid's checklist tells you which letter to request from your university and when.</p><p class="faq-src">Source: <a href="https://www.york.ac.uk/students/support/international/living/bank-account/" target="_blank" rel="noopener">University of York: opening a bank account</a>. Checked November 2026.</p></div></div></details>
-<details data-reveal="soft" style="--reveal-delay:0.24s"><summary class="quid-button quid-button-faq"><span>Do international students pay council tax in the UK?</span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></summary><div class="faq-answer"><div><p>Not if everyone in your home is a full-time student. For council tax, a full-time course lasts at least one year and involves at least 21 hours of study a week. You still need to apply to your council for the exemption, usually with a student status certificate from your university. If a non-student lives with you, the household gets a bill, although it may qualify for a discount.</p><p class="faq-src">Source: <a href="https://www.gov.uk/council-tax/discounts-for-full-time-students" target="_blank" rel="noopener">GOV.UK: Council Tax discounts for full-time students</a>. Checked November 2026.</p></div></div></details>
+<details data-reveal="soft" style="--reveal-delay:0.24s"><summary class="quid-button quid-button-faq"><span>Can an international student open a UK bank account without UK credit history?</span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></summary><div class="faq-answer"><div><p>Yes. Most high-street banks ask for your passport, proof of your student status (a bank letter from your university showing your UK address) and proof of a UK address. App-based banks such as Starling verify you with an official ID document, a video selfie and proof of UK address. Bring enough money for one to two weeks in case the account takes time to open. Quid's checklist tells you which letter to request from your university and when. <a href="/guides/uk-bank-account-international-student">Read the full guide to opening a UK bank account.</a> <a href="/guides/uk-bank-account-international-student">Read the full guide to opening a UK bank account.</a></p><p class="faq-src">Source: <a href="https://www.york.ac.uk/students/support/international/living/bank-account/" target="_blank" rel="noopener">University of York: opening a bank account</a>. Checked November 2026.</p></div></div></details>
+<details data-reveal="soft" style="--reveal-delay:0.24s"><summary class="quid-button quid-button-faq"><span>Do international students pay council tax in the UK?</span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></summary><div class="faq-answer"><div><p>Not if everyone in your home is a full-time student. For council tax, a full-time course lasts at least one year and involves at least 21 hours of study a week. You still need to apply to your council for the exemption, usually with a student status certificate from your university. If a non-student lives with you, the household gets a bill, although it may qualify for a discount. <a href="/guides/council-tax-exemption-students">Read the full guide to council tax for students.</a> <a href="/guides/council-tax-exemption-students">Read the full guide to council tax for students.</a></p><p class="faq-src">Source: <a href="https://www.gov.uk/council-tax/discounts-for-full-time-students" target="_blank" rel="noopener">GOV.UK: Council Tax discounts for full-time students</a>. Checked November 2026.</p></div></div></details>
 <details data-reveal="soft" style="--reveal-delay:0.24s"><summary class="quid-button quid-button-faq"><span>How do I register with a GP as an international student?</span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></summary><div class="faq-answer"><div><p>Registering with a GP surgery in England is free and you do not need ID, proof of address or proof of immigration status. Find a surgery near you on the NHS website and complete its online form; it takes about 15 minutes and you are usually told within five days. Do it in your first weeks, before you need a doctor.</p><p class="faq-src">Source: <a href="https://www.nhs.uk/nhs-services/gps/how-to-register-with-a-gp-surgery/" target="_blank" rel="noopener">NHS: How to register with a GP surgery</a>. Checked November 2026.</p></div></div></details>
-<details data-reveal="soft" style="--reveal-delay:0.24s"><summary class="quid-button quid-button-faq"><span>What is the 18+ Student Oyster photocard and is it worth it?</span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></summary><div class="faq-answer"><div><p>It gives students aged 18 or over who live in a London borough and study at an institution on the TfL scheme 30% off adult-rate Travelcards and Bus &amp; Tram Pass season tickets. There is a £20 administration fee. It does not discount pay-as-you-go fares on its own; add a 16-25 Railcard to the photocard to save a third on off-peak pay-as-you-go fares and daily caps. If you travel most days, a discounted monthly Travelcard usually beats pay-as-you-go.</p><p class="faq-src">Source: <a href="https://tfl.gov.uk/fares/free-and-discounted-travel/18-plus-student-oyster-photocard" target="_blank" rel="noopener">TfL: 18+ Student Oyster photocard</a>. Checked November 2026.</p></div></div></details>
+<details data-reveal="soft" style="--reveal-delay:0.24s"><summary class="quid-button quid-button-faq"><span>What is the 18+ Student Oyster photocard and is it worth it?</span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></summary><div class="faq-answer"><div><p>It gives students aged 18 or over who live in a London borough and study at an institution on the TfL scheme 30% off adult-rate Travelcards and Bus &amp; Tram Pass season tickets. There is a £20 administration fee. It does not discount pay-as-you-go fares on its own; add a 16-25 Railcard to the photocard to save a third on off-peak pay-as-you-go fares and daily caps. If you travel most days, a discounted monthly Travelcard usually beats pay-as-you-go. <a href="/guides/18-plus-oyster-vs-railcard">Read the Oyster vs Railcard guide.</a> <a href="/guides/18-plus-oyster-vs-railcard">Read the Oyster vs Railcard guide.</a></p><p class="faq-src">Source: <a href="https://tfl.gov.uk/fares/free-and-discounted-travel/18-plus-student-oyster-photocard" target="_blank" rel="noopener">TfL: 18+ Student Oyster photocard</a>. Checked November 2026.</p></div></div></details>
 <details data-reveal="soft" style="--reveal-delay:0.24s"><summary class="quid-button quid-button-faq"><span>Should I get a 16-25 Railcard?</span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></summary><div class="faq-answer"><div><p>If you will take more than a couple of train trips a year, yes. It gives a third off rail fares across Britain and costs £35 for one year or £80 for three. Anyone aged 16 to 25 can get one, and full-time students aged 26 and over can too with a signed application form and student ID. A £12 minimum fare applies before 10am on weekdays, except in July and August.</p><p class="faq-src">Source: <a href="https://railcard.co.uk/16-25" target="_blank" rel="noopener">Railcard.co.uk: 16-25 Railcard</a>. Checked November 2026.</p></div></div></details>
 <details data-reveal="soft" style="--reveal-delay:0.24s"><summary class="quid-button quid-button-faq"><span>Do I need a National Insurance number before I can work in the UK?</span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></summary><div class="faq-answer"><div><p>No. You can start work before your National Insurance number arrives if you can prove your right to work (for example with an eVisa share code). Apply once you are in the UK; it can take up to four weeks to arrive. You only need one if you plan to work or claim benefits, so most students apply once they have a job offer.</p><p class="faq-src">Source: <a href="https://www.gov.uk/apply-national-insurance-number" target="_blank" rel="noopener">GOV.UK: Apply for a National Insurance number</a>. Checked November 2026.</p></div></div></details>
 <details data-reveal="soft" style="--reveal-delay:0.24s"><summary class="quid-button quid-button-faq"><span>How many hours can I work on a UK Student visa?</span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></summary><div class="faq-answer"><div><p>Up to 20 hours a week during term time on a degree-level course, 10 hours a week on a course below degree level, and full time during official vacations. A week runs Monday to Sunday and the limit covers paid, unpaid and voluntary work together. You cannot be self-employed, run a business, work as a professional sportsperson or entertainer, or fill a permanent full-time job. Check your university's term dates, because the limit follows them.</p><p class="faq-src">Source: <a href="https://www.studentsupport.manchester.ac.uk/immigration-and-visas/visas-and-applications/student-visa/working/working-during-your-studies/" target="_blank" rel="noopener">University of Manchester: working during your studies</a>. Checked November 2026.</p></div></div></details>
@@ -780,7 +781,7 @@ header img{height:32px;width:auto}
       <a class="quid-button quid-button-footer" href="#how">How it works</a>
       <a class="quid-button quid-button-footer" href="#faq">FAQ</a>
       <a class="quid-button quid-button-footer" href="/deals">Deals</a>
-      <a class="quid-button quid-button-footer" href="/about">About</a>
+      <a class="quid-button quid-button-footer" href="/about">About</a><a class="quid-button quid-button-footer" href="/guides/">Guides</a>
     </div>
     <div class="footer-col">
       <p>Contact</p>

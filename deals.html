@@ -443,6 +443,7 @@ header img{height:32px;width:auto}
   .year-timeline::before{width:1px;height:auto;inset:0 auto 0 30px}
   .footer-columns{padding-top:64px;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
   .footer-columns>:first-child{grid-column:1/-1}
+  .footer-col .quid-button-footer{white-space:normal;text-align:left;overflow-wrap:anywhere}
   .footer-bottom-bar{text-align:center;flex-direction:column-reverse;align-items:center;gap:16px}
 }
 @media (prefers-reduced-motion:reduce){
@@ -530,7 +531,7 @@ header img{height:32px;width:auto}
 .legal-section.legal-section-highlight{border-bottom:0}
 .legal-inline-link{display:inline;font:inherit;white-space:normal;color:#0d0d0d;text-decoration:underline;text-decoration-color:var(--lime);text-underline-offset:3px;text-decoration-thickness:2px;transition:background .25s}
 .legal-inline-link:hover{background:var(--lime)}
-.legal-support{margin-top:16px;color:#fff;--foreground:#fff;--muted-foreground:#ffffffb3;background:#0d0d0d;border-radius:28px;padding:40px}
+.legal-panel section.legal-support{margin-top:16px;color:#fff;--foreground:#fff;--muted-foreground:#ffffffb3;background:#0d0d0d;border-radius:28px;padding:40px}
 .legal-support h2{font-size:36px;font-weight:800;line-height:1.1}
 .legal-support .actions{margin-top:24px;display:flex;gap:24px;flex-wrap:wrap}
 .legal-support .quid-button-primary{padding:14px 24px;height:48px;gap:8px}
@@ -553,7 +554,7 @@ header img{height:32px;width:auto}
   .site-card{padding:24px 0}
   .legal-header h1{font-size:36px}
   .legal-section{padding-bottom:32px}
-  .legal-support{padding:28px}
+  .legal-panel section.legal-support{padding:28px}
   .legal-support h2{font-size:28px}
 }
 </style>
@@ -685,7 +686,7 @@ header img{height:32px;width:auto}
       <a class="quid-button quid-button-footer" href="/#how">How it works</a>
       <a class="quid-button quid-button-footer" href="/#faq">FAQ</a>
       <a class="quid-button quid-button-footer" href="/deals">Deals</a>
-      <a class="quid-button quid-button-footer" href="/about">About</a>
+      <a class="quid-button quid-button-footer" href="/about">About</a><a class="quid-button quid-button-footer" href="/guides/">Guides</a>
     </div>
     <div class="footer-col">
       <p>Contact</p>

@@ -7,6 +7,10 @@ Facts: Free. iPhone only (iOS 15.1 or later), Android planned. Category: Finance
 ## Pages
 
 - [Home](https://quidapp.co.uk/): features, how set-up works, and 17 FAQs including verified answers on UK bank accounts, council tax exemption, GP registration, 18+ Student Oyster, 16-25 Railcard, National Insurance numbers, Student visa work hours, TV licences and eVisas.
+- [Guides](https://quidapp.co.uk/guides/): sourced guides, checked 5 November 2026:
+  - [Opening a UK bank account as an international student](https://quidapp.co.uk/guides/uk-bank-account-international-student)
+  - [Council tax exemption for students](https://quidapp.co.uk/guides/council-tax-exemption-students)
+  - [18+ Student Oyster vs 16-25 Railcard](https://quidapp.co.uk/guides/18-plus-oyster-vs-railcard)
 - [About](https://quidapp.co.uk/about): the founders and why Quid exists.
 - [Deals](https://quidapp.co.uk/deals): student deal categories (SIMs and eSIMs, tech and security, banking, travel, food and entertainment, health and housing).
 - [Privacy Policy](https://quidapp.co.uk/privacy)
