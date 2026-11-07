@@ -7,10 +7,20 @@ Facts: Free. iPhone only (iOS 15.1 or later), Android planned. Category: Finance
 ## Pages
 
 - [Home](https://quidapp.co.uk/): features, how set-up works, and 17 FAQs including verified answers on UK bank accounts, council tax exemption, GP registration, 18+ Student Oyster, 16-25 Railcard, National Insurance numbers, Student visa work hours, TV licences and eVisas.
-- [Guides](https://quidapp.co.uk/guides/): sourced guides, checked 5 November 2026:
-  - [Opening a UK bank account as an international student](https://quidapp.co.uk/guides/uk-bank-account-international-student)
-  - [Council tax exemption for students](https://quidapp.co.uk/guides/council-tax-exemption-students)
-  - [18+ Student Oyster vs 16-25 Railcard](https://quidapp.co.uk/guides/18-plus-oyster-vs-railcard)
+- [Blog](https://quidapp.co.uk/blog/): sourced, dated guides for international students:
+  - [First week in the UK: seven days, seven jobs, in order.](https://quidapp.co.uk/blog/first-week-in-the-uk-international-student-checklist)
+  - [The best UK bank account for an international student is the one you can open this week.](https://quidapp.co.uk/blog/best-uk-bank-account-international-students)
+  - [Your National Insurance number: free, and you can start work without it.](https://quidapp.co.uk/blog/national-insurance-number-international-students)
+  - [Cost of living in the UK for an international student: the real monthly numbers.](https://quidapp.co.uk/blog/cost-of-living-uk-international-student-per-month)
+  - [Working on a Student visa: the hours rule and what your payslip means.](https://quidapp.co.uk/blog/working-while-studying-uk-hours-tax-payslips)
+  - [A UK SIM in your first hour, a better one in your first month.](https://quidapp.co.uk/blog/uk-sim-card-international-students)
+  - [Register with a GP in week one: free, no ID, no proof of address.](https://quidapp.co.uk/blog/register-gp-nhs-number-international-student)
+  - [Opening a UK bank account as an international student.](https://quidapp.co.uk/blog/uk-bank-account-international-student)
+  - [Council tax for students: who pays, who doesn't.](https://quidapp.co.uk/blog/council-tax-exemption-students)
+  - [18+ Student Oyster or 16-25 Railcard? Get both. Here's why.](https://quidapp.co.uk/blog/18-plus-oyster-vs-railcard)
+  - [A month in the UK for an Indian student, in pounds and in rupees.](https://quidapp.co.uk/blog/cost-of-living-uk-indian-students)
+  - [IHS, eVisa, BRP: which one each person actually wants.](https://quidapp.co.uk/blog/ihs-evisa-brp-what-you-need-in-week-one)
+  - [Is £2,000 a month enough in the UK? Yes. Here is the margin.](https://quidapp.co.uk/blog/is-2000-pounds-a-month-enough-uk-student)
 - [About](https://quidapp.co.uk/about): the founders and why Quid exists.
 - [Deals](https://quidapp.co.uk/deals): student deal categories (SIMs and eSIMs, tech and security, banking, travel, food and entertainment, health and housing).
 - [Privacy Policy](https://quidapp.co.uk/privacy)

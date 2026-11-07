@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://quidapp.co.uk/</loc><lastmod>2026-11-05</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://quidapp.co.uk/guides/</loc><lastmod>2026-11-05</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://quidapp.co.uk/guides/uk-bank-account-international-student</loc><lastmod>2026-11-05</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://quidapp.co.uk/guides/council-tax-exemption-students</loc><lastmod>2026-11-05</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://quidapp.co.uk/guides/18-plus-oyster-vs-railcard</loc><lastmod>2026-11-05</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://quidapp.co.uk/</loc><lastmod>2026-11-07</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://quidapp.co.uk/blog/</loc><lastmod>2026-11-07</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://quidapp.co.uk/blog/first-week-in-the-uk-international-student-checklist</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://quidapp.co.uk/blog/best-uk-bank-account-international-students</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://quidapp.co.uk/blog/national-insurance-number-international-students</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://quidapp.co.uk/blog/cost-of-living-uk-international-student-per-month</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://quidapp.co.uk/blog/working-while-studying-uk-hours-tax-payslips</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://quidapp.co.uk/blog/uk-sim-card-international-students</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://quidapp.co.uk/blog/register-gp-nhs-number-international-student</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://quidapp.co.uk/blog/uk-bank-account-international-student</loc><lastmod>2026-11-05</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://quidapp.co.uk/blog/council-tax-exemption-students</loc><lastmod>2026-11-05</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://quidapp.co.uk/blog/18-plus-oyster-vs-railcard</loc><lastmod>2026-11-05</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://quidapp.co.uk/blog/cost-of-living-uk-indian-students</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://quidapp.co.uk/blog/ihs-evisa-brp-what-you-need-in-week-one</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://quidapp.co.uk/blog/is-2000-pounds-a-month-enough-uk-student</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://quidapp.co.uk/about</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://quidapp.co.uk/deals</loc><lastmod>2026-11-02</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://quidapp.co.uk/privacy</loc><lastmod>2026-11-02</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://quidapp.co.uk/deals</loc><lastmod>2026-11-05</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://quidapp.co.uk/privacy</loc><lastmod>2026-11-05</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
   <url><loc>https://quidapp.co.uk/terms</loc><lastmod>2026-11-02</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
 </urlset>

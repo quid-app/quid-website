@@ -53,6 +53,37 @@
 .consent-actions button{font:inherit;font-weight:600;font-size:13px;border-radius:999px;padding:10px 16px;cursor:pointer;border:1px solid rgba(255,255,255,.18);background:transparent;color:#fff}
 .consent-actions button.yes{background:var(--lime,#c6ff3d);color:#0d0d0d;border-color:transparent}
 @media (min-width:768px){.consent{left:24px;right:auto;bottom:24px}}
+
+/* blog */
+.guide-short{border-left:4px solid var(--lime);background:#fff;border-radius:16px;padding:24px;color:#0d0d0d}
+.guide-short p.k{font-family:var(--font-display);font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:rgba(13,13,13,.55);margin-bottom:10px}
+.guide-short p.a{font-size:17px;line-height:1.65}
+.guide-byline{margin-top:14px;font-size:13px;color:rgba(255,255,255,.55)}
+.guide-sources{font-size:14px;color:rgba(13,13,13,.6)}
+.guide-sources ul{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.guide-sources li::before{display:none}
+.guide-sources li{padding-left:0}
+.guide-faq details{border-top:1px solid rgba(13,13,13,.1);padding:12px 0}
+.guide-faq details:last-child{border-bottom:1px solid rgba(13,13,13,.1)}
+.guide-faq summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.guide-faq summary::-webkit-details-marker{display:none}
+.guide-faq summary::after{content:"+";font-weight:400;color:rgba(13,13,13,.5)}
+.guide-faq details[open] summary::after{content:"–"}
+.guide-faq details p{margin-top:8px;color:rgba(13,13,13,.75)}
+.guide-grid{display:grid;gap:16px;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:var(--group-space)}
+.guide-card{display:block;background:#fff;color:#0d0d0d;border-radius:20px;padding:28px;border:1px solid rgba(0,0,0,.06);transition:transform .25s,box-shadow .25s}
+.guide-card:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.08)}
+.guide-card .k{font-family:var(--font-display);font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:rgba(13,13,13,.55)}
+.guide-card h2,.guide-card h3{margin-top:10px;font-size:22px;font-weight:600;line-height:1.3}
+.guide-card p{margin-top:8px;color:rgba(13,13,13,.6);font-size:15px}
+.guide-card .more{margin-top:16px;font-weight:600;display:inline-flex;gap:8px;align-items:center}
+.guide-more{margin-top:40px}
+.guide-more a{font-weight:600;text-decoration:underline;text-decoration-color:var(--lime);text-underline-offset:3px;text-decoration-thickness:2px}
+.home-blog .guide-card{background:#1a1a1a;color:#fff;border-color:rgba(255,255,255,.08)}
+.home-blog .guide-card .k,.home-blog .guide-card p{color:rgba(255,255,255,.6)}
+.home-blog .guide-card .more{color:var(--lime)}
+.home-blog .blog-all{margin-top:28px}
+@media (width <= 1023px){.guide-grid{grid-template-columns:minmax(0,1fr)}}
 </style>
 <style>
 /* ---------- tokens ---------- */
@@ -482,6 +513,7 @@ gtag('js',new Date());gtag('config','G-NHKZQNR4QR',{anonymize_ip:true,send_page_
       <a class="quid-button quid-button-secondary" href="#how">How it works</a>
       <a class="quid-button quid-button-secondary" href="/deals">Deals</a>
       <a class="quid-button quid-button-secondary" href="/about">About</a>
+      <a class="quid-button quid-button-secondary" href="/blog/">Blog</a>
     </div>
     <div class="nav-right">
       <a href="https://apps.apple.com/gb/app/quid-uk-student-life/id6791167493?uo=4" target="_blank" rel="noopener noreferrer" class="quid-button quid-button-primary quid-button-nav pill">
@@ -505,7 +537,7 @@ gtag('js',new Date());gtag('config','G-NHKZQNR4QR',{anonymize_ip:true,send_page_
     </button>
   </div>
   <div class="mobile-menu-links">
-    <a href="#features">Features</a><a href="#how">How it works</a><a href="/deals">Deals</a><a href="/about">About</a><a href="#faq">FAQ</a>
+    <a href="#features">Features</a><a href="#how">How it works</a><a href="/deals">Deals</a><a href="/about">About</a><a href="/blog/">Blog</a><a href="#faq">FAQ</a>
   </div>
 </div>
 
@@ -745,6 +777,21 @@ gtag('js',new Date());gtag('config','G-NHKZQNR4QR',{anonymize_ip:true,send_page_
   </div>
 </section>
 
+<!-- ================= BLOG ================= -->
+<section id="blog" class="theme-ink grain home-blog">
+  <div class="section-inner">
+    <div>
+      <div class="section-head">
+        <p class="station" data-reveal>From the blog</p>
+        <h2 data-reveal>The admin, <span class="headline-accent">explained.</span></h2>
+        <p class="lede" data-reveal="soft">Short, sourced answers to the questions every international student asks in month one. Checked against GOV.UK, the NHS and your university, with the date.</p>
+      </div>
+      <div class="guide-grid" data-reveal="card"><a class="guide-card" href="/blog/first-week-in-the-uk-international-student-checklist"><p class="k">7 November 2026</p><h3>Your first week, in order</h3><p>Seven days, seven jobs, each one unlocking the next.</p><span class="more">Read the post <span>→</span></span></a><a class="guide-card" href="/blog/best-uk-bank-account-international-students"><p class="k">7 November 2026</p><h3>Best UK bank accounts</h3><p>High-street basic accounts, HSBC before you arrive, app banks: which you can open this week.</p><span class="more">Read the post <span>→</span></span></a><a class="guide-card" href="/blog/national-insurance-number-international-students"><p class="k">7 November 2026</p><h3>National Insurance number</h3><p>Free, only needed if you work, and you can start a job before it arrives.</p><span class="more">Read the post <span>→</span></span></a></div>
+      <p class="blog-all" data-reveal="soft"><a class="quid-button quid-button-pill" href="/blog/"><span class="roll"><span class="roll-text" data-text="All posts">All posts</span></span></a></p>
+    </div>
+  </div>
+</section>
+
 <!-- ================= FAQ ================= -->
 <section id="faq" class="theme-ink grain">
   <div class="section-inner">
@@ -767,10 +814,10 @@ gtag('js',new Date());gtag('config','G-NHKZQNR4QR',{anonymize_ip:true,send_page_
 </div>
 <h3 class="faq-group" data-reveal="soft">Moving to the UK, answered</h3>
 <div class="faq-list">
-<details data-reveal="soft" style="--reveal-delay:0.24s"><summary class="quid-button quid-button-faq"><span>Can an international student open a UK bank account without UK credit history?</span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></summary><div class="faq-answer"><div><p>Yes. Most high-street banks ask for your passport, proof of your student status (a bank letter from your university showing your UK address) and proof of a UK address. App-based banks such as Starling verify you with an official ID document, a video selfie and proof of UK address. Bring enough money for one to two weeks in case the account takes time to open. Quid's checklist tells you which letter to request from your university and when. <a href="/guides/uk-bank-account-international-student">Read the full guide to opening a UK bank account.</a> <a href="/guides/uk-bank-account-international-student">Read the full guide to opening a UK bank account.</a> <a href="/guides/uk-bank-account-international-student">Read the full guide to opening a UK bank account.</a></p><p class="faq-src">Source: <a href="https://www.york.ac.uk/students/support/international/living/bank-account/" target="_blank" rel="noopener">University of York: opening a bank account</a>. Checked November 2026.</p></div></div></details>
-<details data-reveal="soft" style="--reveal-delay:0.24s"><summary class="quid-button quid-button-faq"><span>Do international students pay council tax in the UK?</span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></summary><div class="faq-answer"><div><p>Not if everyone in your home is a full-time student. For council tax, a full-time course lasts at least one year and involves at least 21 hours of study a week. You still need to apply to your council for the exemption, usually with a student status certificate from your university. If a non-student lives with you, the household gets a bill, although it may qualify for a discount. <a href="/guides/council-tax-exemption-students">Read the full guide to council tax for students.</a> <a href="/guides/council-tax-exemption-students">Read the full guide to council tax for students.</a> <a href="/guides/council-tax-exemption-students">Read the full guide to council tax for students.</a></p><p class="faq-src">Source: <a href="https://www.gov.uk/council-tax/discounts-for-full-time-students" target="_blank" rel="noopener">GOV.UK: Council Tax discounts for full-time students</a>. Checked November 2026.</p></div></div></details>
+<details data-reveal="soft" style="--reveal-delay:0.24s"><summary class="quid-button quid-button-faq"><span>Can an international student open a UK bank account without UK credit history?</span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></summary><div class="faq-answer"><div><p>Yes. Most high-street banks ask for your passport, proof of your student status (a bank letter from your university showing your UK address) and proof of a UK address. App-based banks such as Starling verify you with an official ID document, a video selfie and proof of UK address. Bring enough money for one to two weeks in case the account takes time to open. Quid's checklist tells you which letter to request from your university and when. <a href="/blog/uk-bank-account-international-student">Read the full guide to opening a UK bank account.</a> <a href="/blog/uk-bank-account-international-student">Read the full guide to opening a UK bank account.</a> <a href="/blog/uk-bank-account-international-student">Read the full guide to opening a UK bank account.</a> <a href="/blog/uk-bank-account-international-student">Read the full guide to opening a UK bank account.</a> <a href="/blog/uk-bank-account-international-student">Read the full guide to opening a UK bank account.</a></p><p class="faq-src">Source: <a href="https://www.york.ac.uk/students/support/international/living/bank-account/" target="_blank" rel="noopener">University of York: opening a bank account</a>. Checked November 2026.</p></div></div></details>
+<details data-reveal="soft" style="--reveal-delay:0.24s"><summary class="quid-button quid-button-faq"><span>Do international students pay council tax in the UK?</span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></summary><div class="faq-answer"><div><p>Not if everyone in your home is a full-time student. For council tax, a full-time course lasts at least one year and involves at least 21 hours of study a week. You still need to apply to your council for the exemption, usually with a student status certificate from your university. If a non-student lives with you, the household gets a bill, although it may qualify for a discount. <a href="/blog/council-tax-exemption-students">Read the full guide to council tax for students.</a> <a href="/blog/council-tax-exemption-students">Read the full guide to council tax for students.</a> <a href="/blog/council-tax-exemption-students">Read the full guide to council tax for students.</a> <a href="/blog/council-tax-exemption-students">Read the full guide to council tax for students.</a> <a href="/blog/council-tax-exemption-students">Read the full guide to council tax for students.</a></p><p class="faq-src">Source: <a href="https://www.gov.uk/council-tax/discounts-for-full-time-students" target="_blank" rel="noopener">GOV.UK: Council Tax discounts for full-time students</a>. Checked November 2026.</p></div></div></details>
 <details data-reveal="soft" style="--reveal-delay:0.24s"><summary class="quid-button quid-button-faq"><span>How do I register with a GP as an international student?</span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></summary><div class="faq-answer"><div><p>Registering with a GP surgery in England is free and you do not need ID, proof of address or proof of immigration status. Find a surgery near you on the NHS website and complete its online form; it takes about 15 minutes and you are usually told within five days. Do it in your first weeks, before you need a doctor.</p><p class="faq-src">Source: <a href="https://www.nhs.uk/nhs-services/gps/how-to-register-with-a-gp-surgery/" target="_blank" rel="noopener">NHS: How to register with a GP surgery</a>. Checked November 2026.</p></div></div></details>
-<details data-reveal="soft" style="--reveal-delay:0.24s"><summary class="quid-button quid-button-faq"><span>What is the 18+ Student Oyster photocard and is it worth it?</span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></summary><div class="faq-answer"><div><p>It gives students aged 18 or over who live in a London borough and study at an institution on the TfL scheme 30% off adult-rate Travelcards and Bus &amp; Tram Pass season tickets. There is a £20 administration fee. It does not discount pay-as-you-go fares on its own; add a 16-25 Railcard to the photocard to save a third on off-peak pay-as-you-go fares and daily caps. If you travel most days, a discounted monthly Travelcard usually beats pay-as-you-go. <a href="/guides/18-plus-oyster-vs-railcard">Read the Oyster vs Railcard guide.</a> <a href="/guides/18-plus-oyster-vs-railcard">Read the Oyster vs Railcard guide.</a> <a href="/guides/18-plus-oyster-vs-railcard">Read the Oyster vs Railcard guide.</a></p><p class="faq-src">Source: <a href="https://tfl.gov.uk/fares/free-and-discounted-travel/18-plus-student-oyster-photocard" target="_blank" rel="noopener">TfL: 18+ Student Oyster photocard</a>. Checked November 2026.</p></div></div></details>
+<details data-reveal="soft" style="--reveal-delay:0.24s"><summary class="quid-button quid-button-faq"><span>What is the 18+ Student Oyster photocard and is it worth it?</span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></summary><div class="faq-answer"><div><p>It gives students aged 18 or over who live in a London borough and study at an institution on the TfL scheme 30% off adult-rate Travelcards and Bus &amp; Tram Pass season tickets. There is a £20 administration fee. It does not discount pay-as-you-go fares on its own; add a 16-25 Railcard to the photocard to save a third on off-peak pay-as-you-go fares and daily caps. If you travel most days, a discounted monthly Travelcard usually beats pay-as-you-go. <a href="/blog/18-plus-oyster-vs-railcard">Read the Oyster vs Railcard guide.</a> <a href="/blog/18-plus-oyster-vs-railcard">Read the Oyster vs Railcard guide.</a> <a href="/blog/18-plus-oyster-vs-railcard">Read the Oyster vs Railcard guide.</a> <a href="/blog/18-plus-oyster-vs-railcard">Read the Oyster vs Railcard guide.</a> <a href="/blog/18-plus-oyster-vs-railcard">Read the Oyster vs Railcard guide.</a></p><p class="faq-src">Source: <a href="https://tfl.gov.uk/fares/free-and-discounted-travel/18-plus-student-oyster-photocard" target="_blank" rel="noopener">TfL: 18+ Student Oyster photocard</a>. Checked November 2026.</p></div></div></details>
 <details data-reveal="soft" style="--reveal-delay:0.24s"><summary class="quid-button quid-button-faq"><span>Should I get a 16-25 Railcard?</span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></summary><div class="faq-answer"><div><p>If you will take more than a couple of train trips a year, yes. It gives a third off rail fares across Britain and costs £35 for one year or £80 for three. Anyone aged 16 to 25 can get one, and full-time students aged 26 and over can too with a signed application form and student ID. A £12 minimum fare applies before 10am on weekdays, except in July and August.</p><p class="faq-src">Source: <a href="https://railcard.co.uk/16-25" target="_blank" rel="noopener">Railcard.co.uk: 16-25 Railcard</a>. Checked November 2026.</p></div></div></details>
 <details data-reveal="soft" style="--reveal-delay:0.24s"><summary class="quid-button quid-button-faq"><span>Do I need a National Insurance number before I can work in the UK?</span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></summary><div class="faq-answer"><div><p>No. You can start work before your National Insurance number arrives if you can prove your right to work (for example with an eVisa share code). Apply once you are in the UK; it can take up to four weeks to arrive. You only need one if you plan to work or claim benefits, so most students apply once they have a job offer.</p><p class="faq-src">Source: <a href="https://www.gov.uk/apply-national-insurance-number" target="_blank" rel="noopener">GOV.UK: Apply for a National Insurance number</a>. Checked November 2026.</p></div></div></details>
 <details data-reveal="soft" style="--reveal-delay:0.24s"><summary class="quid-button quid-button-faq"><span>How many hours can I work on a UK Student visa?</span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></summary><div class="faq-answer"><div><p>Up to 20 hours a week during term time on a degree-level course, 10 hours a week on a course below degree level, and full time during official vacations. A week runs Monday to Sunday and the limit covers paid, unpaid and voluntary work together. You cannot be self-employed, run a business, work as a professional sportsperson or entertainer, or fill a permanent full-time job. Check your university's term dates, because the limit follows them.</p><p class="faq-src">Source: <a href="https://www.studentsupport.manchester.ac.uk/immigration-and-visas/visas-and-applications/student-visa/working/working-during-your-studies/" target="_blank" rel="noopener">University of Manchester: working during your studies</a>. Checked November 2026.</p></div></div></details>
@@ -799,7 +846,7 @@ gtag('js',new Date());gtag('config','G-NHKZQNR4QR',{anonymize_ip:true,send_page_
       <a class="quid-button quid-button-footer" href="#how">How it works</a>
       <a class="quid-button quid-button-footer" href="#faq">FAQ</a>
       <a class="quid-button quid-button-footer" href="/deals">Deals</a>
-      <a class="quid-button quid-button-footer" href="/about">About</a><a class="quid-button quid-button-footer" href="/guides/">Guides</a>
+      <a class="quid-button quid-button-footer" href="/about">About</a><a class="quid-button quid-button-footer" href="/blog/">Blog</a>
     </div>
     <div class="footer-col">
       <p>Contact</p>
