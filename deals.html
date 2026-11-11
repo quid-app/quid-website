@@ -644,13 +644,13 @@ gtag('js',new Date());gtag('config','G-NHKZQNR4QR',{anonymize_ip:true,send_page_
         <p class="card-sub">The tools students actually use.</p>
         <ul class="deal-list">
           <li><a href="https://www.awin1.com/cread.php?awinmid=15132&amp;awinaffid=3125056&amp;ued=https%3A%2F%2Fnordvpn.com" target="_blank" rel="sponsored noopener" class="deal-link"><span class="n">NordVPN<span>→</span></span><span class="d">VPN protection for students</span></a></li>
-          <li class="deal-feature">
+          <li class="deal-feature" data-expires="2026-12-02T00:00:00Z">
             <p class="brand">Samsung UK</p>
-            <p class="offer">Save up to £400 on Galaxy Book6*</p>
-            <p class="muted">Explore the Galaxy Book6 offer at Samsung UK.</p>
-            <p class="ends">Ends 10 November 2026</p>
+            <p class="offer">Save up to £700 on Galaxy Book6 Pro*</p>
+            <p class="muted">Explore the Galaxy Book6 Pro offer at Samsung UK.</p>
+            <p class="ends">Ends 1 December 2026</p>
             <a href="https://click.linksynergy.com/deeplink?id=qx/APwZNVfI&amp;mid=53591&amp;murl=https%3A%2F%2Fwww.samsung.com%2Fuk%2Fcomputers%2Fgalaxy-book%2Fgalaxy-book6-series%2Fbuy%2F" target="_blank" rel="sponsored noopener" class="view">View offer<span>→</span></a>
-            <details><summary>*Offer terms and eligibility apply.</summary><p>*Purchase from Samsung.com or Samsung Experience Stores by 10.11.26. Offer terms and eligibility apply.</p></details>
+            <details><summary>*Offer terms and eligibility apply.</summary><p>Offer ends 1 December 2026. Terms and eligibility are set by Samsung UK; check them on the offer page before you buy.</p></details>
           </li>
         </ul>
       </article>
@@ -674,6 +674,7 @@ gtag('js',new Date());gtag('config','G-NHKZQNR4QR',{anonymize_ip:true,send_page_
         <p class="card-sub">Everyday essentials and the fun stuff.</p>
         <ul class="deal-list">
           <li><a href="https://www.awin1.com/cread.php?awinmid=1936&amp;awinaffid=3125056&amp;ued=https%3A%2F%2Fwww.theatreticketsdirect.co.uk%2F" target="_blank" rel="sponsored noopener" class="deal-link"><span class="n">Theatre Tickets Direct<span>→</span></span><span class="d">Browse theatre tickets.</span></a></li>
+          <li><a href="http://www.awin1.com/cread.php?awinmid=1946&amp;awinaffid=3125056&amp;clickref=&amp;p=" target="_blank" rel="sponsored noopener" class="deal-link"><span class="n">New Look<span>→</span></span><span class="d">Shop women's and men's fashion at New Look.</span></a></li>
         </ul>
       </article>
       <article class="site-card" data-reveal="card" style="--reveal-delay:.08s">
@@ -781,6 +782,24 @@ gtag('js',new Date());gtag('config','G-NHKZQNR4QR',{anonymize_ip:true,send_page_
   /* FAQ: one open at a time */
   const ds=[...document.querySelectorAll('#faq details')];
   ds.forEach(d=>d.addEventListener('toggle',()=>{if(d.open)ds.forEach(o=>{if(o!==d)o.open=false})}));
+})();
+</script>
+
+<script>
+/* Time-limited offers: data-expires is the exact cutoff (UTC). The card is
+   removed from that instant, on load and by a timer if the page stays open. */
+(function () {
+  function sweep() {
+    var now = Date.now(), next = Infinity;
+    document.querySelectorAll('[data-expires]').forEach(function (el) {
+      var t = Date.parse(el.getAttribute('data-expires'));
+      if (isNaN(t)) return;
+      if (now >= t) el.remove(); else next = Math.min(next, t);
+    });
+    if (next < Infinity) setTimeout(sweep, Math.min(next - now + 50, 2000000000));
+  }
+  sweep();
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) sweep(); });
 })();
 </script>
 
