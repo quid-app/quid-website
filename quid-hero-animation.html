@@ -7,393 +7,126 @@
 <title>Quid Hero Animation</title>
 <style>
 @font-face{font-family:"Inter";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/inter-latin-400-normal.woff2) format("woff2")}
-@font-face{font-family:"Inter";font-style:normal;font-weight:500;font-display:swap;src:url(fonts/inter-latin-500-normal.woff2) format("woff2")}
 @font-face{font-family:"Inter";font-style:normal;font-weight:600;font-display:swap;src:url(fonts/inter-latin-600-normal.woff2) format("woff2")}
-@font-face{font-family:"Inter";font-style:normal;font-weight:700;font-display:swap;src:url(fonts/inter-latin-700-normal.woff2) format("woff2")}
-@font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:600;font-display:swap;src:url(fonts/plus-jakarta-sans-latin-600-normal.woff2) format("woff2")}
-@font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:700;font-display:swap;src:url(fonts/plus-jakarta-sans-latin-700-normal.woff2) format("woff2")}
 @font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:800;font-display:swap;src:url(fonts/plus-jakarta-sans-latin-800-normal.woff2) format("woff2")}
-@font-face{font-family:"Instrument Serif";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/instrument-serif-latin-400-normal.woff2) format("woff2")}
 @font-face{font-family:"Instrument Serif";font-style:italic;font-weight:400;font-display:swap;src:url(fonts/instrument-serif-latin-400-italic.woff2) format("woff2")}
 </style>
 <style>
-:root{color-scheme:dark !important}
-:root{
---bg:#0D0D0D; --card:#1A1A1A; --lime:#C6FF3D; --lime2:#D4F553;
---teal:#427C80; --plum:#6B3E5C; --coral:#FF5869; --white:#fff;
---muted:rgba(255,255,255,.55); --line:rgba(255,255,255,.08);
-}
+:root{color-scheme:dark !important;--lime:#C6FF3D;--line:rgba(255,255,255,.1);--muted:rgba(255,255,255,.6)}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden}
-body{background:var(--bg);font-family:Inter,system-ui,sans-serif;color:var(--white);-webkit-font-smoothing:antialiased}
+body{background:#0D0D0D;font-family:Inter,system-ui,sans-serif;color:#fff;-webkit-font-smoothing:antialiased}
 body.transparent{background:transparent}
 #viewport{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+/* Desktop stage: chapters left, phone centre, a detail card right. Narrow: phone with the chapter above. */
 #stage{position:relative;width:1000px;height:940px;flex:none;transform-origin:center center}
 #stage.narrow{width:470px}
-/* glow */
-.glow{position:absolute;left:50%;top:50%;width:620px;height:620px;transform:translate(-50%,-50%);
-background:radial-gradient(circle,rgba(198,255,61,.22) 0%,rgba(198,255,61,.06) 40%,transparent 70%);
-filter:blur(10px);animation:pulse 6s ease-in-out infinite}
-@keyframes pulse{50%{opacity:.7;transform:translate(-50%,-50%) scale(1.06)}}
-/* phone */
+.glow{position:absolute;left:50%;top:50%;width:640px;height:640px;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(198,255,61,.2),rgba(198,255,61,.05) 40%,transparent 70%);filter:blur(10px)}
 .phone-wrap{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);animation:float 6s ease-in-out infinite}
 @keyframes float{50%{transform:translate(-50%,calc(-50% - 10px))}}
-.phone{width:414px;height:868px;border-radius:64px;padding:12px;background:linear-gradient(145deg,#2a2a2a,#0f0f0f 40%,#202020);
-box-shadow:0 0 0 1.5px #3a3a3a inset,0 40px 80px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.04)}
+.phone{width:414px;height:868px;border-radius:64px;padding:12px;background:linear-gradient(145deg,#2a2a2a,#0f0f0f 40%,#202020);box-shadow:0 0 0 1.5px #3a3a3a inset,0 40px 80px rgba(0,0,0,.6)}
 .screen{position:relative;width:390px;height:844px;border-radius:52px;overflow:hidden;background:#000}
-.island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:120px;height:34px;border-radius:20px;background:#000;z-index:50}
-.status{position:absolute;top:0;left:0;right:0;height:50px;background:#000;display:flex;align-items:center;justify-content:space-between;padding:4px 30px 0 36px;font-weight:600;font-size:16px;z-index:47}
-.status .r{display:flex;gap:6px;align-items:center}
-.content{position:absolute;top:50px;left:0;right:0;padding:0 16px;transition:transform .9s cubic-bezier(.65,0,.35,1)}
-.top{display:flex;justify-content:space-between;align-items:center;height:56px}
-.avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#6B3E5C,#427C80);display:grid;place-items:center;font-weight:700;font-size:15px}
-.top .icons{display:flex;gap:18px}
-h1{font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:34px;line-height:1.12;letter-spacing:-.8px;margin:14px 0 20px}
-.aibar{height:56px;border-radius:18px;background:#0f0f0f;border:1px solid var(--line);display:flex;align-items:center;gap:10px;padding:0 16px;color:var(--muted);font-size:14px;position:relative;overflow:hidden}
-.aibar .mic{margin-left:auto}
-.label{font-size:12px;letter-spacing:.6px;color:var(--muted);text-transform:uppercase;margin:24px 0 10px;font-weight:500}
-.allow{background:var(--lime);color:#0D0D0D;border-radius:24px;padding:20px 18px 18px;position:relative}
-.allow .row{display:flex;justify-content:space-between;align-items:flex-start}
-.amt{font-family:'Plus Jakarta Sans',sans-serif;font-size:30px;font-weight:700;letter-spacing:-.5px;transition:transform .3s}
-.amt.bump{transform:scale(1.08)}
-.ontrack{font-size:12px;display:flex;align-items:center;gap:6px;font-weight:500}
-.ontrack i{width:8px;height:8px;border-radius:50%;background:#2fbf4a;box-shadow:0 0 0 2px rgba(47,191,74,.25)}
-.sub{font-size:14px;margin-top:4px}
-.bar{height:7px;border-radius:7px;background:#fff;margin:18px 0 8px;overflow:hidden}
-.bar b{display:block;height:100%;width:58%;background:var(--teal);border-radius:7px;transition:width 1s cubic-bezier(.65,0,.35,1)}
-.spent{font-size:13px}
-.btn-dark{margin-top:16px;height:50px;border-radius:30px;background:#0D0D0D;color:#fff;display:grid;place-items:center;font-size:13px;letter-spacing:.6px;font-weight:500;position:relative;overflow:hidden}
-.setup{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:18px}
-.setup .head{display:flex;justify-content:space-between;align-items:center}
-.setup .head b{font-size:18px;font-weight:600}
-.setup .head span{font-size:13px;color:var(--lime)}
-.segs{display:flex;gap:8px;margin:16px 0}
-.segs i{flex:1;height:5px;border-radius:5px;background:#2b2b2b;transition:background .5s}
-.segs i.on{background:#2fbf4a}
-.itemwrap{position:relative;border-radius:16px;overflow:hidden;height:66px}
-.itemwrap .under{position:absolute;inset:0;background:#2fbf4a;color:#fff;font-size:13px;font-weight:600;display:flex;align-items:center;padding-left:16px;line-height:1.25}
-.item{position:absolute;inset:0;background:#fff;color:#111;border-radius:16px;display:flex;align-items:center;gap:12px;padding:0 16px;transition:transform .7s cubic-bezier(.65,0,.35,1),background .4s,opacity .4s}
-.item .t{font-weight:600;font-size:15px}
-.item .d{font-size:12px;color:#888;margin-top:2px}
-.item .chk{margin-left:auto;opacity:0;transition:opacity .3s}
-.item.done{background:#E6FBE9}
-.item.done .chk{opacity:1}
-.nav{position:absolute;left:16px;right:16px;bottom:24px;height:72px;border-radius:40px;background:rgba(26,26,26,.92);backdrop-filter:blur(12px);border:1px solid var(--line);display:flex;align-items:center;justify-content:space-around;padding:0 10px;z-index:20}
-.nav .home{display:flex;align-items:center;gap:8px;background:#262626;padding:12px 18px;border-radius:30px;font-size:14px}
-.homebar{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:5px;background:#fff;z-index:60;opacity:.9}
-/* tap ripple */
-.tap{position:absolute;left:50%;top:50%;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:rgba(255,255,255,.55);pointer-events:none;animation:tap .55s ease-out forwards;z-index:5}
-.tap.dark{background:rgba(0,0,0,.25)}
-@keyframes tap{0%{transform:scale(.2);opacity:1}100%{transform:scale(2.4);opacity:0}}
-/* sheet */
-.scrim{position:absolute;inset:0;background:rgba(0,0,0,.55);opacity:0;transition:opacity .35s;z-index:30;pointer-events:none}
-.scrim.on{opacity:1}
-.sheet{position:absolute;left:0;right:0;bottom:0;height:500px;background:#fff;color:#111;border-radius:30px 30px 0 0;padding:22px 20px;z-index:31;transform:translateY(105%);transition:transform .5s cubic-bezier(.32,.72,0,1)}
-.sheet.on{transform:none}
-.sheet .hd{display:flex;justify-content:center;align-items:center;position:relative;font-weight:600;font-size:18px;margin-bottom:22px}
-.sheet .x{position:absolute;right:0;width:34px;height:34px;border-radius:50%;background:#eee;display:grid;place-items:center}
-.box{border:1.5px dashed #ddd;border-radius:18px;padding:18px}
-.field{height:54px;border-radius:14px;background:#f3f3f3;display:flex;align-items:center;padding:0 16px;gap:10px;font-size:17px}
-.field b{font-size:20px}
-.caret{width:2px;height:22px;background:#111;animation:blink 1s steps(1) infinite}
-@keyframes blink{50%{opacity:0}}
-.clabel{font-size:12px;font-weight:600;letter-spacing:.5px;margin:18px 0 10px}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{padding:9px 14px;border-radius:20px;background:#f1f1f1;font-size:13px;position:relative;overflow:hidden;transition:background .25s,color .25s}
-.chip.sel{background:#0D0D0D;color:#fff}
-.notes{margin-top:16px;height:50px;border-radius:14px;background:#f3f3f3;display:flex;align-items:center;padding:0 16px;color:#aaa;font-size:14px}
-.btn-lime{margin-top:22px;height:54px;border-radius:30px;background:var(--lime);color:#0D0D0D;display:grid;place-items:center;font-size:13px;letter-spacing:.8px;font-weight:600;position:relative;overflow:hidden}
-/* toast */
-.toast{position:absolute;left:16px;right:16px;bottom:110px;height:56px;border-radius:14px;background:#fff;color:#111;display:flex;align-items:center;gap:12px;padding:0 16px;font-size:14px;z-index:35;opacity:0;transform:translateY(20px);transition:all .4s cubic-bezier(.32,.72,0,1)}
-.toast.on{opacity:1;transform:none}
-.toast i{width:24px;height:24px;border-radius:50%;background:#d8f6dd;display:grid;place-items:center}
-/* AI overlay */
-.ai{position:absolute;inset:0;background:#000;z-index:45;opacity:0;transition:opacity .45s;pointer-events:none}
-.ai.on{opacity:1}
-.ai .close{position:absolute;top:62px;right:18px;width:40px;height:40px;border-radius:50%;background:#1f1f1f;display:grid;place-items:center}
-.ai .empty{position:absolute;top:300px;left:0;right:0;text-align:center;transition:opacity .4s}
-.ai .empty p{font-family:'Plus Jakarta Sans',sans-serif;font-size:30px;font-weight:500;color:#555;line-height:1.2;margin-top:14px}
-.ai .msgs{position:absolute;top:130px;left:16px;right:16px;display:flex;flex-direction:column;gap:18px}
-.bub-u{align-self:flex-end;max-width:78%;background:#1f1f1f;border-radius:16px 16px 4px 16px;padding:12px 14px;font-size:14px;line-height:1.4;opacity:0;transform:translateY(12px);transition:all .4s}
-.bub-a{max-width:92%;background:var(--lime);color:#0D0D0D;border-radius:16px 16px 16px 4px;padding:16px;font-size:14px;line-height:1.5;opacity:0;transform:translateY(12px);transition:all .45s}
-.bub-a small{display:block;margin-top:10px;font-weight:700;font-style:italic;font-size:12px;letter-spacing:.3px}
-.show{opacity:1!important;transform:none!important}
-.think{display:flex;align-items:center;gap:10px;color:#777;font-size:13px;font-style:italic;opacity:0;transition:opacity .3s}
-.dots{display:flex;gap:4px}.dots i{width:7px;height:7px;border-radius:50%;background:var(--lime);animation:dot 1s infinite}
-.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
-@keyframes dot{0%,100%{opacity:.25;transform:translateY(0)}50%{opacity:1;transform:translateY(-3px)}}
-.ai .input{position:absolute;left:16px;right:16px;bottom:40px;min-height:64px;border-radius:20px;background:#121212;border:1px solid var(--line);display:flex;align-items:center;gap:10px;padding:12px 12px 12px 16px;font-size:14px}
-.ai .input .txt{flex:1;color:#fff;line-height:1.4}
-.ai .input .ph{color:#666}
-.send{width:40px;height:40px;border-radius:50%;background:var(--lime);display:grid;place-items:center;flex:none;position:relative;overflow:hidden}
-/* floating cards */
-.float{position:absolute;z-index:5;background:rgba(26,26,26,.92);border:1px solid var(--line);backdrop-filter:blur(10px);border-radius:20px;padding:14px 16px;box-shadow:0 20px 40px rgba(0,0,0,.45);display:flex;gap:12px;align-items:center;opacity:0;transform:translateY(16px) scale(.96);transition:all .6s cubic-bezier(.32,.72,0,1)}
-.float.on{opacity:1;transform:none}
-.float .ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;flex:none;font-size:18px}
-.float b{display:block;font-size:14px;font-weight:600}
-.float span{font-size:12px;color:var(--muted)}
-#f1{left:40px;top:180px;width:290px}
-#f2{right:40px;top:360px;width:270px}
-#f3{left:60px;bottom:180px;width:300px}
-.badge{background:var(--coral);color:#fff;font-size:11px;font-weight:700;padding:4px 8px;border-radius:8px}
-#stage.narrow .float{display:none}
-@media (prefers-reduced-motion: reduce){
-.phone-wrap,.glow{animation:none}
-}
+.shot{position:absolute;left:0;top:0;width:390px;opacity:0;transform:scale(1.03);transition:opacity .7s ease,transform .9s cubic-bezier(.22,1,.36,1)}
+.shot.on{opacity:1;transform:none}
+.shot.scroll{transform-origin:50% 40%;transition:opacity .7s ease,transform 5s cubic-bezier(.45,0,.55,1)}
+.island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:120px;height:34px;border-radius:20px;background:#000;z-index:5}
+.tap{position:absolute;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:rgba(0,0,0,.28);pointer-events:none;animation:tap .6s ease-out forwards;z-index:6}
+@keyframes tap{0%{transform:scale(.2);opacity:1}100%{transform:scale(2.6);opacity:0}}
+/* chapters */
+.chapters{position:absolute;left:0;top:50%;transform:translateY(-50%);width:250px;display:flex;flex-direction:column;gap:26px}
+.ch{opacity:.35;transition:opacity .5s}
+.ch.on{opacity:1}
+.ch small{display:block;font:800 12px "Plus Jakarta Sans",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--lime)}
+.ch b{display:block;margin-top:6px;font:800 24px/1.15 "Plus Jakarta Sans",sans-serif;letter-spacing:-.02em}
+.ch span{display:block;margin-top:6px;font-size:14px;line-height:1.45;color:var(--muted)}
+.ch .bar{margin-top:12px;height:3px;border-radius:2px;background:var(--line);overflow:hidden}
+.ch .bar i{display:block;height:100%;width:0;background:var(--lime)}
+.ch.on .bar i{width:100%;transition:width var(--dur,4s) linear}
+/* detail card */
+.detail{position:absolute;right:0;top:50%;width:260px;transform:translateY(-50%);opacity:0;transition:opacity .45s,transform .55s cubic-bezier(.22,1,.36,1)}
+.detail.on{opacity:1}
+.card{background:rgba(26,26,26,.94);border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:0 24px 50px rgba(0,0,0,.5)}
+.card .k{font:800 11px "Plus Jakarta Sans",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--lime)}
+.card p{margin-top:10px;font-size:15px;line-height:1.45}
+.card .note{margin-top:12px;font-family:"Instrument Serif",serif;font-style:italic;font-size:22px;color:var(--lime)}
+/* narrow caption */
+.cap{display:none;position:absolute;top:0;left:0;right:0;text-align:center}
+#stage.narrow .chapters,#stage.narrow .detail{display:none}
+#stage.narrow .cap{display:block}
+#stage.narrow .phone-wrap{top:54%}
+.cap small{font:800 12px "Plus Jakarta Sans",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--lime)}
+.cap b{display:block;margin-top:4px;font:800 22px "Plus Jakarta Sans",sans-serif}
+@media (prefers-reduced-motion: reduce){.phone-wrap{animation:none}.shot,.shot.scroll,.detail,.ch{transition:none}}
 </style>
 </head>
 <body>
 <div id="viewport">
 <div id="stage">
-<div class="glow"></div>
-<div class="float" id="f1">
-<div class="ic" style="background:#427C80">&#128276;</div>
-<div><b>Checklist complete &#127881;</b><span>You're officially settled. Proper Brit behaviour.</span></div>
-</div>
-<div class="float" id="f2">
-<div class="ic" style="background:#2a2a2a">&#128647;</div>
-<div style="flex:1"><b>18+ Oyster</b><span>Save on travel with a student photocard</span></div>
-<div class="badge">30% OFF</div>
-</div>
-<div class="float" id="f3">
-<div class="ic" style="background:#6B3E5C">&#128172;</div>
-<div><b>Anyone else charged a 6-week deposit?</b><span>New answers in Housing</span></div>
-</div>
-<div class="phone-wrap">
-<div class="phone">
-<div class="screen" id="screen">
-<div class="island"></div>
-<div class="status">
-<span>9:41</span>
-<span class="r">
-<svg width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1" fill="#fff"/><rect x="5" y="5.5" width="3" height="6.5" rx="1" fill="#fff"/><rect x="10" y="3" width="3" height="9" rx="1" fill="#fff"/><rect x="15" y="0" width="3" height="12" rx="1" fill="#fff"/></svg>
-<svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 11.5l2.4-2.9a3.5 3.5 0 00-4.8 0L8 11.5zM3.3 6.3a6.8 6.8 0 019.4 0l1.5-1.8a9.2 9.2 0 00-12.4 0l1.5 1.8zM.1 2.7l1.5 1.8a10 10 0 0112.8 0l1.5-1.8a12.4 12.4 0 00-15.8 0z" fill="#fff"/></svg>
-<svg width="26" height="12" viewBox="0 0 26 12"><rect x=".5" y=".5" width="22" height="11" rx="3.5" fill="none" stroke="#fff" opacity=".5"/><rect x="2" y="2" width="19" height="8" rx="2" fill="#fff"/><rect x="24" y="4" width="1.5" height="4" rx=".7" fill="#fff" opacity=".5"/></svg>
-</span>
-</div>
-<div class="content" id="content">
-<div class="top">
-<div class="avatar">A</div>
-<div class="icons">
-<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M6 8a6 6 0 1112 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 003.4 0"/></svg>
-<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6M12 7.5v.5"/></svg>
-</div>
-</div>
-<h1>Good Morning,<br>Arjun</h1>
-<div class="aibar" id="aibar">
-<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.6"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 15l.7 2.3L22 18l-2.3.7L19 21l-.7-2.3L16 18l2.3-.7z"/></svg>
-Ask Quid AI anything
-<svg class="mic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C6FF3D" stroke-width="2"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0014 0M12 17v4"/></svg>
-</div>
-<div class="label">Daily allowance</div>
-<div class="allow">
-<div class="row">
-<div><div class="amt" id="amt">£35</div><div class="sub">left to spend today</div></div>
-<div class="ontrack"><i></i>On track</div>
-</div>
-<div class="bar"><b id="bar"></b></div>
-<div class="spent" id="spent">£48 spent of £83 today</div>
-<div class="btn-dark" id="logbtn">+ LOG A SPEND</div>
-</div>
-<div class="label">First week setup</div>
-<div class="setup">
-<div class="head"><b>Your Progress</b><span id="prog">2 of 5 done &rsaquo;</span></div>
-<div class="segs" id="segs"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div>
-<div class="itemwrap">
-<div class="under">Swipe right<br>to mark done</div>
-<div class="item" id="item">
-<span style="font-size:20px">&#128241;</span>
-<div><div class="t" id="itemT">Get a SIM card</div><div class="d" id="itemD">giffgaff, Lebara or SMARTY</div></div>
-<svg class="chk" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2fbf4a" stroke-width="2"><circle cx="12" cy="12" r="9.5"/><path d="M7.5 12.5l3 3 6-6"/></svg>
-</div>
-</div>
-</div>
-</div>
-<div class="nav">
-<div class="home"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M3 11l9-7 9 7v9a1 1 0 01-1 1h-5v-6h-6v6H4a1 1 0 01-1-1z"/></svg>Home</div>
-<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>
-<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.8"><path d="M12 20s-8-4.6-8-10.2A4.3 4.3 0 0112 7a4.3 4.3 0 018 2.8C20 15.4 12 20 12 20z"/></svg>
-<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.8"><path d="M3 12V4a1 1 0 011-1h8l9 9-9 9z"/><circle cx="8" cy="8" r="1.5"/></svg>
-</div>
-<div class="toast" id="toast"><i><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2fbf4a" stroke-width="3"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i>Nice, added to your budget!</div>
-<div class="scrim" id="scrim"></div>
-<div class="sheet" id="sheet">
-<div class="hd">Log a spend<div class="x"><svg width="14" height="14" viewBox="0 0 24 24" stroke="#111" stroke-width="2.5"><path d="M6 6l12 12M18 6L6 18"/></svg></div></div>
-<div class="box">
-<div class="field"><b>£</b><span id="spendAmt"></span><span class="caret"></span></div>
-<div class="clabel">CATEGORY</div>
-<div class="chips">
-<div class="chip">&#127968; Rent</div>
-<div class="chip">&#128722; Food &amp; groceries</div>
-<div class="chip">&#128652; Transport</div>
-<div class="chip" id="chipGo">&#127881; Going Out</div>
-<div class="chip">&#128241; Phone</div>
-</div>
-<div class="notes">Notes (Optional)</div>
-</div>
-<div class="btn-lime" id="saveBtn">SAVE</div>
-</div>
-<div class="ai" id="ai">
-<div class="close"><svg width="14" height="14" viewBox="0 0 24 24" stroke="#fff" stroke-width="2.5"><path d="M6 6l12 12M18 6L6 18"/></svg></div>
-<div class="empty" id="aiEmpty">
-<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#C6FF3D" stroke-width="2"><circle cx="12" cy="11" r="7"/><path d="M12 18v4M9.5 13.5h5M10.5 13.5V9.8a1.8 1.8 0 013.4-.8"/></svg>
-<p>Ask Quid AI<br>anything..</p>
-</div>
-<div class="msgs">
-<div class="bub-u" id="bubU">How much should I save for a trip to Japan in December?</div>
-<div class="think" id="think"><div class="dots"><i></i><i></i><i></i></div>Thinking....</div>
-<div class="bub-a" id="bubA">A December trip to Japan usually runs £850 to £1,300 with flights, stay and a JR Pass. Start now and that's about £140 to £220 a month. Want me to build it into your budget?<small>QUID AI</small></div>
-</div>
-<div class="input">
-<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.8"><path d="M21 11.5l-8.6 8.6a5.5 5.5 0 01-7.8-7.8l8.6-8.6a3.7 3.7 0 015.2 5.2l-8.6 8.6a1.8 1.8 0 01-2.6-2.6l7.9-7.9"/></svg>
-<div class="txt" id="aiTxt"><span class="ph">Ask Quid AI anything</span></div>
-<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C6FF3D" stroke-width="2"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0014 0M12 17v4"/></svg>
-<div class="send" id="sendBtn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0D0D0D" stroke-width="2.2"><path d="M4 12L3 4l18 8-18 8 1-8zm0 0h8"/></svg></div>
-</div>
-</div>
-<div class="homebar"></div>
-</div>
-</div>
-</div>
+  <div class="glow"></div>
+  <div class="chapters">
+    <div class="ch" data-i="0"><small>Before you fly</small><b>A place that fits your budget</b><span>Not here yet? Quid AI shortlists halls by your weekly rent and move date.</span><div class="bar"><i></i></div></div>
+    <div class="ch" data-i="1"><small>The day you land</small><b>Quid notices you've arrived</b><span>One tap switches to settling-in mode: SIM and bank first.</span><div class="bar"><i></i></div></div>
+    <div class="ch" data-i="2"><small>Your first week out</small><b>Five nights, picked for you</b><span>The Lineup: student nights, gigs and shows near you, every Monday and Wednesday.</span><div class="bar"><i></i></div></div>
+  </div>
+  <div class="cap"><small id="capK">Before you fly</small><b id="capB">A place that fits your budget</b></div>
+  <div class="phone-wrap"><div class="phone"><div class="screen" id="screen">
+    <div class="island"></div>
+    <img class="shot scroll" id="s0" src="img/hero/halls.webp" alt="">
+    <img class="shot" id="s1" src="img/hero/landed.webp" alt="">
+    <img class="shot" id="s2" src="img/hero/lineup.webp" alt="">
+  </div></div></div>
+  <div class="detail" id="d0"><div class="card"><p class="k">Halls that fit</p><p>Unite Students, urbanest, iQ: matched to your rent, with prices per week.</p><p class="note">sorted before you board</p></div></div>
+  <div class="detail" id="d1"><div class="card"><p class="k">Landed in the UK?</p><p>Your move date passes, or your phone is in the UK, and Quid asks once.</p><p class="note">welcome to London</p></div></div>
+  <div class="detail" id="d2"><div class="card"><p class="k">The Lineup</p><p>A top pick, a mix of nights and shows, and one alert you can switch off.</p><p class="note">your first Friday, sorted</p></div></div>
 </div>
 </div>
 <script>
 (function(){
-const $ = id => document.getElementById(id);
-const params = new URLSearchParams(location.search);
-if (params.get('transparent') === '1') document.body.classList.add('transparent');
-const forceNarrow = params.get('cards') === '0';
-// fit stage to container
-const stage = $('stage');
-function fit(){
-const w = innerWidth, h = innerHeight;
-const narrow = forceNarrow || w / h < 0.85;
-stage.classList.toggle('narrow', narrow);
-const sw = narrow ? 470 : 1000, sh = 940;
-const s = Math.min(w / sw, h / sh);
-stage.style.transform = 'scale(' + s + ')';
-}
-addEventListener('resize', fit); fit();
-const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-if (reduce) { ['f1','f2','f3'].forEach(id => $(id).classList.add('on')); return; }
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-function tap(el, dark){
-const t = document.createElement('span');
-t.className = 'tap' + (dark ? ' dark' : '');
-el.appendChild(t); setTimeout(() => t.remove(), 600);
-}
-async function type(el, text, speed){
-el.textContent = '';
-for (const ch of text){ el.textContent += ch; await sleep(speed); }
-}
-function count(el, from, to, ms, fmt){
-const t0 = performance.now();
-return new Promise(res => {
-(function step(){
-const p = Math.min(1, Math.max(0, (performance.now() - t0) / ms)), e = 1 - Math.pow(1 - p, 3);
-el.textContent = fmt(Math.round(from + (to - from) * e));
-p < 1 ? requestAnimationFrame(step) : res();
-})();
-});
-}
-function reset(){
-$('amt').textContent = '£35';
-$('spent').textContent = '£48 spent of £83 today';
-$('bar').style.width = '58%';
-$('spendAmt').textContent = '';
-$('chipGo').classList.remove('sel');
-$('item').classList.remove('done');
-$('item').style.transform = '';
-$('item').style.opacity = 1;
-$('itemT').textContent = 'Get a SIM card';
-$('itemD').textContent = 'giffgaff, Lebara or SMARTY';
-$('prog').innerHTML = '2 of 5 done &rsaquo;';
-[...$('segs').children].forEach((s,i) => s.classList.toggle('on', i < 2));
-$('content').style.transform = '';
-$('aiTxt').innerHTML = '<span class="ph">Ask Quid AI anything</span>';
-['bubU','bubA'].forEach(id => $(id).classList.remove('show'));
-$('think').style.opacity = 0;
-$('aiEmpty').style.opacity = 1;
-}
-async function loop(){
-while (true){
-reset();
-await sleep(1200);
-// 1. Log a spend
-tap($('logbtn'));
-await sleep(300);
-$('scrim').classList.add('on'); $('sheet').classList.add('on');
-await sleep(700);
-await type($('spendAmt'), '12', 180);
-await sleep(350);
-tap($('chipGo'), true); $('chipGo').classList.add('sel');
-await sleep(600);
-tap($('saveBtn'), true);
-await sleep(300);
-$('sheet').classList.remove('on'); $('scrim').classList.remove('on');
-await sleep(350);
-$('toast').classList.add('on');
-$('amt').classList.add('bump');
-$('bar').style.width = '72%';
-count($('spent'), 48, 60, 900, n => '£' + n + ' spent of £83 today');
-await count($('amt'), 35, 23, 900, n => '£' + n);
-$('amt').classList.remove('bump');
-$('f2').classList.add('on');
-await sleep(1300);
-$('toast').classList.remove('on');
-await sleep(400);
-// 2. Checklist swipe
-$('content').style.transform = 'translateY(-130px)';
-await sleep(1000);
-$('item').style.transform = 'translateX(150px)';
-await sleep(900);
-$('item').classList.add('done');
-$('item').style.transform = '';
-$('segs').children[2].classList.add('on');
-$('prog').innerHTML = '3 of 5 done &rsaquo;';
-await sleep(500);
-$('f1').classList.add('on');
-await sleep(900);
-$('item').style.opacity = 0;
-await sleep(400);
-$('item').classList.remove('done');
-$('itemT').textContent = 'Open a bank account';
-$('itemD').textContent = 'Monzo, Revolut or a high street bank';
-$('item').style.opacity = 1;
-await sleep(1000);
-// 3. Ask Quid AI
-$('content').style.transform = '';
-await sleep(900);
-tap($('aibar'));
-await sleep(250);
-$('ai').classList.add('on');
-$('f3').classList.add('on');
-await sleep(600);
-$('aiTxt').textContent = '';
-await type($('aiTxt'), 'How much should I save for a trip to Japan in December?', 34);
-await sleep(400);
-tap($('sendBtn'), true);
-$('aiEmpty').style.opacity = 0;
-$('aiTxt').innerHTML = '<span class="ph">Ask Quid AI anything</span>';
-await sleep(150);
-$('bubU').classList.add('show');
-await sleep(400);
-$('think').style.opacity = 1;
-await sleep(1400);
-$('think').style.opacity = 0;
-await sleep(200);
-$('bubA').classList.add('show');
-await sleep(3600);
-// wrap up, fade floats, close AI
-['f1','f2','f3'].forEach(id => $(id).classList.remove('on'));
-reset(); // reset home under the overlay
-// keep the chat visible while it fades out
-$('bubU').classList.add('show'); $('bubA').classList.add('show'); $('aiEmpty').style.opacity = 0;
-$('ai').classList.remove('on');
-await sleep(600);
-}
-}
-loop();
+  const $ = id => document.getElementById(id);
+  const params = new URLSearchParams(location.search);
+  if (params.get('transparent') === '1') document.body.classList.add('transparent');
+  const forceNarrow = params.get('cards') === '0';
+  const stage = $('stage');
+  function fit(){
+    const w = innerWidth, h = innerHeight, narrow = forceNarrow || w / h < 0.85;
+    stage.classList.toggle('narrow', narrow);
+    const s = Math.min(w / (narrow ? 470 : 1000), h / 940);
+    stage.style.transform = 'scale(' + s + ')';
+  }
+  addEventListener('resize', fit); fit();
+
+  const ch = [...document.querySelectorAll('.ch')], shots = [$('s0'), $('s1'), $('s2')], det = [$('d0'), $('d1'), $('d2')];
+  const DUR = [5200, 4200, 4600];
+  function show(i){
+    ch.forEach((c, j) => { c.classList.toggle('on', j === i); c.style.setProperty('--dur', DUR[i] + 'ms'); });
+    shots.forEach((s, j) => s.classList.toggle('on', j === i));
+    det.forEach((d, j) => d.classList.toggle('on', j === i));
+    $('capK').textContent = ch[i].querySelector('small').textContent;
+    $('capB').textContent = ch[i].querySelector('b').textContent;
+  }
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { show(1); return; }
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  async function loop(){
+    for (;;) {
+      // 1: halls shortlist, scrolling gently through the picks
+      shots[0].style.transform = 'scale(1)';
+      show(0);
+      await sleep(900);
+      shots[0].style.transform = 'scale(1.06)';
+      await sleep(DUR[0] - 900);
+      // 2: "Landed in the UK?", then a tap on "Yes, I'm here"
+      show(1);
+      await sleep(DUR[1] - 1200);
+      const t = document.createElement('span'); t.className = 'tap'; t.style.left = '144px'; t.style.top = '392px';
+      $('screen').appendChild(t); setTimeout(() => t.remove(), 700);
+      await sleep(1200);
+      // 3: The Lineup
+      show(2);
+      await sleep(DUR[2]);
+      shots[0].style.transition = 'none'; shots[0].style.transform = 'scale(1)'; void shots[0].offsetWidth; shots[0].style.transition = '';
+    }
+  }
+  loop();
 })();
 </script>
 </body>

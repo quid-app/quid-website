@@ -2,7 +2,7 @@
 
 > Quid is a free iOS app for international students moving to the UK. It turns a monthly budget into a daily allowance in pounds and the student's home currency, provides a first-week settling-in checklist (bank account, SIM, GP registration, National Insurance number, Oyster), student deals, a community filtered by university and home country, and Quid AI, an in-app assistant for questions about UK student life. Quid never connects to a bank account; spends are logged by the user.
 
-Facts: Free. iPhone only (iOS 15.1 or later), Android planned. Category: Finance. Developer: Arjun Bubbar; co-founders Arjun Bubbar and Nurlyza Lubis. Founded in London. App Store: https://apps.apple.com/gb/app/quid-uk-student-life/id6791167493
+Facts: Free. iPhone only (iOS 16 or later), Android planned. Category: Finance. Developer: Arjun Bubbar; co-founders Arjun Bubbar and Nurlyza Lubis. Founded in London. App Store: https://apps.apple.com/gb/app/quid-uk-student-life/id6791167493
 
 ## Pages
 

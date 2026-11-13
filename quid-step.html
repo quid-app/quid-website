@@ -169,9 +169,9 @@ body.transparent .tier.on{color:#fff}
 <div class="est">Estimated monthly budget</div>
 <div class="track"><div class="fill" id="fill"></div><div class="knob" id="knob"></div></div>
 <div class="tiers">
-<div class="tier" id="t0">Essentials &amp; High Savings<small>under £1,500</small></div>
-<div class="tier" id="t1">Comfort &amp; Smart Goals<small>£1,500 to £3,000</small></div>
-<div class="tier" id="t2">Premium Lifestyle<small>£3,000+</small></div>
+<div class="tier" id="t0">Saving hard<small>£1,200</small></div>
+<div class="tier" id="t1">Balanced<small>£2,500</small></div>
+<div class="tier" id="t2">Living well<small>£5,000</small></div>
 </div>
 </div>
 <div class="card allow" id="allow">
@@ -284,7 +284,7 @@ v = Math.min(MAX, Math.max(MIN, v));
 const pct = (v - MIN) / (MAX - MIN) * 100;
 $('fill').style.width = pct + '%'; $('knob').style.left = pct + '%';
 $('amt').textContent = money(Math.round(v / 50) * 50);
-const t = v < 1500 ? 0 : v < 3000 ? 1 : 2;
+const t = v < 1850 ? 0 : v < 3750 ? 1 : 2;
 [0,1,2].forEach(i => $('t'+i).classList.toggle('on', i === t));
 }
 function slide(from, to, ms){
