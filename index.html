@@ -454,9 +454,7 @@ header img{height:32px;width:auto}
 .site-footer [data-reveal]{opacity:1!important;transform:none!important}
 
 /* ---------- hero: pill, word entrance, rotating accent ---------- */
-.hero-pill{display:inline-flex;align-items:center;gap:10px;padding:8px 16px 8px 12px;border-radius:999px;background:rgba(198,255,61,.08);border:1px solid rgba(198,255,61,.25);font-size:14px;font-weight:600;color:var(--paper);animation:load-up .6s cubic-bezier(.22,1,.36,1) 0s both}
-.pill-dot{width:8px;height:8px;border-radius:50%;background:var(--lime);animation:pill-pulse 1.8s ease-out infinite}
-.hero-copy .split-head{margin-top:28px}
+.hero-copy .split-head{margin-top:0;align-items:center}
 .hero-title{font-size:64px;letter-spacing:-.02em}
 .hero-title .w{display:inline-block;animation:word-up .7s cubic-bezier(.22,1,.36,1) both}
 .hero-title .w:nth-of-type(1){animation-delay:.1s}.hero-title .w:nth-of-type(2){animation-delay:.16s}.hero-title .w:nth-of-type(3){animation-delay:.22s}.hero-title .w:nth-of-type(4){animation-delay:.28s}.hero-title .w:nth-of-type(5){animation-delay:.4s}.hero-title .w:nth-of-type(6){animation-delay:.46s}.hero-title .w:nth-of-type(7){animation-delay:.56s}
@@ -469,13 +467,12 @@ header img{height:32px;width:auto}
 .scribble{position:absolute;left:0;right:0;bottom:-.08em;width:100%;height:.22em;overflow:visible}
 .scribble path{stroke-dasharray:340;stroke-dashoffset:340;transition:stroke-dashoffset 1s cubic-bezier(.65,0,.35,1)}
 .rot.landed .scribble path{stroke-dashoffset:0}
-.hero-copy .split-head>h1{animation:none}
+.hero-copy .split-head h1{animation:none}
 @keyframes word-up{from{opacity:0;transform:translateY(.45em) rotate(2deg)}to{opacity:1;transform:none}}
-@keyframes pill-pulse{0%{box-shadow:0 0 0 0 rgba(198,255,61,.55)}100%{box-shadow:0 0 0 9px rgba(198,255,61,0)}}
 @media (width <= 1023px){.hero-title{font-size:54px}}
-@media (width <= 767px){.hero-title{font-size:40px}.hero-pill{font-size:13px}}
+@media (width <= 767px){.hero-title{font-size:40px}}
 @media (prefers-reduced-motion: reduce){
-  .hero-pill,.hero-title .w,.pill-dot{animation:none}
+  .hero-title .w{animation:none}
   .scribble path{transition:none;stroke-dashoffset:0}
 }
 
@@ -612,11 +609,12 @@ gtag('js',new Date());gtag('config','G-NHKZQNR4QR',{anonymize_ip:true,send_page_
   <div class="page-container hero-layout">
     <div style="width:100%">
       <div class="hero-copy">
-        <p class="hero-pill"><span class="pill-dot"></span>Free for international students in the UK</p>
         <div class="split-head">
+          <div class="hero-head">
           <h1 class="hero-title"><span class="w">Move</span> <span class="w">to</span> <span class="w">the</span> <span class="w">UK.</span><br> <span class="w">We've</span> <span class="w">got</span> <span class="headline-accent w rot"><span class="rot-size" aria-hidden="true">your rent.</span><span class="rot-size" aria-hidden="true">your bank.</span><span class="rot-size" aria-hidden="true">your SIM.</span><span class="rot-word" id="rotWord">the rest.</span><svg class="scribble" viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4 16C60 6 120 4 180 9s90 6 116-2" fill="none" stroke="var(--lime)" stroke-width="5" stroke-linecap="round"/></svg></span></h1>
+          </div>
           <div class="split-aside">
-            <p>Quid is the free app for international students moving to the UK. Your first-week to-dos, your budget in pounds and your home currency, the deals worth having and your people. One app that makes your money go further. Less panic, more Pret.</p>
+            <p>Quid is the free app for international students moving to the UK. Your first-week to-dos, your budget in pounds and your home currency, the deals worth having and your people. One app that makes your money go further.</p>
             <div class="hero-ctas">
               <a href="https://apps.apple.com/gb/app/quid-uk-student-life/id6791167493?uo=4" target="_blank" rel="noopener noreferrer" aria-label="Download Quid: UK Student Life on the App Store" class="quid-button quid-button-primary quid-button-appstore">
                 <svg viewBox="0 0 384 512"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
