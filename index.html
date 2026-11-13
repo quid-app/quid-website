@@ -453,48 +453,30 @@ header img{height:32px;width:auto}
 .js-reveal [data-reveal-done]{transition:none}
 .site-footer [data-reveal]{opacity:1!important;transform:none!important}
 
-/* ---------- hero: arrivals board, word entrance, ticker ---------- */
-.arrivals{display:inline-flex;align-items:center;gap:14px;max-width:100%;padding:10px 18px 10px 12px;border-radius:16px;background:#121212;border:1px solid rgba(255,255,255,.08);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 18px 40px rgba(0,0,0,.35);animation:load-up .6s cubic-bezier(.22,1,.36,1) 0s both}
-.arrivals .roundel{flex:0 0 auto;width:40px;height:40px}
-.arr-label{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-display);font-size:13px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--lime);white-space:nowrap}
-.arr-dot{width:8px;height:8px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 0 rgba(198,255,61,.6);animation:arr-pulse 1.8s ease-out infinite}
-.flaps{display:inline-flex;gap:3px;perspective:400px}
-.flap{position:relative;display:inline-grid;place-items:center;width:.82em;height:1.32em;font-family:var(--font-display);font-size:26px;font-weight:800;line-height:1;color:var(--paper);background:linear-gradient(#232323 0 49%,#1a1a1a 51% 100%);border-radius:5px;text-transform:uppercase;transform-origin:50% 50%}
-.flap::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(0,0,0,.65)}
-.flap.go{animation:flap .32s cubic-bezier(.4,0,.2,1) both}
-.arr-plat{font-family:var(--font-display);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-foreground);white-space:nowrap}
-.hero-copy .split-head{margin-top:36px}
-.hero-title{font-size:88px;letter-spacing:-.02em}
+/* ---------- hero: pill, word entrance, rotating accent ---------- */
+.hero-pill{display:inline-flex;align-items:center;gap:10px;padding:8px 16px 8px 12px;border-radius:999px;background:rgba(198,255,61,.08);border:1px solid rgba(198,255,61,.25);font-size:14px;font-weight:600;color:var(--paper);animation:load-up .6s cubic-bezier(.22,1,.36,1) 0s both}
+.pill-dot{width:8px;height:8px;border-radius:50%;background:var(--lime);animation:pill-pulse 1.8s ease-out infinite}
+.hero-copy .split-head{margin-top:28px}
+.hero-title{font-size:64px;letter-spacing:-.02em}
 .hero-title .w{display:inline-block;animation:word-up .7s cubic-bezier(.22,1,.36,1) both}
-.hero-title .w:nth-of-type(1){animation-delay:.12s}.hero-title .w:nth-of-type(2){animation-delay:.18s}.hero-title .w:nth-of-type(3){animation-delay:.24s}.hero-title .w:nth-of-type(4){animation-delay:.3s}.hero-title .w:nth-of-type(5){animation-delay:.42s}.hero-title .w:nth-of-type(6){animation-delay:.48s}.hero-title .w:nth-of-type(7){animation-delay:.58s}
-.hero-title .headline-accent{position:relative}
+.hero-title .w:nth-of-type(1){animation-delay:.1s}.hero-title .w:nth-of-type(2){animation-delay:.16s}.hero-title .w:nth-of-type(3){animation-delay:.22s}.hero-title .w:nth-of-type(4){animation-delay:.28s}.hero-title .w:nth-of-type(5){animation-delay:.4s}.hero-title .w:nth-of-type(6){animation-delay:.46s}.hero-title .w:nth-of-type(7){animation-delay:.56s}
+.hero-title .rot{position:relative;white-space:nowrap;display:inline-grid;justify-items:start}
+.rot>.rot-size,.rot>.rot-word{grid-area:1/1}
+.rot-size{visibility:hidden}
+.rot-word{display:inline-block;transition:transform .38s cubic-bezier(.22,1,.36,1),opacity .3s,filter .3s}
+.rot-word.out{transform:translateY(-.5em);opacity:0;filter:blur(4px)}
+.rot-word.in{transform:translateY(.5em);opacity:0;filter:blur(4px);transition:none}
 .scribble{position:absolute;left:0;right:0;bottom:-.08em;width:100%;height:.22em;overflow:visible}
-.scribble path{stroke-dasharray:340;stroke-dashoffset:340;animation:draw 1s cubic-bezier(.65,0,.35,1) 1.05s forwards}
+.scribble path{stroke-dasharray:340;stroke-dashoffset:340;transition:stroke-dashoffset 1s cubic-bezier(.65,0,.35,1)}
+.rot.landed .scribble path{stroke-dashoffset:0}
 .hero-copy .split-head>h1{animation:none}
-.hero-ticker{margin-top:56px;overflow:hidden;border-block:1px solid rgba(255,255,255,.08);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
-.ticker-track{display:flex;width:max-content;animation:ticker 38s linear infinite}
-.ticker-track span{display:inline-flex;align-items:center;gap:14px;padding:14px 14px;font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--paper);white-space:nowrap}
-.ticker-track span::before{content:"✓";display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--lime);color:var(--ink);font-size:12px;font-weight:800}
-@keyframes flap{0%{transform:rotateX(0)}50%{transform:rotateX(-90deg);filter:brightness(.6)}100%{transform:rotateX(0)}}
 @keyframes word-up{from{opacity:0;transform:translateY(.45em) rotate(2deg)}to{opacity:1;transform:none}}
-@keyframes draw{to{stroke-dashoffset:0}}
-@keyframes ticker{to{transform:translateX(-50%)}}
-@keyframes arr-pulse{0%{box-shadow:0 0 0 0 rgba(198,255,61,.55)}100%{box-shadow:0 0 0 10px rgba(198,255,61,0)}}
-@media (width <= 1023px){.hero-title{font-size:64px}}
-@media (width <= 767px){
-  .hero-title{font-size:46px}
-  .arrivals{display:flex;flex-wrap:wrap;gap:12px 10px;padding:12px}
-  .arrivals .roundel{width:32px;height:32px}
-  .arr-label{font-size:12px;letter-spacing:.16em}
-  .arr-plat{margin-left:auto}
-  .flaps{order:3;width:100%;gap:4px}
-  .flap{flex:1 1 0;width:auto;font-size:24px;height:1.5em;border-radius:5px}
-  .hero-ticker{margin-top:40px}
-}
+@keyframes pill-pulse{0%{box-shadow:0 0 0 0 rgba(198,255,61,.55)}100%{box-shadow:0 0 0 9px rgba(198,255,61,0)}}
+@media (width <= 1023px){.hero-title{font-size:54px}}
+@media (width <= 767px){.hero-title{font-size:40px}.hero-pill{font-size:13px}}
 @media (prefers-reduced-motion: reduce){
-  .arrivals,.hero-title .w,.flap.go,.arr-dot{animation:none}
-  .scribble path{animation:none;stroke-dashoffset:0}
-  .ticker-track{animation:none;flex-wrap:wrap;width:auto}
+  .hero-pill,.hero-title .w,.pill-dot{animation:none}
+  .scribble path{transition:none;stroke-dashoffset:0}
 }
 
 /* ---------- responsive ---------- */
@@ -630,14 +612,9 @@ gtag('js',new Date());gtag('config','G-NHKZQNR4QR',{anonymize_ip:true,send_page_
   <div class="page-container hero-layout">
     <div style="width:100%">
       <div class="hero-copy">
-        <div class="arrivals" role="img" aria-label="Arrivals board: now arriving in London, Manchester, Edinburgh and more">
-          <svg class="roundel" viewBox="29 1 62 62" aria-hidden="true"><circle cx="60" cy="32" r="24" fill="none" stroke="var(--lime)" stroke-width="10"/><rect x="6" y="22" width="108" height="20" rx="3" fill="var(--ink)"/><text x="60" y="37" text-anchor="middle" fill="var(--paper)" font-family="Plus Jakarta Sans, sans-serif" font-weight="800" font-size="13" letter-spacing="2">QUID</text></svg>
-          <span class="arr-label"><span class="arr-dot"></span>Now arriving</span>
-          <span class="flaps" id="flaps" aria-hidden="true"></span>
-          <span class="arr-plat" aria-hidden="true">On time</span>
-        </div>
+        <p class="hero-pill"><span class="pill-dot"></span>Free for international students in the UK</p>
         <div class="split-head">
-          <h1 class="hero-title"><span class="w">Move</span> <span class="w">to</span> <span class="w">the</span> <span class="w">UK.</span><br> <span class="w">We've</span> <span class="w">got</span> <span class="headline-accent w">the rest.<svg class="scribble" viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4 16C60 6 120 4 180 9s90 6 116-2" fill="none" stroke="var(--lime)" stroke-width="5" stroke-linecap="round"/></svg></span></h1>
+          <h1 class="hero-title"><span class="w">Move</span> <span class="w">to</span> <span class="w">the</span> <span class="w">UK.</span><br> <span class="w">We've</span> <span class="w">got</span> <span class="headline-accent w rot"><span class="rot-size" aria-hidden="true">your rent.</span><span class="rot-size" aria-hidden="true">your bank.</span><span class="rot-size" aria-hidden="true">your SIM.</span><span class="rot-word" id="rotWord">the rest.</span><svg class="scribble" viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4 16C60 6 120 4 180 9s90 6 116-2" fill="none" stroke="var(--lime)" stroke-width="5" stroke-linecap="round"/></svg></span></h1>
           <div class="split-aside">
             <p>Quid is the free app for international students moving to the UK. Your first-week to-dos, your budget in pounds and your home currency, the deals worth having and your people. One app that makes your money go further. Less panic, more Pret.</p>
             <div class="hero-ctas">
@@ -655,7 +632,6 @@ gtag('js',new Date());gtag('config','G-NHKZQNR4QR',{anonymize_ip:true,send_page_
             </div>
           </div>
         </div>
-        <div class="hero-ticker" aria-hidden="true"><div class="ticker-track"><span>SIM sorted</span><span>Bank account open</span><span>Railcard bought</span><span>Budget in £ and home currency</span><span>Halls booked</span><span>BRP collected</span><span>GP registered</span><span>First night out planned</span><span>Deals unlocked</span><span>SIM sorted</span><span>Bank account open</span><span>Railcard bought</span><span>Budget in £ and home currency</span><span>Halls booked</span><span>BRP collected</span><span>GP registered</span><span>First night out planned</span><span>Deals unlocked</span></div></div>
       </div>
       <div class="hero-stage">
         <div class="hero-animation"><iframe src="/quid-hero-animation?transparent=1" title="Quid app preview" loading="eager"></iframe></div>
@@ -1022,25 +998,27 @@ document.getElementById('consent-yes').addEventListener('click',function(){set('
 document.getElementById('consent-no').addEventListener('click',function(){set('denied')});})();
 </script>
 <script>
-/* Arrivals board: split-flap letters flip to the next city. */
+/* Hero accent: runs through what Quid sorts, then lands on "the rest." */
 (function(){
-  var el=document.getElementById('flaps'); if(!el)return;
-  var cities=['London','Manchester','Edinburgh','Birmingham','Glasgow','Leeds','Bristol','Nottingham','Cardiff','Coventry'];
-  var N=10,i=0,cells=[];
-  for(var k=0;k<N;k++){var c=document.createElement('span');c.className='flap';c.textContent='\u00a0';el.appendChild(c);cells.push(c)}
-  var still=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function show(word,animate){
-    var w=(word.toUpperCase()+'          ').slice(0,N);
-    cells.forEach(function(c,j){
-      var ch=w[j]===' '?'\u00a0':w[j];
-      if(c.textContent===ch)return;
-      if(!animate){c.textContent=ch;return}
-      setTimeout(function(){c.classList.remove('go');void c.offsetWidth;c.classList.add('go');setTimeout(function(){c.textContent=ch},160)},j*45);
-    });
+  var w=document.getElementById('rotWord'); if(!w)return;
+  var rot=w.parentNode,sc=rot.querySelector('.scribble');
+  function land(){sc.style.right='auto';sc.style.width=w.offsetWidth+'px';rot.classList.add('landed')}
+  var words=['your SIM.','your bank.','your rent.','the rest.'];
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){land();return}
+  w.textContent=words[0];
+  var i=0;
+  function next(){
+    i++;
+    w.classList.add('out');
+    setTimeout(function(){
+      w.textContent=words[i];
+      w.classList.remove('out');w.classList.add('in');
+      void w.offsetWidth;w.classList.remove('in');
+      if(i===words.length-1){setTimeout(land,250);return}
+      setTimeout(next,1100);
+    },300);
   }
-  show(cities[0],!still);
-  if(still)return;
-  setInterval(function(){if(document.hidden)return;i=(i+1)%cities.length;show(cities[i],true)},2600);
+  setTimeout(next,1500);
 })();
 </script>
 </body>
