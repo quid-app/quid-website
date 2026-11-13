@@ -453,27 +453,44 @@ header img{height:32px;width:auto}
 .js-reveal [data-reveal-done]{transition:none}
 .site-footer [data-reveal]{opacity:1!important;transform:none!important}
 
-/* ---------- hero: pill, word entrance, rotating accent ---------- */
+/* ---------- hero: headline, intro and a Quid AI chat that plays itself ---------- */
 .hero-copy .split-head{margin-top:0;align-items:center}
 .hero-title{font-size:64px;letter-spacing:-.02em}
 .hero-title .w{display:inline-block;animation:word-up .7s cubic-bezier(.22,1,.36,1) both}
 .hero-title .w:nth-of-type(1){animation-delay:.1s}.hero-title .w:nth-of-type(2){animation-delay:.16s}.hero-title .w:nth-of-type(3){animation-delay:.22s}.hero-title .w:nth-of-type(4){animation-delay:.28s}.hero-title .w:nth-of-type(5){animation-delay:.4s}.hero-title .w:nth-of-type(6){animation-delay:.46s}.hero-title .w:nth-of-type(7){animation-delay:.56s}
-.hero-title .rot{position:relative;white-space:nowrap;display:inline-grid;justify-items:start}
-.rot>.rot-size,.rot>.rot-word{grid-area:1/1}
-.rot-size{visibility:hidden}
-.rot-word{display:inline-block;transition:transform .38s cubic-bezier(.22,1,.36,1),opacity .3s,filter .3s}
-.rot-word.out{transform:translateY(-.5em);opacity:0;filter:blur(4px)}
-.rot-word.in{transform:translateY(.5em);opacity:0;filter:blur(4px);transition:none}
-.scribble{position:absolute;left:0;right:0;bottom:-.08em;width:100%;height:.22em;overflow:visible}
-.scribble path{stroke-dasharray:340;stroke-dashoffset:340;transition:stroke-dashoffset 1s cubic-bezier(.65,0,.35,1)}
-.rot.landed .scribble path{stroke-dashoffset:0}
 .hero-copy .split-head h1{animation:none}
+.hero-intro{margin-top:24px;max-width:520px;font-size:19px;line-height:1.55;color:var(--muted-foreground);animation:load-up .6s cubic-bezier(.22,1,.36,1) .5s both}
+.hero-head .hero-ctas{animation:load-up .6s cubic-bezier(.22,1,.36,1) .6s both}
+.ai-demo{justify-self:end;width:100%;max-width:460px;border-radius:28px;padding:20px;background:linear-gradient(180deg,#171717,#111);border:1px solid rgba(255,255,255,.09);box-shadow:0 30px 80px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.05);animation:load-scale .7s cubic-bezier(.22,1,.36,1) .35s both}
+.ai-top{display:flex;align-items:center;gap:10px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.07);font-family:var(--font-display);font-weight:800;font-size:16px;color:var(--paper)}
+.ai-spark{display:grid;place-items:center;width:30px;height:30px;border-radius:10px;background:var(--lime);color:var(--ink);font-size:15px}
+.ai-sub{margin-left:auto;font-family:var(--font-sans);font-weight:500;font-size:12px;color:var(--muted-foreground)}
+.ai-thread{display:flex;flex-direction:column;gap:10px;min-height:290px;padding-top:16px}
+.msg{max-width:86%;padding:12px 15px;border-radius:18px;font-size:15px;line-height:1.45;transition:opacity .35s,transform .35s cubic-bezier(.22,1,.36,1)}
+.msg.me{align-self:flex-end;background:var(--lime);color:var(--ink);font-weight:600;border-bottom-right-radius:6px;min-height:46px}
+.msg.bot{align-self:flex-start;background:#222;color:var(--paper);border-bottom-left-radius:6px}
+.msg.bot b{color:var(--lime);font-weight:700}
+.caret{display:inline-block;width:2px;height:1em;margin-left:2px;vertical-align:-2px;background:var(--ink);animation:blink 1s steps(1) infinite}
+.dots{display:flex;gap:5px;padding:16px 16px}
+.dots i{width:7px;height:7px;border-radius:50%;background:#8a8a8a;animation:dot 1s ease-in-out infinite}
+.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
+.goal{border:1px solid rgba(198,255,61,.45);background:rgba(198,255,61,.06);border-radius:18px;padding:14px 15px;transition:opacity .4s,transform .45s cubic-bezier(.34,1.56,.64,1)}
+.goal-row{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--paper)}
+.goal-ico{font-size:18px}
+.goal-tag{margin-left:auto;font-size:12px;font-weight:700;color:var(--ink);background:var(--lime);padding:4px 10px;border-radius:999px}
+.goal-bar{margin-top:12px;height:6px;border-radius:3px;background:rgba(255,255,255,.08);overflow:hidden}
+.goal-bar span{display:block;height:100%;width:0;background:var(--lime);border-radius:3px;transition:width 1.2s cubic-bezier(.22,1,.36,1) .3s}
+.goal.show .goal-bar span{width:8%}
+.goal-meta{display:flex;justify-content:space-between;margin-top:8px;font-size:12.5px;color:var(--muted-foreground)}
+.ai-demo .hide{opacity:0;transform:translateY(10px)}
+.ai-demo .gone{display:none}
 @keyframes word-up{from{opacity:0;transform:translateY(.45em) rotate(2deg)}to{opacity:1;transform:none}}
-@media (width <= 1023px){.hero-title{font-size:54px}}
-@media (width <= 767px){.hero-title{font-size:40px}}
+@keyframes blink{50%{opacity:0}}
+@keyframes dot{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-4px);opacity:1}}
+@media (width <= 1023px){.hero-title{font-size:54px}.ai-demo{justify-self:start;margin-top:48px}}
+@media (width <= 767px){.hero-title{font-size:40px}.hero-intro{font-size:17px}.ai-demo{padding:16px;border-radius:24px;margin-top:40px}.ai-thread{min-height:300px}.msg{font-size:14.5px}}
 @media (prefers-reduced-motion: reduce){
-  .hero-title .w{animation:none}
-  .scribble path{transition:none;stroke-dashoffset:0}
+  .hero-title .w,.hero-intro,.hero-head .hero-ctas,.ai-demo,.caret,.dots i{animation:none}
 }
 
 /* ---------- responsive ---------- */
@@ -481,6 +498,7 @@ header img{height:32px;width:auto}
   .split-head{grid-template-columns:repeat(12,minmax(0,1fr));align-items:end;column-gap:32px}
   .split-head>:first-child{grid-column:1/span 7}
   .split-head>.split-aside{grid-column:8/span 5}
+  .hero-split>.ai-demo{grid-column:8/span 5}
 }
 @media (width <= 1023px){
   :root{--section-space:140px;--group-space:64px;--page-gutter:32px;--page-margin:0px}
@@ -609,12 +627,10 @@ gtag('js',new Date());gtag('config','G-NHKZQNR4QR',{anonymize_ip:true,send_page_
   <div class="page-container hero-layout">
     <div style="width:100%">
       <div class="hero-copy">
-        <div class="split-head">
+        <div class="split-head hero-split">
           <div class="hero-head">
-          <h1 class="hero-title"><span class="w">Move</span> <span class="w">to</span> <span class="w">the</span> <span class="w">UK.</span><br> <span class="w">We've</span> <span class="w">got</span> <span class="headline-accent w rot"><span class="rot-size" aria-hidden="true">your rent.</span><span class="rot-size" aria-hidden="true">your bank.</span><span class="rot-size" aria-hidden="true">your SIM.</span><span class="rot-word" id="rotWord">the rest.</span><svg class="scribble" viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4 16C60 6 120 4 180 9s90 6 116-2" fill="none" stroke="var(--lime)" stroke-width="5" stroke-linecap="round"/></svg></span></h1>
-          </div>
-          <div class="split-aside">
-            <p>Quid is the free app for international students moving to the UK. Your first-week to-dos, your budget in pounds and your home currency, the deals worth having and your people. One app that makes your money go further.</p>
+            <h1 class="hero-title"><span class="w">Move</span> <span class="w">to</span> <span class="w">the</span> <span class="w">UK.</span><br> <span class="w">We've</span> <span class="w">got</span> <span class="headline-accent w">the rest.</span></h1>
+            <p class="hero-intro">Your first week sorted, your budget in pounds and home currency, student deals and an AI that plans your money with you.</p>
             <div class="hero-ctas">
               <a href="https://apps.apple.com/gb/app/quid-uk-student-life/id6791167493?uo=4" target="_blank" rel="noopener noreferrer" aria-label="Download Quid: UK Student Life on the App Store" class="quid-button quid-button-primary quid-button-appstore">
                 <svg viewBox="0 0 384 512"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
@@ -627,6 +643,19 @@ gtag('js',new Date());gtag('config','G-NHKZQNR4QR',{anonymize_ip:true,send_page_
                   <svg class="roll-arrow-copy" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
                 </span>
               </a>
+            </div>
+          </div>
+          <div class="ai-demo" aria-label="Example: a student asks Quid AI if they can afford a trip to Bali in three months, and Quid AI sets up a savings goal" role="img">
+            <div class="ai-top"><span class="ai-spark" aria-hidden="true">✦</span><span>Quid AI</span><span class="ai-sub">plans with you</span></div>
+            <div class="ai-thread" aria-hidden="true">
+              <div class="msg me" id="aiAsk"><span class="ask-text"></span><span class="caret"></span></div>
+              <div class="msg bot dots" id="aiDots"><i></i><i></i><i></i></div>
+              <div class="msg bot" id="aiReply">A week in Bali from London is about <b>£1,250</b> with flights and a hostel. Put aside <b>£420 a month</b> and you're set.</div>
+              <div class="goal" id="aiGoal">
+                <div class="goal-row"><span class="goal-ico">🌴</span><span class="goal-name">Bali trip</span><span class="goal-tag">Goal set ✓</span></div>
+                <div class="goal-bar"><span></span></div>
+                <div class="goal-meta"><span>£0 of £1,250</span><span>£420 a month</span></div>
+              </div>
             </div>
           </div>
         </div>
@@ -996,27 +1025,31 @@ document.getElementById('consent-yes').addEventListener('click',function(){set('
 document.getElementById('consent-no').addEventListener('click',function(){set('denied')});})();
 </script>
 <script>
-/* Hero accent: runs through what Quid sorts, then lands on "the rest." */
+/* Hero: a Quid AI chat that plays itself, then loops. */
 (function(){
-  var w=document.getElementById('rotWord'); if(!w)return;
-  var rot=w.parentNode,sc=rot.querySelector('.scribble');
-  function land(){sc.style.right='auto';sc.style.width=w.offsetWidth+'px';rot.classList.add('landed')}
-  var words=['your SIM.','your bank.','your rent.','the rest.'];
-  if(matchMedia('(prefers-reduced-motion: reduce)').matches){land();return}
-  w.textContent=words[0];
-  var i=0;
-  function next(){
-    i++;
-    w.classList.add('out');
-    setTimeout(function(){
-      w.textContent=words[i];
-      w.classList.remove('out');w.classList.add('in');
-      void w.offsetWidth;w.classList.remove('in');
-      if(i===words.length-1){setTimeout(land,250);return}
-      setTimeout(next,1100);
-    },300);
+  var ask=document.getElementById('aiAsk'); if(!ask)return;
+  var txt=ask.querySelector('.ask-text'),caret=ask.querySelector('.caret');
+  var dots=document.getElementById('aiDots'),reply=document.getElementById('aiReply'),goal=document.getElementById('aiGoal');
+  var Q='Can I afford Bali in 3 months?';
+  function final(){txt.textContent=Q;caret.style.display='none';dots.classList.add('gone');goal.classList.add('show')}
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){final();return}
+  var timers=[];function at(ms,f){timers.push(setTimeout(f,ms))}
+  function run(){
+    timers.forEach(clearTimeout);timers=[];
+    txt.textContent='';caret.style.display='';
+    dots.classList.add('gone');reply.classList.add('hide','gone');goal.classList.add('hide','gone');goal.classList.remove('show');
+    var t=900;
+    for(var i=1;i<=Q.length;i++)(function(n){at(t+n*55,function(){txt.textContent=Q.slice(0,n)})})(i);
+    t+=Q.length*55+500;
+    at(t,function(){caret.style.display='none';dots.classList.remove('gone')});
+    t+=1300;
+    at(t,function(){dots.classList.add('gone');reply.classList.remove('gone');void reply.offsetWidth;reply.classList.remove('hide')});
+    t+=1400;
+    at(t,function(){goal.classList.remove('gone');void goal.offsetWidth;goal.classList.remove('hide');goal.classList.add('show')});
+    t+=6500;
+    at(t,run);
   }
-  setTimeout(next,1500);
+  run();
 })();
 </script>
 </body>
