@@ -487,10 +487,22 @@ header img{height:32px;width:auto}
 @keyframes word-up{from{opacity:0;transform:translateY(.45em) rotate(2deg)}to{opacity:1;transform:none}}
 @keyframes blink{50%{opacity:0}}
 @keyframes dot{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-4px);opacity:1}}
+.hero-title{font-size:72px}
+.hero-title .headline-accent{text-shadow:0 0 42px rgba(198,255,61,.35)}
+.hero-head{position:relative}
+.hero-facts{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:28px;padding:0;list-style:none;font-size:14px;color:var(--muted-foreground);animation:load-up .6s cubic-bezier(.22,1,.36,1) .7s both}
+.hero-facts li{display:inline-flex;align-items:center;gap:8px}
+.hero-facts svg{width:16px;height:16px;padding:3px;border-radius:50%;background:rgba(198,255,61,.14);fill:none;stroke:var(--lime);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.try-note{position:absolute;right:-28px;bottom:58px;display:flex;align-items:flex-end;gap:2px;font-family:var(--font-accent);font-style:italic;font-size:24px;color:var(--lime);transform:rotate(-4deg);pointer-events:none;animation:load-up .7s cubic-bezier(.22,1,.36,1) 1.2s both}
+.try-note svg{width:90px;height:45px;fill:none;stroke:var(--lime);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;margin-bottom:14px}
+.try-note path{stroke-dasharray:160;stroke-dashoffset:160;animation:draw 1s ease 1.5s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@media (width <= 1279px){.try-note{display:none}}
 @media (width <= 1023px){.hero-title{font-size:54px}.ai-demo{justify-self:start;margin-top:48px}}
 @media (width <= 767px){.hero-title{font-size:40px}.hero-intro{font-size:17px}.ai-demo{padding:16px;border-radius:24px;margin-top:40px}.ai-thread{min-height:300px}.msg{font-size:14.5px}}
 @media (prefers-reduced-motion: reduce){
-  .hero-title .w,.hero-intro,.hero-head .hero-ctas,.ai-demo,.caret,.dots i{animation:none}
+  .hero-title .w,.hero-intro,.hero-head .hero-ctas,.ai-demo,.caret,.dots i,.hero-facts,.try-note,.try-note path{animation:none}
+  .try-note path{stroke-dashoffset:0}
 }
 
 /* ---------- responsive ---------- */
@@ -644,6 +656,12 @@ gtag('js',new Date());gtag('config','G-NHKZQNR4QR',{anonymize_ip:true,send_page_
                 </span>
               </a>
             </div>
+            <ul class="hero-facts">
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Free on iPhone</li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>iOS 16 and up</li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>No bank login needed</li>
+            </ul>
+            <div class="try-note" aria-hidden="true"><span>ask it anything</span><svg viewBox="0 0 120 60"><path d="M4 44c22 10 52 12 76-6 10-8 18-18 30-26"/><path d="M96 10l15 2-5 14"/></svg></div>
           </div>
           <div class="ai-demo" aria-label="Example: a student asks Quid AI if they can afford a trip to Bali in three months, and Quid AI sets up a savings goal" role="img">
             <div class="ai-top"><span class="ai-spark" aria-hidden="true">✦</span><span>Quid AI</span><span class="ai-sub">plans with you</span></div>
