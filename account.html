@@ -26,7 +26,7 @@
 /* ---------- tokens (copied from quidapp.co.uk index.html) ---------- */
 :root{
   --ink:#0d0d0d; --paper:#f4f4ef; --lime:#c6ff3d; --footer-ink:#141414;
-  --teal:oklch(53% .06 200); --plum:oklch(40% .08 340); --coral:oklch(69% .2 15);
+  --teal:oklch(53% .06 200); --plum:oklch(40% .08 340); --coral:oklch(69% .2 15); --danger:oklch(48% .19 20);
   --background:var(--ink); --foreground:#fff; --card:#1a1a1a;
   --muted-foreground:rgba(255,255,255,.6); --border:rgba(255,255,255,.08);
   --font-sans:"Inter",sans-serif; --font-display:"Plus Jakarta Sans",sans-serif; --font-accent:"Instrument Serif",Georgia,serif;
@@ -110,61 +110,91 @@ header nav>a{display:inline-flex;align-items:center}
 .mobile-menu-links a{font-family:var(--font-display);color:#fff;font-size:36px;font-weight:800}
 
 /* ---------- NEW: account page ---------- */
-.auth-section{isolation:isolate;position:relative;background:var(--ink)}
-.auth-section::before{content:"";z-index:0;pointer-events:none;background:radial-gradient(40% 50% at 78% center,oklch(.53 .06 200 / .28),rgba(0,0,0,0) 70%),radial-gradient(30% 40% at 12% 85%,oklch(.4 .08 340 / .3),rgba(0,0,0,0) 70%);position:absolute;inset:0}
-.auth-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,460px);align-items:center;gap:64px;padding-block:96px 120px;min-height:720px}
-.auth-copy>*{animation:load-up .6s cubic-bezier(.22,1,.36,1) both}
-.auth-title{font-size:64px;line-height:1.06;margin-top:24px}
-.auth-lede{margin-top:24px;max-width:440px;font-size:18px;line-height:1.625;color:var(--muted-foreground)}
-.auth-lede b{color:#fff;font-weight:600;white-space:nowrap}
-.auth-points{margin-top:32px;display:flex;flex-direction:column;gap:10px;font-size:15px}
-.auth-points li{display:flex;align-items:center;gap:12px}
-.pin-tick{background:var(--lime);width:22px;height:22px;color:var(--ink);border-radius:50%;flex:0 0 auto;place-items:center;display:inline-grid}
-.pin-tick svg{width:12px;height:12px}
+.acct-hero{isolation:isolate;position:relative;background:var(--ink)}
+.acct-hero::before{content:"";z-index:0;pointer-events:none;background:radial-gradient(40% 60% at 82% 40%,oklch(.53 .06 200 / .28),rgba(0,0,0,0) 70%),radial-gradient(30% 50% at 8% 95%,oklch(.4 .08 340 / .3),rgba(0,0,0,0) 70%);position:absolute;inset:0}
+.acct-hero-inner{padding-block:96px 136px}
+.acct-hero-inner>*{animation:load-up .6s cubic-bezier(.22,1,.36,1) both}
+.acct-hero-inner>h1{animation-delay:.08s}
+.acct-hero-inner>.acct-lede{animation-delay:.16s}
+.hero-title{font-size:72px;line-height:1.06;margin-top:20px}
+.acct-lede{margin-top:24px;max-width:560px;font-size:18px;line-height:1.625;color:var(--muted-foreground)}
 
-.auth-stage{position:relative;animation:load-scale .55s cubic-bezier(.22,1,.36,1) .15s both}
-.auth-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-3xl);padding:32px;box-shadow:rgba(0,0,0,.35) 0 18px 40px}
+.theme-paper{--background:var(--paper);--foreground:var(--ink);--card:#fff;--muted-foreground:#0d0d0d9e;--border:#00000014;color:var(--ink)}
+.panel-top{z-index:3;border-radius:40px 40px 0 0;margin-top:-40px;position:relative}
+.panel-top.grain::after{border-radius:inherit}
+.acct-panel-inner{padding-block:88px 112px;position:relative}
 .sticker{z-index:3;font-family:var(--font-display);color:var(--ink);white-space:nowrap;border-radius:12px;padding:10px 16px;font-size:14px;font-weight:800;position:absolute;box-shadow:rgba(0,0,0,.28) 0 10px 24px}
-.sticker-lime{background:var(--lime);top:-28px;left:-12px;transform:rotate(-6deg)}
-.sticker-white{background:#fff;top:-20px;right:-8px;transform:rotate(4deg)}
-.view{animation:view-in .35s cubic-bezier(.22,1,.36,1) both}
-.view:focus{outline:none}
+.sticker-lime{background:var(--lime)}
+.acct-sticker{top:-22px;right:var(--page-gutter);transform:rotate(4deg)}
 
-.btn-block{width:100%;height:56px;text-transform:uppercase;letter-spacing:.12em;font-weight:600;font-size:13px}
-.btn-block.quid-button-primary:hover{transform:scale(1.015)}
-.btn-block[disabled]{opacity:.5;cursor:not-allowed;transform:none!important;box-shadow:none!important}
-.btn-google{background:#fff;color:var(--ink);border-radius:9999px;margin-top:24px}
-.btn-google:hover{transform:scale(1.015);box-shadow:rgba(255,255,255,.14) 0 8px 24px}
-.fineprint{margin-top:20px;text-align:center;font-size:13px;color:rgba(255,255,255,.45)}
-.fineprint a{color:rgba(255,255,255,.75);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--lime)}
+/* the line: three stops */
+.line{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:56px}
+.stop{position:relative;padding-top:64px;transition:opacity .4s}
+.stop::before{content:"";position:absolute;top:12px;left:14px;right:-70px;height:4px;border-radius:4px;background:linear-gradient(var(--ink),var(--ink)) no-repeat rgba(13,13,13,.14);background-size:0% 100%;transition:background-size .8s cubic-bezier(.22,1,.36,1)}
+.stop:last-child::before{right:0;background:linear-gradient(90deg,rgba(13,13,13,.14),rgba(13,13,13,0))}
+.stop[data-state="done"]::before{background-size:100% 100%}
+.roundel{position:absolute;top:0;left:0;z-index:1;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--paper);border:4px solid rgba(13,13,13,.3);transition:background-color .3s,border-color .3s}
+.roundel svg{width:12px;height:12px;color:var(--lime);opacity:0;transition:opacity .3s .3s}
+.stop[data-state="current"] .roundel{background:var(--lime);border-color:var(--ink)}
+.stop[data-state="done"] .roundel{background:var(--ink);border-color:var(--ink)}
+.stop[data-state="done"] .roundel svg{opacity:1}
+.stop[data-state="upcoming"]{opacity:.5}
+.step-number{font-family:var(--font-accent);color:var(--ink);font-size:40px;font-style:italic;line-height:1;display:block;background:linear-gradient(transparent 58%,var(--lime) 58%,var(--lime) 92%,transparent 92%);width:fit-content;padding-inline:4px}
+.stop h2{margin-top:12px;font-size:32px;line-height:1.1}
+.stop h2:focus{outline:none}
+.stop-p{margin-top:12px;max-width:340px;font-size:17px;line-height:1.6;color:var(--muted-foreground)}
+.stop-body{margin-top:24px}
+.view{animation:view-in .4s cubic-bezier(.22,1,.36,1) both}
 
-.card-title{font-family:var(--font-display);font-weight:800;font-size:24px;line-height:1.2}
-.card-sub{margin-top:8px;color:var(--muted-foreground);font-size:15px;line-height:1.6}
-.card-sub b{color:#fff;font-weight:600;white-space:nowrap}
-.spinner{width:22px;height:22px;border-radius:50%;border:2.5px solid rgba(13,13,13,.25);border-top-color:var(--ink);animation:spin .7s linear infinite}
-.setting-up{display:flex;flex-direction:column;align-items:center;gap:20px;padding:56px 0;text-align:center}
-.setting-up .spinner{width:36px;height:36px;border-color:rgba(255,255,255,.15);border-top-color:var(--lime)}
+/* stop 1: Google */
+.google-slot{min-height:40px;max-width:400px}
+.g-fallback{width:100%;height:40px;border-radius:20px;background:#131314;color:#e3e3e3;font-size:14px;font-weight:500;letter-spacing:.25px;display:flex;align-items:center;justify-content:center;gap:10px;transition:background-color .2s,transform .2s var(--button-ease)}
+.g-fallback:hover{background:#2a2a2c}
+.g-fallback:active{transform:scale(.98)}
+.g-fallback:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.g-fallback[disabled]{cursor:progress}
+.spinner{width:18px;height:18px;border-radius:50%;border:2.5px solid rgba(255,255,255,.25);border-top-color:#fff;animation:spin .7s linear infinite}
+.fineprint{margin-top:14px;max-width:400px;font-size:13px;color:rgba(13,13,13,.55)}
+.fineprint a,.text-link{color:var(--ink);font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--lime);text-decoration-thickness:2px}
+.text-link{font-size:14px}
+.text-link:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:4px}
+.who{display:flex;align-items:center;gap:12px}
+.avatar{color:#fff;border-radius:50%;flex:0 0 auto;place-items:center;width:40px;height:40px;font-family:var(--font-display);font-size:15px;font-weight:800;display:inline-grid;background:var(--teal)}
+.who-k{font-size:13px;color:rgba(13,13,13,.55)}
+.who-v{font-weight:600;overflow-wrap:anywhere}
+.who+.text-link{display:inline-block;margin-top:14px}
 
-.get-app{display:grid;grid-template-columns:auto minmax(0,1fr);gap:24px;align-items:center}
-.qr{background:#fff;border-radius:20px;padding:12px;width:168px;height:168px;transform:rotate(-3deg);box-shadow:rgba(0,0,0,.35) 0 18px 40px;position:relative}
-.qr svg{width:100%;height:100%}
-.get-app h2{font-size:22px;line-height:1.2}
-.get-app p{margin-top:6px;font-size:14px;color:var(--muted-foreground)}
-.get-app .quid-button-appstore{margin-top:16px}
-.acct{margin-top:28px;padding-top:24px;border-top:1px solid rgba(255,255,255,.1)}
-.acct-k{font-family:var(--font-display);font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.45)}
-.acct-v{margin-top:4px;font-size:17px;font-weight:600}
-.acct-actions{margin-top:16px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.link-danger{font-size:14px;font-weight:600;color:var(--coral);text-decoration:underline;text-underline-offset:3px;text-decoration-color:color-mix(in oklch,var(--coral) 45%,transparent)}
-.link-danger:hover{text-decoration-color:var(--coral)}
-.link-danger:focus-visible{outline:2px solid var(--coral);outline-offset:3px;border-radius:4px}
-.confirm-actions{margin-top:24px;display:flex;flex-direction:column;gap:12px}
-.btn-danger{border:1px solid var(--coral);color:var(--coral);border-radius:9999px}
+/* stop 2: QR */
+.qr-wait{width:176px;height:176px;border-radius:24px;border:2px dashed rgba(13,13,13,.25);display:grid;place-items:center;padding:20px;text-align:center;font-size:14px;line-height:1.45;color:rgba(13,13,13,.6)}
+.qr-card{position:relative;width:176px;height:176px;background:#fff;border-radius:24px;padding:14px;transform:rotate(-3deg);box-shadow:rgba(13,13,13,.14) 0 24px 60px;border:1px solid rgba(0,0,0,.06)}
+.qr-card svg{width:100%;height:100%}
+.qr-card .sticker{top:-16px;right:-44px;transform:rotate(9deg);font-size:13px;padding:8px 14px}
+.qr-note{margin-top:24px;max-width:300px;font-size:14px;color:rgba(13,13,13,.6)}
+.stop .quid-button-appstore{margin-top:16px}
+.stop .quid-button-primary:hover{box-shadow:rgba(13,13,13,.18) 0 8px 24px}
+.stop .quid-button:focus-visible{outline-color:var(--ink)}
+
+/* leaving */
+.leave{margin-top:72px;padding-top:28px;border-top:1px solid rgba(13,13,13,.12);display:flex;align-items:center;justify-content:space-between;gap:16px 32px;flex-wrap:wrap;font-size:15px;color:var(--muted-foreground)}
+.link-danger{font-size:15px;font-weight:600;color:var(--danger);text-decoration:underline;text-underline-offset:3px;text-decoration-color:color-mix(in oklch,var(--danger) 40%,transparent)}
+.link-danger:hover{text-decoration-color:var(--danger)}
+.link-danger:focus-visible{outline:2px solid var(--danger);outline-offset:3px;border-radius:4px}
+.confirm-card{margin-top:72px;background:var(--ink);color:#fff;border-radius:var(--radius-3xl);padding:36px 40px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px 48px;align-items:center;box-shadow:rgba(13,13,13,.2) 0 24px 60px}
+.confirm-card:focus{outline:none}
+.confirm-card h2{font-size:28px;line-height:1.15}
+.confirm-card p{margin-top:10px;max-width:520px;color:rgba(255,255,255,.65);line-height:1.6}
+.confirm-actions{display:flex;flex-direction:column;gap:12px;min-width:240px}
+.btn-block{width:100%;height:52px;padding:0 24px;border-radius:9999px;font-weight:600;font-size:15px}
+.btn-block.quid-button-primary:hover{transform:scale(1.02)}
+.btn-danger{border:1px solid var(--coral);color:var(--coral)}
 .btn-danger:hover{background:var(--coral);color:var(--ink)}
-.what-goes{margin-top:16px;padding:14px 16px;border-left:2px solid var(--coral);background:rgba(255,255,255,.03);border-radius:0 12px 12px 0;font-size:14px;color:rgba(255,255,255,.75)}
+.btn-danger[disabled]{opacity:.6;cursor:progress}
+.notice{margin-bottom:56px;background:#fff;border:1px solid rgba(0,0,0,.08);border-left:4px solid var(--ink);border-radius:20px;padding:20px 24px;max-width:640px;box-shadow:rgba(13,13,13,.06) 0 12px 32px}
+.notice:focus{outline:none}
+.notice b{font-family:var(--font-display);font-weight:800;font-size:18px;display:block}
+.notice span{display:block;margin-top:4px;color:var(--muted-foreground)}
 
 @keyframes load-up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
-@keyframes load-scale{from{opacity:0;transform:scale(.98) translateY(16px)}to{opacity:1;transform:none}}
 @keyframes view-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @keyframes spin{to{transform:rotate(360deg)}}
 
@@ -192,22 +222,36 @@ header nav>a{display:inline-flex;align-items:center}
   .site-header-links{display:none}
   .quid-button-outline{display:inline-flex}
   header nav{grid-template-columns:1fr auto}
-  .auth-layout{grid-template-columns:minmax(0,1fr);gap:56px;padding-block:72px 96px;min-height:0}
-  .auth-stage{max-width:520px}
-  .auth-title{font-size:54px}
+  .hero-title{font-size:54px}
+  .acct-hero-inner{padding-block:72px 112px}
+  .line{gap:40px}
+  .stop::before{right:-54px}
+  .stop:last-child::before{right:0}
+  .stop h2{font-size:28px}
+  .confirm-card{grid-template-columns:minmax(0,1fr)}
   .footer-columns{grid-template-columns:repeat(3,1fr)}
   .footer-columns>:first-child{grid-column:1/-1}
 }
+@media (width <= 859px){
+  /* the line turns vertical */
+  .line{grid-template-columns:minmax(0,1fr);gap:0}
+  .stop{padding:0 0 56px 56px}
+  .stop:last-child{padding-bottom:0}
+  .stop::before{top:14px;bottom:-14px;left:12px;right:auto;width:4px;height:auto;background-size:100% 0%}
+  .stop:last-child::before{display:none}
+  .stop[data-state="done"]::before{background-size:100% 100%}
+  .stop .step-number{margin-top:-6px}
+}
 @media (width <= 767px){
   :root{--page-gutter:8px}
-  .auth-layout{padding-block:48px 72px;gap:48px}
-  .auth-title{font-size:40px}
-  .auth-lede{font-size:17px}
-  .auth-card{padding:24px 20px;border-radius:24px}
-  .sticker-lime{left:8px}
-  .sticker-white{right:8px}
-  .get-app{grid-template-columns:minmax(0,1fr);justify-items:center;text-align:center}
-  .qr{width:148px;height:148px}
+  .hero-title{font-size:40px}
+  .acct-lede{font-size:17px}
+  .acct-hero-inner{padding-block:56px 96px}
+  .acct-panel-inner{padding-block:64px 80px}
+  .acct-sticker{right:16px}
+  .confirm-card{padding:28px 24px;border-radius:24px;margin-top:56px}
+  .confirm-actions{min-width:0}
+  .leave{margin-top:56px}
   .footer-columns{padding-top:64px;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
   .footer-columns>:first-child{grid-column:1/-1}
   .footer-col .quid-button-footer{white-space:normal;text-align:left;overflow-wrap:anywhere}
@@ -223,10 +267,10 @@ header nav>a{display:inline-flex;align-items:center}
 
 <div class="preview-bar" role="note">
   <strong>PREVIEW</strong>
-  <span>Not wired up yet. Nothing is sent or saved. The Google button signs you in as a sample account.</span>
+  <span>Not wired up yet. Nothing is sent or saved. The button signs you in as a sample account.</span>
   <div class="preview-jump" aria-label="Jump to a state">
-    <button data-jump="enter">Log in</button>
-    <button data-jump="account">Signed in</button>
+    <button data-jump="out">Signed out</button>
+    <button data-jump="in">Signed in</button>
     <button data-jump="confirm">Delete?</button>
     <button data-jump="deleted">Deleted</button>
   </div>
@@ -273,85 +317,96 @@ header nav>a{display:inline-flex;align-items:center}
 </div>
 
 <main id="main">
-<section class="auth-section grain">
-  <div class="page-container auth-layout">
+<section class="acct-hero grain">
+  <div class="page-container acct-hero-inner">
+    <p class="station" id="station">Your account</p>
+    <h1 class="hero-title" id="title">Let's get you <span class="headline-accent">in.</span></h1>
+    <p class="acct-lede" id="lede">Sign in with Google, then pick Quid up on your phone. No password to remember.</p>
+  </div>
+</section>
 
-    <!-- left: copy, swaps per state -->
-    <div class="auth-copy" aria-live="polite">
-      <p class="station" id="station">Your account</p>
-      <h1 class="auth-title" id="title">Let's get you <span class="headline-accent">in.</span></h1>
-      <p class="auth-lede" id="lede">Sign up or log in with Google. One tap, no password needed.</p>
-      <ul class="auth-points" id="points">
-        <li><span class="pin-tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>New here or coming back, it's the same step</li>
-        <li><span class="pin-tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>One account for the website and the app</li>
-        <li><span class="pin-tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>Delete your account whenever you like</li>
-      </ul>
+<section class="theme-paper panel-top grain acct-panel">
+  <div class="page-container acct-panel-inner">
+    <span class="sticker sticker-lime acct-sticker" id="sticker" aria-hidden="true">No password needed</span>
+    <p class="sr-only" id="live" aria-live="polite"></p>
+
+    <div class="notice view" id="deletedNotice" tabindex="-1" hidden>
+      <b>Your account is deleted.</b>
+      <span>Your personal data has been removed. You can sign up again any time.</span>
     </div>
 
-    <!-- right: the card -->
-    <div class="auth-stage">
-      <span class="sticker sticker-lime" id="sticker">No password needed</span>
-      <div class="auth-card">
-
-        <!-- 1. continue with Google -->
-        <div class="view" id="v-enter" tabindex="-1">
-          <p class="card-title">Sign up or log in</p>
-          <p class="card-sub">Use your Google account. If you're new, we'll set you up.</p>
-          <!-- When wired up, Google's own script renders the official button (logo included) into this slot. -->
-          <div id="googleSlot">
-            <button class="quid-button btn-block btn-google" type="button" id="googleBtn">Continue with Google</button>
-          </div>
-          <p class="fineprint">By continuing, you agree to our <a href="/terms">Terms</a> and <a href="/privacy">Privacy Policy</a></p>
-        </div>
-
-        <!-- 2. setting up -->
-        <div class="view setting-up" id="v-loading" hidden tabindex="-1">
-          <div class="spinner" aria-hidden="true"></div>
-          <p class="card-title">Setting things up for you...</p>
-        </div>
-
-        <!-- 3. signed in: get the app + account -->
-        <div class="view" id="v-account" hidden tabindex="-1">
-          <div class="get-app">
-            <div class="qr" role="img" aria-label="QR code that opens Quid on the App Store"><svg viewBox="0 0 41 41" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"><path fill="#0d0d0d" d="M2 2h1v1h-1zM3 2h1v1h-1zM4 2h1v1h-1zM5 2h1v1h-1zM6 2h1v1h-1zM7 2h1v1h-1zM8 2h1v1h-1zM13 2h1v1h-1zM15 2h1v1h-1zM20 2h1v1h-1zM22 2h1v1h-1zM23 2h1v1h-1zM24 2h1v1h-1zM26 2h1v1h-1zM28 2h1v1h-1zM32 2h1v1h-1zM33 2h1v1h-1zM34 2h1v1h-1zM35 2h1v1h-1zM36 2h1v1h-1zM37 2h1v1h-1zM38 2h1v1h-1zM2 3h1v1h-1zM8 3h1v1h-1zM12 3h1v1h-1zM13 3h1v1h-1zM14 3h1v1h-1zM15 3h1v1h-1zM16 3h1v1h-1zM17 3h1v1h-1zM21 3h1v1h-1zM29 3h1v1h-1zM30 3h1v1h-1zM32 3h1v1h-1zM38 3h1v1h-1zM2 4h1v1h-1zM4 4h1v1h-1zM5 4h1v1h-1zM6 4h1v1h-1zM8 4h1v1h-1zM10 4h1v1h-1zM11 4h1v1h-1zM13 4h1v1h-1zM20 4h1v1h-1zM21 4h1v1h-1zM22 4h1v1h-1zM23 4h1v1h-1zM26 4h1v1h-1zM29 4h1v1h-1zM32 4h1v1h-1zM34 4h1v1h-1zM35 4h1v1h-1zM36 4h1v1h-1zM38 4h1v1h-1zM2 5h1v1h-1zM4 5h1v1h-1zM5 5h1v1h-1zM6 5h1v1h-1zM8 5h1v1h-1zM10 5h1v1h-1zM15 5h1v1h-1zM17 5h1v1h-1zM18 5h1v1h-1zM19 5h1v1h-1zM20 5h1v1h-1zM21 5h1v1h-1zM26 5h1v1h-1zM27 5h1v1h-1zM28 5h1v1h-1zM29 5h1v1h-1zM30 5h1v1h-1zM32 5h1v1h-1zM34 5h1v1h-1zM35 5h1v1h-1zM36 5h1v1h-1zM38 5h1v1h-1zM2 6h1v1h-1zM4 6h1v1h-1zM5 6h1v1h-1zM6 6h1v1h-1zM8 6h1v1h-1zM10 6h1v1h-1zM11 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM21 6h1v1h-1zM22 6h1v1h-1zM25 6h1v1h-1zM30 6h1v1h-1zM32 6h1v1h-1zM34 6h1v1h-1zM35 6h1v1h-1zM36 6h1v1h-1zM38 6h1v1h-1zM2 7h1v1h-1zM8 7h1v1h-1zM10 7h1v1h-1zM11 7h1v1h-1zM12 7h1v1h-1zM20 7h1v1h-1zM22 7h1v1h-1zM24 7h1v1h-1zM27 7h1v1h-1zM28 7h1v1h-1zM29 7h1v1h-1zM32 7h1v1h-1zM38 7h1v1h-1zM2 8h1v1h-1zM3 8h1v1h-1zM4 8h1v1h-1zM5 8h1v1h-1zM6 8h1v1h-1zM7 8h1v1h-1zM8 8h1v1h-1zM10 8h1v1h-1zM12 8h1v1h-1zM14 8h1v1h-1zM16 8h1v1h-1zM18 8h1v1h-1zM20 8h1v1h-1zM22 8h1v1h-1zM24 8h1v1h-1zM26 8h1v1h-1zM28 8h1v1h-1zM30 8h1v1h-1zM32 8h1v1h-1zM33 8h1v1h-1zM34 8h1v1h-1zM35 8h1v1h-1zM36 8h1v1h-1zM37 8h1v1h-1zM38 8h1v1h-1zM10 9h1v1h-1zM11 9h1v1h-1zM12 9h1v1h-1zM13 9h1v1h-1zM16 9h1v1h-1zM18 9h1v1h-1zM25 9h1v1h-1zM29 9h1v1h-1zM2 10h1v1h-1zM4 10h1v1h-1zM5 10h1v1h-1zM6 10h1v1h-1zM7 10h1v1h-1zM8 10h1v1h-1zM11 10h1v1h-1zM12 10h1v1h-1zM13 10h1v1h-1zM20 10h1v1h-1zM21 10h1v1h-1zM22 10h1v1h-1zM23 10h1v1h-1zM24 10h1v1h-1zM26 10h1v1h-1zM27 10h1v1h-1zM29 10h1v1h-1zM30 10h1v1h-1zM32 10h1v1h-1zM33 10h1v1h-1zM34 10h1v1h-1zM35 10h1v1h-1zM36 10h1v1h-1zM3 11h1v1h-1zM5 11h1v1h-1zM6 11h1v1h-1zM9 11h1v1h-1zM14 11h1v1h-1zM15 11h1v1h-1zM17 11h1v1h-1zM18 11h1v1h-1zM19 11h1v1h-1zM27 11h1v1h-1zM28 11h1v1h-1zM33 11h1v1h-1zM37 11h1v1h-1zM2 12h1v1h-1zM4 12h1v1h-1zM5 12h1v1h-1zM7 12h1v1h-1zM8 12h1v1h-1zM9 12h1v1h-1zM10 12h1v1h-1zM11 12h1v1h-1zM12 12h1v1h-1zM15 12h1v1h-1zM16 12h1v1h-1zM22 12h1v1h-1zM24 12h1v1h-1zM25 12h1v1h-1zM26 12h1v1h-1zM28 12h1v1h-1zM29 12h1v1h-1zM30 12h1v1h-1zM32 12h1v1h-1zM33 12h1v1h-1zM34 12h1v1h-1zM35 12h1v1h-1zM37 12h1v1h-1zM38 12h1v1h-1zM2 13h1v1h-1zM4 13h1v1h-1zM5 13h1v1h-1zM6 13h1v1h-1zM10 13h1v1h-1zM12 13h1v1h-1zM13 13h1v1h-1zM14 13h1v1h-1zM15 13h1v1h-1zM16 13h1v1h-1zM18 13h1v1h-1zM23 13h1v1h-1zM24 13h1v1h-1zM25 13h1v1h-1zM29 13h1v1h-1zM31 13h1v1h-1zM32 13h1v1h-1zM33 13h1v1h-1zM34 13h1v1h-1zM35 13h1v1h-1zM38 13h1v1h-1zM4 14h1v1h-1zM6 14h1v1h-1zM8 14h1v1h-1zM11 14h1v1h-1zM12 14h1v1h-1zM14 14h1v1h-1zM16 14h1v1h-1zM19 14h1v1h-1zM24 14h1v1h-1zM25 14h1v1h-1zM26 14h1v1h-1zM27 14h1v1h-1zM28 14h1v1h-1zM29 14h1v1h-1zM30 14h1v1h-1zM31 14h1v1h-1zM32 14h1v1h-1zM34 14h1v1h-1zM35 14h1v1h-1zM36 14h1v1h-1zM37 14h1v1h-1zM38 14h1v1h-1zM3 15h1v1h-1zM6 15h1v1h-1zM7 15h1v1h-1zM9 15h1v1h-1zM10 15h1v1h-1zM12 15h1v1h-1zM15 15h1v1h-1zM18 15h1v1h-1zM19 15h1v1h-1zM21 15h1v1h-1zM22 15h1v1h-1zM23 15h1v1h-1zM25 15h1v1h-1zM30 15h1v1h-1zM31 15h1v1h-1zM33 15h1v1h-1zM37 15h1v1h-1zM2 16h1v1h-1zM3 16h1v1h-1zM4 16h1v1h-1zM8 16h1v1h-1zM13 16h1v1h-1zM16 16h1v1h-1zM17 16h1v1h-1zM18 16h1v1h-1zM19 16h1v1h-1zM22 16h1v1h-1zM23 16h1v1h-1zM27 16h1v1h-1zM28 16h1v1h-1zM29 16h1v1h-1zM30 16h1v1h-1zM33 16h1v1h-1zM34 16h1v1h-1zM35 16h1v1h-1zM37 16h1v1h-1zM38 16h1v1h-1zM2 17h1v1h-1zM4 17h1v1h-1zM7 17h1v1h-1zM9 17h1v1h-1zM10 17h1v1h-1zM11 17h1v1h-1zM14 17h1v1h-1zM15 17h1v1h-1zM16 17h1v1h-1zM17 17h1v1h-1zM18 17h1v1h-1zM19 17h1v1h-1zM20 17h1v1h-1zM22 17h1v1h-1zM23 17h1v1h-1zM24 17h1v1h-1zM25 17h1v1h-1zM28 17h1v1h-1zM29 17h1v1h-1zM31 17h1v1h-1zM32 17h1v1h-1zM33 17h1v1h-1zM34 17h1v1h-1zM3 18h1v1h-1zM5 18h1v1h-1zM8 18h1v1h-1zM9 18h1v1h-1zM10 18h1v1h-1zM12 18h1v1h-1zM13 18h1v1h-1zM14 18h1v1h-1zM16 18h1v1h-1zM17 18h1v1h-1zM18 18h1v1h-1zM23 18h1v1h-1zM25 18h1v1h-1zM27 18h1v1h-1zM29 18h1v1h-1zM30 18h1v1h-1zM31 18h1v1h-1zM32 18h1v1h-1zM34 18h1v1h-1zM36 18h1v1h-1zM37 18h1v1h-1zM2 19h1v1h-1zM3 19h1v1h-1zM4 19h1v1h-1zM6 19h1v1h-1zM9 19h1v1h-1zM11 19h1v1h-1zM12 19h1v1h-1zM13 19h1v1h-1zM14 19h1v1h-1zM17 19h1v1h-1zM20 19h1v1h-1zM22 19h1v1h-1zM23 19h1v1h-1zM24 19h1v1h-1zM26 19h1v1h-1zM28 19h1v1h-1zM36 19h1v1h-1zM37 19h1v1h-1zM2 20h1v1h-1zM3 20h1v1h-1zM4 20h1v1h-1zM8 20h1v1h-1zM10 20h1v1h-1zM11 20h1v1h-1zM12 20h1v1h-1zM14 20h1v1h-1zM15 20h1v1h-1zM17 20h1v1h-1zM18 20h1v1h-1zM21 20h1v1h-1zM23 20h1v1h-1zM28 20h1v1h-1zM29 20h1v1h-1zM30 20h1v1h-1zM32 20h1v1h-1zM33 20h1v1h-1zM37 20h1v1h-1zM38 20h1v1h-1zM4 21h1v1h-1zM6 21h1v1h-1zM9 21h1v1h-1zM11 21h1v1h-1zM12 21h1v1h-1zM15 21h1v1h-1zM16 21h1v1h-1zM17 21h1v1h-1zM21 21h1v1h-1zM22 21h1v1h-1zM23 21h1v1h-1zM24 21h1v1h-1zM26 21h1v1h-1zM28 21h1v1h-1zM29 21h1v1h-1zM32 21h1v1h-1zM33 21h1v1h-1zM38 21h1v1h-1zM4 22h1v1h-1zM7 22h1v1h-1zM8 22h1v1h-1zM9 22h1v1h-1zM10 22h1v1h-1zM11 22h1v1h-1zM12 22h1v1h-1zM13 22h1v1h-1zM14 22h1v1h-1zM16 22h1v1h-1zM17 22h1v1h-1zM18 22h1v1h-1zM19 22h1v1h-1zM21 22h1v1h-1zM22 22h1v1h-1zM24 22h1v1h-1zM26 22h1v1h-1zM27 22h1v1h-1zM31 22h1v1h-1zM32 22h1v1h-1zM34 22h1v1h-1zM35 22h1v1h-1zM36 22h1v1h-1zM2 23h1v1h-1zM4 23h1v1h-1zM11 23h1v1h-1zM12 23h1v1h-1zM13 23h1v1h-1zM15 23h1v1h-1zM18 23h1v1h-1zM20 23h1v1h-1zM21 23h1v1h-1zM22 23h1v1h-1zM24 23h1v1h-1zM25 23h1v1h-1zM26 23h1v1h-1zM30 23h1v1h-1zM31 23h1v1h-1zM35 23h1v1h-1zM4 24h1v1h-1zM7 24h1v1h-1zM8 24h1v1h-1zM9 24h1v1h-1zM10 24h1v1h-1zM12 24h1v1h-1zM13 24h1v1h-1zM14 24h1v1h-1zM15 24h1v1h-1zM16 24h1v1h-1zM17 24h1v1h-1zM20 24h1v1h-1zM22 24h1v1h-1zM24 24h1v1h-1zM28 24h1v1h-1zM29 24h1v1h-1zM31 24h1v1h-1zM32 24h1v1h-1zM33 24h1v1h-1zM34 24h1v1h-1zM35 24h1v1h-1zM37 24h1v1h-1zM38 24h1v1h-1zM4 25h1v1h-1zM6 25h1v1h-1zM9 25h1v1h-1zM11 25h1v1h-1zM13 25h1v1h-1zM14 25h1v1h-1zM16 25h1v1h-1zM17 25h1v1h-1zM18 25h1v1h-1zM30 25h1v1h-1zM32 25h1v1h-1zM33 25h1v1h-1zM34 25h1v1h-1zM37 25h1v1h-1zM38 25h1v1h-1zM5 26h1v1h-1zM7 26h1v1h-1zM8 26h1v1h-1zM10 26h1v1h-1zM11 26h1v1h-1zM15 26h1v1h-1zM16 26h1v1h-1zM17 26h1v1h-1zM20 26h1v1h-1zM22 26h1v1h-1zM23 26h1v1h-1zM24 26h1v1h-1zM25 26h1v1h-1zM26 26h1v1h-1zM27 26h1v1h-1zM30 26h1v1h-1zM32 26h1v1h-1zM34 26h1v1h-1zM36 26h1v1h-1zM37 26h1v1h-1zM38 26h1v1h-1zM2 27h1v1h-1zM6 27h1v1h-1zM9 27h1v1h-1zM12 27h1v1h-1zM13 27h1v1h-1zM17 27h1v1h-1zM18 27h1v1h-1zM19 27h1v1h-1zM23 27h1v1h-1zM27 27h1v1h-1zM28 27h1v1h-1zM31 27h1v1h-1zM33 27h1v1h-1zM36 27h1v1h-1zM2 28h1v1h-1zM5 28h1v1h-1zM7 28h1v1h-1zM8 28h1v1h-1zM10 28h1v1h-1zM12 28h1v1h-1zM14 28h1v1h-1zM16 28h1v1h-1zM19 28h1v1h-1zM20 28h1v1h-1zM22 28h1v1h-1zM23 28h1v1h-1zM25 28h1v1h-1zM26 28h1v1h-1zM27 28h1v1h-1zM28 28h1v1h-1zM29 28h1v1h-1zM30 28h1v1h-1zM32 28h1v1h-1zM34 28h1v1h-1zM35 28h1v1h-1zM37 28h1v1h-1zM38 28h1v1h-1zM2 29h1v1h-1zM5 29h1v1h-1zM6 29h1v1h-1zM7 29h1v1h-1zM10 29h1v1h-1zM13 29h1v1h-1zM14 29h1v1h-1zM15 29h1v1h-1zM18 29h1v1h-1zM23 29h1v1h-1zM25 29h1v1h-1zM30 29h1v1h-1zM32 29h1v1h-1zM33 29h1v1h-1zM37 29h1v1h-1zM2 30h1v1h-1zM6 30h1v1h-1zM8 30h1v1h-1zM10 30h1v1h-1zM13 30h1v1h-1zM15 30h1v1h-1zM18 30h1v1h-1zM19 30h1v1h-1zM20 30h1v1h-1zM22 30h1v1h-1zM24 30h1v1h-1zM25 30h1v1h-1zM26 30h1v1h-1zM27 30h1v1h-1zM28 30h1v1h-1zM29 30h1v1h-1zM30 30h1v1h-1zM31 30h1v1h-1zM32 30h1v1h-1zM33 30h1v1h-1zM34 30h1v1h-1zM35 30h1v1h-1zM36 30h1v1h-1zM37 30h1v1h-1zM10 31h1v1h-1zM12 31h1v1h-1zM15 31h1v1h-1zM16 31h1v1h-1zM18 31h1v1h-1zM19 31h1v1h-1zM20 31h1v1h-1zM21 31h1v1h-1zM22 31h1v1h-1zM23 31h1v1h-1zM24 31h1v1h-1zM25 31h1v1h-1zM27 31h1v1h-1zM29 31h1v1h-1zM30 31h1v1h-1zM34 31h1v1h-1zM35 31h1v1h-1zM2 32h1v1h-1zM3 32h1v1h-1zM4 32h1v1h-1zM5 32h1v1h-1zM6 32h1v1h-1zM7 32h1v1h-1zM8 32h1v1h-1zM11 32h1v1h-1zM12 32h1v1h-1zM14 32h1v1h-1zM17 32h1v1h-1zM18 32h1v1h-1zM19 32h1v1h-1zM22 32h1v1h-1zM23 32h1v1h-1zM30 32h1v1h-1zM32 32h1v1h-1zM34 32h1v1h-1zM36 32h1v1h-1zM37 32h1v1h-1zM38 32h1v1h-1zM2 33h1v1h-1zM8 33h1v1h-1zM10 33h1v1h-1zM11 33h1v1h-1zM13 33h1v1h-1zM15 33h1v1h-1zM16 33h1v1h-1zM19 33h1v1h-1zM20 33h1v1h-1zM21 33h1v1h-1zM22 33h1v1h-1zM23 33h1v1h-1zM24 33h1v1h-1zM25 33h1v1h-1zM28 33h1v1h-1zM29 33h1v1h-1zM30 33h1v1h-1zM34 33h1v1h-1zM35 33h1v1h-1zM38 33h1v1h-1zM2 34h1v1h-1zM4 34h1v1h-1zM5 34h1v1h-1zM6 34h1v1h-1zM8 34h1v1h-1zM10 34h1v1h-1zM12 34h1v1h-1zM13 34h1v1h-1zM14 34h1v1h-1zM16 34h1v1h-1zM17 34h1v1h-1zM18 34h1v1h-1zM21 34h1v1h-1zM23 34h1v1h-1zM25 34h1v1h-1zM26 34h1v1h-1zM27 34h1v1h-1zM29 34h1v1h-1zM30 34h1v1h-1zM31 34h1v1h-1zM32 34h1v1h-1zM33 34h1v1h-1zM34 34h1v1h-1zM36 34h1v1h-1zM37 34h1v1h-1zM38 34h1v1h-1zM2 35h1v1h-1zM4 35h1v1h-1zM5 35h1v1h-1zM6 35h1v1h-1zM8 35h1v1h-1zM10 35h1v1h-1zM11 35h1v1h-1zM14 35h1v1h-1zM15 35h1v1h-1zM16 35h1v1h-1zM17 35h1v1h-1zM19 35h1v1h-1zM20 35h1v1h-1zM22 35h1v1h-1zM23 35h1v1h-1zM24 35h1v1h-1zM26 35h1v1h-1zM28 35h1v1h-1zM30 35h1v1h-1zM31 35h1v1h-1zM32 35h1v1h-1zM34 35h1v1h-1zM35 35h1v1h-1zM36 35h1v1h-1zM37 35h1v1h-1zM2 36h1v1h-1zM4 36h1v1h-1zM5 36h1v1h-1zM6 36h1v1h-1zM8 36h1v1h-1zM10 36h1v1h-1zM12 36h1v1h-1zM13 36h1v1h-1zM14 36h1v1h-1zM15 36h1v1h-1zM17 36h1v1h-1zM18 36h1v1h-1zM21 36h1v1h-1zM23 36h1v1h-1zM27 36h1v1h-1zM29 36h1v1h-1zM31 36h1v1h-1zM38 36h1v1h-1zM2 37h1v1h-1zM8 37h1v1h-1zM11 37h1v1h-1zM14 37h1v1h-1zM15 37h1v1h-1zM16 37h1v1h-1zM17 37h1v1h-1zM21 37h1v1h-1zM22 37h1v1h-1zM23 37h1v1h-1zM25 37h1v1h-1zM26 37h1v1h-1zM28 37h1v1h-1zM30 37h1v1h-1zM31 37h1v1h-1zM32 37h1v1h-1zM34 37h1v1h-1zM38 37h1v1h-1zM2 38h1v1h-1zM3 38h1v1h-1zM4 38h1v1h-1zM5 38h1v1h-1zM6 38h1v1h-1zM7 38h1v1h-1zM8 38h1v1h-1zM10 38h1v1h-1zM13 38h1v1h-1zM16 38h1v1h-1zM17 38h1v1h-1zM18 38h1v1h-1zM19 38h1v1h-1zM21 38h1v1h-1zM26 38h1v1h-1zM27 38h1v1h-1zM28 38h1v1h-1zM29 38h1v1h-1zM34 38h1v1h-1zM35 38h1v1h-1zM36 38h1v1h-1zM37 38h1v1h-1zM38 38h1v1h-1z"/></svg></div>
-            <div>
-              <h2>Scan to get Quid</h2>
-              <p>Point your iPhone camera at the code. iOS 16 or later.</p>
-              <a href="https://apps.apple.com/gb/app/quid-uk-student-life/id6791167493?uo=4" target="_blank" rel="noopener noreferrer" aria-label="Download Quid: UK Student Life on the App Store" class="quid-button quid-button-primary quid-button-appstore">
-                <span class="roll-label"><span class="roll"><span class="roll-text-stack"><span>Download on the</span><span>App Store</span></span><span class="roll-text-stack roll-copy" aria-hidden="true"><span>Download on the</span><span>App Store</span></span></span></span>
-              </a>
+    <ol class="line" id="line">
+      <!-- stop 1 -->
+      <li class="stop" id="stop1" data-state="current">
+        <span class="roundel" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <span class="step-number" aria-hidden="true">01</span>
+        <h2 id="h1s" tabindex="-1">Sign in</h2>
+        <div id="s1out">
+          <p class="stop-p">New or coming back, it's the same button.</p>
+          <div class="stop-body">
+            <!-- Google's own script renders the official button (with the Google logo) into this slot
+                 once GOOGLE_CLIENT_ID is set in the script below. Until then this plain button shows. -->
+            <div class="google-slot" id="googleSlot">
+              <button class="g-fallback" type="button" id="googleBtn">Continue with Google</button>
             </div>
+            <p class="fineprint">By continuing, you agree to our <a href="/terms">Terms</a> and <a href="/privacy">Privacy Policy</a></p>
           </div>
-          <div class="acct">
-            <p class="acct-k">Signed in as</p>
-            <p class="acct-v" id="acctId"></p>
-            <div class="acct-actions">
-              <button class="quid-button quid-button-pill" type="button" id="signOutBtn">Sign out</button>
-              <button class="link-danger" type="button" id="deleteBtn">Delete account</button>
+        </div>
+        <div id="s1in" class="view" hidden>
+          <div class="stop-body">
+            <div class="who">
+              <span class="avatar" id="avatar" aria-hidden="true"></span>
+              <div><p class="who-k">Signed in as</p><p class="who-v" id="acctId"></p></div>
             </div>
+            <button class="text-link" type="button" id="signOutBtn">Sign out</button>
           </div>
         </div>
+      </li>
 
-        <!-- 4. delete confirm -->
-        <div class="view" id="v-confirm" hidden tabindex="-1" role="alertdialog" aria-labelledby="confirmTitle" aria-describedby="confirmBody">
-          <p class="card-title" id="confirmTitle">Delete your account?</p>
-          <p class="card-sub" id="confirmBody">This can't be undone. You'll be signed out on every device, including the app.</p>
-          <p class="what-goes">We permanently delete your personal data from our systems, except anything we're legally required to keep.</p>
-          <div class="confirm-actions">
-            <button class="quid-button quid-button-primary btn-block" type="button" id="keepBtn">Keep my account</button>
-            <button class="quid-button btn-block btn-danger" type="button" id="confirmDeleteBtn">Yes, delete it</button>
+      <!-- stop 2 -->
+      <li class="stop" id="stop2" data-state="upcoming">
+        <span class="roundel" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <span class="step-number" aria-hidden="true">02</span>
+        <h2 id="h2s" tabindex="-1">Get the app</h2>
+        <div id="s2out">
+          <div class="stop-body"><div class="qr-wait">Your download code shows up here once you're in.</div></div>
+        </div>
+        <div id="s2in" class="view" hidden>
+          <div class="stop-body">
+            <div class="qr-card">
+              <span class="sticker sticker-lime" aria-hidden="true">Scan me</span>
+              <div role="img" aria-label="QR code that opens Quid on the App Store" style="width:100%;height:100%"><svg viewBox="0 0 41 41" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"><path fill="#0d0d0d" d="M2 2h1v1h-1zM3 2h1v1h-1zM4 2h1v1h-1zM5 2h1v1h-1zM6 2h1v1h-1zM7 2h1v1h-1zM8 2h1v1h-1zM13 2h1v1h-1zM15 2h1v1h-1zM20 2h1v1h-1zM22 2h1v1h-1zM23 2h1v1h-1zM24 2h1v1h-1zM26 2h1v1h-1zM28 2h1v1h-1zM32 2h1v1h-1zM33 2h1v1h-1zM34 2h1v1h-1zM35 2h1v1h-1zM36 2h1v1h-1zM37 2h1v1h-1zM38 2h1v1h-1zM2 3h1v1h-1zM8 3h1v1h-1zM12 3h1v1h-1zM13 3h1v1h-1zM14 3h1v1h-1zM15 3h1v1h-1zM16 3h1v1h-1zM17 3h1v1h-1zM21 3h1v1h-1zM29 3h1v1h-1zM30 3h1v1h-1zM32 3h1v1h-1zM38 3h1v1h-1zM2 4h1v1h-1zM4 4h1v1h-1zM5 4h1v1h-1zM6 4h1v1h-1zM8 4h1v1h-1zM10 4h1v1h-1zM11 4h1v1h-1zM13 4h1v1h-1zM20 4h1v1h-1zM21 4h1v1h-1zM22 4h1v1h-1zM23 4h1v1h-1zM26 4h1v1h-1zM29 4h1v1h-1zM32 4h1v1h-1zM34 4h1v1h-1zM35 4h1v1h-1zM36 4h1v1h-1zM38 4h1v1h-1zM2 5h1v1h-1zM4 5h1v1h-1zM5 5h1v1h-1zM6 5h1v1h-1zM8 5h1v1h-1zM10 5h1v1h-1zM15 5h1v1h-1zM17 5h1v1h-1zM18 5h1v1h-1zM19 5h1v1h-1zM20 5h1v1h-1zM21 5h1v1h-1zM26 5h1v1h-1zM27 5h1v1h-1zM28 5h1v1h-1zM29 5h1v1h-1zM30 5h1v1h-1zM32 5h1v1h-1zM34 5h1v1h-1zM35 5h1v1h-1zM36 5h1v1h-1zM38 5h1v1h-1zM2 6h1v1h-1zM4 6h1v1h-1zM5 6h1v1h-1zM6 6h1v1h-1zM8 6h1v1h-1zM10 6h1v1h-1zM11 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM21 6h1v1h-1zM22 6h1v1h-1zM25 6h1v1h-1zM30 6h1v1h-1zM32 6h1v1h-1zM34 6h1v1h-1zM35 6h1v1h-1zM36 6h1v1h-1zM38 6h1v1h-1zM2 7h1v1h-1zM8 7h1v1h-1zM10 7h1v1h-1zM11 7h1v1h-1zM12 7h1v1h-1zM20 7h1v1h-1zM22 7h1v1h-1zM24 7h1v1h-1zM27 7h1v1h-1zM28 7h1v1h-1zM29 7h1v1h-1zM32 7h1v1h-1zM38 7h1v1h-1zM2 8h1v1h-1zM3 8h1v1h-1zM4 8h1v1h-1zM5 8h1v1h-1zM6 8h1v1h-1zM7 8h1v1h-1zM8 8h1v1h-1zM10 8h1v1h-1zM12 8h1v1h-1zM14 8h1v1h-1zM16 8h1v1h-1zM18 8h1v1h-1zM20 8h1v1h-1zM22 8h1v1h-1zM24 8h1v1h-1zM26 8h1v1h-1zM28 8h1v1h-1zM30 8h1v1h-1zM32 8h1v1h-1zM33 8h1v1h-1zM34 8h1v1h-1zM35 8h1v1h-1zM36 8h1v1h-1zM37 8h1v1h-1zM38 8h1v1h-1zM10 9h1v1h-1zM11 9h1v1h-1zM12 9h1v1h-1zM13 9h1v1h-1zM16 9h1v1h-1zM18 9h1v1h-1zM25 9h1v1h-1zM29 9h1v1h-1zM2 10h1v1h-1zM4 10h1v1h-1zM5 10h1v1h-1zM6 10h1v1h-1zM7 10h1v1h-1zM8 10h1v1h-1zM11 10h1v1h-1zM12 10h1v1h-1zM13 10h1v1h-1zM20 10h1v1h-1zM21 10h1v1h-1zM22 10h1v1h-1zM23 10h1v1h-1zM24 10h1v1h-1zM26 10h1v1h-1zM27 10h1v1h-1zM29 10h1v1h-1zM30 10h1v1h-1zM32 10h1v1h-1zM33 10h1v1h-1zM34 10h1v1h-1zM35 10h1v1h-1zM36 10h1v1h-1zM3 11h1v1h-1zM5 11h1v1h-1zM6 11h1v1h-1zM9 11h1v1h-1zM14 11h1v1h-1zM15 11h1v1h-1zM17 11h1v1h-1zM18 11h1v1h-1zM19 11h1v1h-1zM27 11h1v1h-1zM28 11h1v1h-1zM33 11h1v1h-1zM37 11h1v1h-1zM2 12h1v1h-1zM4 12h1v1h-1zM5 12h1v1h-1zM7 12h1v1h-1zM8 12h1v1h-1zM9 12h1v1h-1zM10 12h1v1h-1zM11 12h1v1h-1zM12 12h1v1h-1zM15 12h1v1h-1zM16 12h1v1h-1zM22 12h1v1h-1zM24 12h1v1h-1zM25 12h1v1h-1zM26 12h1v1h-1zM28 12h1v1h-1zM29 12h1v1h-1zM30 12h1v1h-1zM32 12h1v1h-1zM33 12h1v1h-1zM34 12h1v1h-1zM35 12h1v1h-1zM37 12h1v1h-1zM38 12h1v1h-1zM2 13h1v1h-1zM4 13h1v1h-1zM5 13h1v1h-1zM6 13h1v1h-1zM10 13h1v1h-1zM12 13h1v1h-1zM13 13h1v1h-1zM14 13h1v1h-1zM15 13h1v1h-1zM16 13h1v1h-1zM18 13h1v1h-1zM23 13h1v1h-1zM24 13h1v1h-1zM25 13h1v1h-1zM29 13h1v1h-1zM31 13h1v1h-1zM32 13h1v1h-1zM33 13h1v1h-1zM34 13h1v1h-1zM35 13h1v1h-1zM38 13h1v1h-1zM4 14h1v1h-1zM6 14h1v1h-1zM8 14h1v1h-1zM11 14h1v1h-1zM12 14h1v1h-1zM14 14h1v1h-1zM16 14h1v1h-1zM19 14h1v1h-1zM24 14h1v1h-1zM25 14h1v1h-1zM26 14h1v1h-1zM27 14h1v1h-1zM28 14h1v1h-1zM29 14h1v1h-1zM30 14h1v1h-1zM31 14h1v1h-1zM32 14h1v1h-1zM34 14h1v1h-1zM35 14h1v1h-1zM36 14h1v1h-1zM37 14h1v1h-1zM38 14h1v1h-1zM3 15h1v1h-1zM6 15h1v1h-1zM7 15h1v1h-1zM9 15h1v1h-1zM10 15h1v1h-1zM12 15h1v1h-1zM15 15h1v1h-1zM18 15h1v1h-1zM19 15h1v1h-1zM21 15h1v1h-1zM22 15h1v1h-1zM23 15h1v1h-1zM25 15h1v1h-1zM30 15h1v1h-1zM31 15h1v1h-1zM33 15h1v1h-1zM37 15h1v1h-1zM2 16h1v1h-1zM3 16h1v1h-1zM4 16h1v1h-1zM8 16h1v1h-1zM13 16h1v1h-1zM16 16h1v1h-1zM17 16h1v1h-1zM18 16h1v1h-1zM19 16h1v1h-1zM22 16h1v1h-1zM23 16h1v1h-1zM27 16h1v1h-1zM28 16h1v1h-1zM29 16h1v1h-1zM30 16h1v1h-1zM33 16h1v1h-1zM34 16h1v1h-1zM35 16h1v1h-1zM37 16h1v1h-1zM38 16h1v1h-1zM2 17h1v1h-1zM4 17h1v1h-1zM7 17h1v1h-1zM9 17h1v1h-1zM10 17h1v1h-1zM11 17h1v1h-1zM14 17h1v1h-1zM15 17h1v1h-1zM16 17h1v1h-1zM17 17h1v1h-1zM18 17h1v1h-1zM19 17h1v1h-1zM20 17h1v1h-1zM22 17h1v1h-1zM23 17h1v1h-1zM24 17h1v1h-1zM25 17h1v1h-1zM28 17h1v1h-1zM29 17h1v1h-1zM31 17h1v1h-1zM32 17h1v1h-1zM33 17h1v1h-1zM34 17h1v1h-1zM3 18h1v1h-1zM5 18h1v1h-1zM8 18h1v1h-1zM9 18h1v1h-1zM10 18h1v1h-1zM12 18h1v1h-1zM13 18h1v1h-1zM14 18h1v1h-1zM16 18h1v1h-1zM17 18h1v1h-1zM18 18h1v1h-1zM23 18h1v1h-1zM25 18h1v1h-1zM27 18h1v1h-1zM29 18h1v1h-1zM30 18h1v1h-1zM31 18h1v1h-1zM32 18h1v1h-1zM34 18h1v1h-1zM36 18h1v1h-1zM37 18h1v1h-1zM2 19h1v1h-1zM3 19h1v1h-1zM4 19h1v1h-1zM6 19h1v1h-1zM9 19h1v1h-1zM11 19h1v1h-1zM12 19h1v1h-1zM13 19h1v1h-1zM14 19h1v1h-1zM17 19h1v1h-1zM20 19h1v1h-1zM22 19h1v1h-1zM23 19h1v1h-1zM24 19h1v1h-1zM26 19h1v1h-1zM28 19h1v1h-1zM36 19h1v1h-1zM37 19h1v1h-1zM2 20h1v1h-1zM3 20h1v1h-1zM4 20h1v1h-1zM8 20h1v1h-1zM10 20h1v1h-1zM11 20h1v1h-1zM12 20h1v1h-1zM14 20h1v1h-1zM15 20h1v1h-1zM17 20h1v1h-1zM18 20h1v1h-1zM21 20h1v1h-1zM23 20h1v1h-1zM28 20h1v1h-1zM29 20h1v1h-1zM30 20h1v1h-1zM32 20h1v1h-1zM33 20h1v1h-1zM37 20h1v1h-1zM38 20h1v1h-1zM4 21h1v1h-1zM6 21h1v1h-1zM9 21h1v1h-1zM11 21h1v1h-1zM12 21h1v1h-1zM15 21h1v1h-1zM16 21h1v1h-1zM17 21h1v1h-1zM21 21h1v1h-1zM22 21h1v1h-1zM23 21h1v1h-1zM24 21h1v1h-1zM26 21h1v1h-1zM28 21h1v1h-1zM29 21h1v1h-1zM32 21h1v1h-1zM33 21h1v1h-1zM38 21h1v1h-1zM4 22h1v1h-1zM7 22h1v1h-1zM8 22h1v1h-1zM9 22h1v1h-1zM10 22h1v1h-1zM11 22h1v1h-1zM12 22h1v1h-1zM13 22h1v1h-1zM14 22h1v1h-1zM16 22h1v1h-1zM17 22h1v1h-1zM18 22h1v1h-1zM19 22h1v1h-1zM21 22h1v1h-1zM22 22h1v1h-1zM24 22h1v1h-1zM26 22h1v1h-1zM27 22h1v1h-1zM31 22h1v1h-1zM32 22h1v1h-1zM34 22h1v1h-1zM35 22h1v1h-1zM36 22h1v1h-1zM2 23h1v1h-1zM4 23h1v1h-1zM11 23h1v1h-1zM12 23h1v1h-1zM13 23h1v1h-1zM15 23h1v1h-1zM18 23h1v1h-1zM20 23h1v1h-1zM21 23h1v1h-1zM22 23h1v1h-1zM24 23h1v1h-1zM25 23h1v1h-1zM26 23h1v1h-1zM30 23h1v1h-1zM31 23h1v1h-1zM35 23h1v1h-1zM4 24h1v1h-1zM7 24h1v1h-1zM8 24h1v1h-1zM9 24h1v1h-1zM10 24h1v1h-1zM12 24h1v1h-1zM13 24h1v1h-1zM14 24h1v1h-1zM15 24h1v1h-1zM16 24h1v1h-1zM17 24h1v1h-1zM20 24h1v1h-1zM22 24h1v1h-1zM24 24h1v1h-1zM28 24h1v1h-1zM29 24h1v1h-1zM31 24h1v1h-1zM32 24h1v1h-1zM33 24h1v1h-1zM34 24h1v1h-1zM35 24h1v1h-1zM37 24h1v1h-1zM38 24h1v1h-1zM4 25h1v1h-1zM6 25h1v1h-1zM9 25h1v1h-1zM11 25h1v1h-1zM13 25h1v1h-1zM14 25h1v1h-1zM16 25h1v1h-1zM17 25h1v1h-1zM18 25h1v1h-1zM30 25h1v1h-1zM32 25h1v1h-1zM33 25h1v1h-1zM34 25h1v1h-1zM37 25h1v1h-1zM38 25h1v1h-1zM5 26h1v1h-1zM7 26h1v1h-1zM8 26h1v1h-1zM10 26h1v1h-1zM11 26h1v1h-1zM15 26h1v1h-1zM16 26h1v1h-1zM17 26h1v1h-1zM20 26h1v1h-1zM22 26h1v1h-1zM23 26h1v1h-1zM24 26h1v1h-1zM25 26h1v1h-1zM26 26h1v1h-1zM27 26h1v1h-1zM30 26h1v1h-1zM32 26h1v1h-1zM34 26h1v1h-1zM36 26h1v1h-1zM37 26h1v1h-1zM38 26h1v1h-1zM2 27h1v1h-1zM6 27h1v1h-1zM9 27h1v1h-1zM12 27h1v1h-1zM13 27h1v1h-1zM17 27h1v1h-1zM18 27h1v1h-1zM19 27h1v1h-1zM23 27h1v1h-1zM27 27h1v1h-1zM28 27h1v1h-1zM31 27h1v1h-1zM33 27h1v1h-1zM36 27h1v1h-1zM2 28h1v1h-1zM5 28h1v1h-1zM7 28h1v1h-1zM8 28h1v1h-1zM10 28h1v1h-1zM12 28h1v1h-1zM14 28h1v1h-1zM16 28h1v1h-1zM19 28h1v1h-1zM20 28h1v1h-1zM22 28h1v1h-1zM23 28h1v1h-1zM25 28h1v1h-1zM26 28h1v1h-1zM27 28h1v1h-1zM28 28h1v1h-1zM29 28h1v1h-1zM30 28h1v1h-1zM32 28h1v1h-1zM34 28h1v1h-1zM35 28h1v1h-1zM37 28h1v1h-1zM38 28h1v1h-1zM2 29h1v1h-1zM5 29h1v1h-1zM6 29h1v1h-1zM7 29h1v1h-1zM10 29h1v1h-1zM13 29h1v1h-1zM14 29h1v1h-1zM15 29h1v1h-1zM18 29h1v1h-1zM23 29h1v1h-1zM25 29h1v1h-1zM30 29h1v1h-1zM32 29h1v1h-1zM33 29h1v1h-1zM37 29h1v1h-1zM2 30h1v1h-1zM6 30h1v1h-1zM8 30h1v1h-1zM10 30h1v1h-1zM13 30h1v1h-1zM15 30h1v1h-1zM18 30h1v1h-1zM19 30h1v1h-1zM20 30h1v1h-1zM22 30h1v1h-1zM24 30h1v1h-1zM25 30h1v1h-1zM26 30h1v1h-1zM27 30h1v1h-1zM28 30h1v1h-1zM29 30h1v1h-1zM30 30h1v1h-1zM31 30h1v1h-1zM32 30h1v1h-1zM33 30h1v1h-1zM34 30h1v1h-1zM35 30h1v1h-1zM36 30h1v1h-1zM37 30h1v1h-1zM10 31h1v1h-1zM12 31h1v1h-1zM15 31h1v1h-1zM16 31h1v1h-1zM18 31h1v1h-1zM19 31h1v1h-1zM20 31h1v1h-1zM21 31h1v1h-1zM22 31h1v1h-1zM23 31h1v1h-1zM24 31h1v1h-1zM25 31h1v1h-1zM27 31h1v1h-1zM29 31h1v1h-1zM30 31h1v1h-1zM34 31h1v1h-1zM35 31h1v1h-1zM2 32h1v1h-1zM3 32h1v1h-1zM4 32h1v1h-1zM5 32h1v1h-1zM6 32h1v1h-1zM7 32h1v1h-1zM8 32h1v1h-1zM11 32h1v1h-1zM12 32h1v1h-1zM14 32h1v1h-1zM17 32h1v1h-1zM18 32h1v1h-1zM19 32h1v1h-1zM22 32h1v1h-1zM23 32h1v1h-1zM30 32h1v1h-1zM32 32h1v1h-1zM34 32h1v1h-1zM36 32h1v1h-1zM37 32h1v1h-1zM38 32h1v1h-1zM2 33h1v1h-1zM8 33h1v1h-1zM10 33h1v1h-1zM11 33h1v1h-1zM13 33h1v1h-1zM15 33h1v1h-1zM16 33h1v1h-1zM19 33h1v1h-1zM20 33h1v1h-1zM21 33h1v1h-1zM22 33h1v1h-1zM23 33h1v1h-1zM24 33h1v1h-1zM25 33h1v1h-1zM28 33h1v1h-1zM29 33h1v1h-1zM30 33h1v1h-1zM34 33h1v1h-1zM35 33h1v1h-1zM38 33h1v1h-1zM2 34h1v1h-1zM4 34h1v1h-1zM5 34h1v1h-1zM6 34h1v1h-1zM8 34h1v1h-1zM10 34h1v1h-1zM12 34h1v1h-1zM13 34h1v1h-1zM14 34h1v1h-1zM16 34h1v1h-1zM17 34h1v1h-1zM18 34h1v1h-1zM21 34h1v1h-1zM23 34h1v1h-1zM25 34h1v1h-1zM26 34h1v1h-1zM27 34h1v1h-1zM29 34h1v1h-1zM30 34h1v1h-1zM31 34h1v1h-1zM32 34h1v1h-1zM33 34h1v1h-1zM34 34h1v1h-1zM36 34h1v1h-1zM37 34h1v1h-1zM38 34h1v1h-1zM2 35h1v1h-1zM4 35h1v1h-1zM5 35h1v1h-1zM6 35h1v1h-1zM8 35h1v1h-1zM10 35h1v1h-1zM11 35h1v1h-1zM14 35h1v1h-1zM15 35h1v1h-1zM16 35h1v1h-1zM17 35h1v1h-1zM19 35h1v1h-1zM20 35h1v1h-1zM22 35h1v1h-1zM23 35h1v1h-1zM24 35h1v1h-1zM26 35h1v1h-1zM28 35h1v1h-1zM30 35h1v1h-1zM31 35h1v1h-1zM32 35h1v1h-1zM34 35h1v1h-1zM35 35h1v1h-1zM36 35h1v1h-1zM37 35h1v1h-1zM2 36h1v1h-1zM4 36h1v1h-1zM5 36h1v1h-1zM6 36h1v1h-1zM8 36h1v1h-1zM10 36h1v1h-1zM12 36h1v1h-1zM13 36h1v1h-1zM14 36h1v1h-1zM15 36h1v1h-1zM17 36h1v1h-1zM18 36h1v1h-1zM21 36h1v1h-1zM23 36h1v1h-1zM27 36h1v1h-1zM29 36h1v1h-1zM31 36h1v1h-1zM38 36h1v1h-1zM2 37h1v1h-1zM8 37h1v1h-1zM11 37h1v1h-1zM14 37h1v1h-1zM15 37h1v1h-1zM16 37h1v1h-1zM17 37h1v1h-1zM21 37h1v1h-1zM22 37h1v1h-1zM23 37h1v1h-1zM25 37h1v1h-1zM26 37h1v1h-1zM28 37h1v1h-1zM30 37h1v1h-1zM31 37h1v1h-1zM32 37h1v1h-1zM34 37h1v1h-1zM38 37h1v1h-1zM2 38h1v1h-1zM3 38h1v1h-1zM4 38h1v1h-1zM5 38h1v1h-1zM6 38h1v1h-1zM7 38h1v1h-1zM8 38h1v1h-1zM10 38h1v1h-1zM13 38h1v1h-1zM16 38h1v1h-1zM17 38h1v1h-1zM18 38h1v1h-1zM19 38h1v1h-1zM21 38h1v1h-1zM26 38h1v1h-1zM27 38h1v1h-1zM28 38h1v1h-1zM29 38h1v1h-1zM34 38h1v1h-1zM35 38h1v1h-1zM36 38h1v1h-1zM37 38h1v1h-1zM38 38h1v1h-1z"/></svg></div>
+            </div>
+            <p class="qr-note">Point your iPhone camera at the code. iOS 16 or later.</p>
+            <a href="https://apps.apple.com/gb/app/quid-uk-student-life/id6791167493?uo=4" target="_blank" rel="noopener noreferrer" aria-label="Download Quid: UK Student Life on the App Store" class="quid-button quid-button-primary quid-button-appstore">
+              <span class="roll-label"><span class="roll"><span class="roll-text-stack"><span>Download on the</span><span>App Store</span></span><span class="roll-text-stack roll-copy" aria-hidden="true"><span>Download on the</span><span>App Store</span></span></span></span>
+            </a>
           </div>
         </div>
+      </li>
 
-        <!-- 5. deleted -->
-        <div class="view" id="v-deleted" hidden tabindex="-1">
-          <p class="card-title">Your account is deleted.</p>
-          <p class="card-sub">Your personal data has been removed. If you change your mind, you can sign up again any time.</p>
-          <div class="confirm-actions">
-            <a class="quid-button quid-button-pill btn-block" href="/" style="height:56px">Back to home</a>
-          </div>
-        </div>
+      <!-- stop 3 -->
+      <li class="stop" id="stop3" data-state="upcoming">
+        <span class="roundel" aria-hidden="true"></span>
+        <span class="step-number" aria-hidden="true">03</span>
+        <h2>Open Quid</h2>
+        <p class="stop-p">Continue with the same Google account in the app, then finish setting up.</p>
+      </li>
+    </ol>
 
+    <div class="leave" id="leave" hidden>
+      <p>Finished with Quid? Deleting your account here deletes it in the app too.</p>
+      <button class="link-danger" type="button" id="deleteBtn">Delete account</button>
+    </div>
+
+    <div class="confirm-card view" id="confirm" role="alertdialog" aria-labelledby="confirmTitle" aria-describedby="confirmBody" tabindex="-1" hidden>
+      <div>
+        <h2 id="confirmTitle">Delete your account?</h2>
+        <p id="confirmBody">This can't be undone. We permanently delete your personal data from our systems, except anything we're legally required to keep.</p>
+      </div>
+      <div class="confirm-actions">
+        <button class="quid-button quid-button-primary btn-block" type="button" id="keepBtn">Keep my account</button>
+        <button class="quid-button btn-block btn-danger" type="button" id="confirmDeleteBtn">Yes, delete it</button>
       </div>
     </div>
   </div>
@@ -398,55 +453,110 @@ header nav>a{display:inline-flex;align-items:center}
 
 <script>
 (function(){
-  var $=function(id){return document.getElementById(id)};
-  var views=['enter','loading','account','confirm','deleted'];
-  var SAMPLE='sample.student@gmail.com';
-  var state={view:'enter',id:''};
+  /* ------------------------------------------------------------------
+     Google sign-in. Set the WEB client ID from Google Cloud to switch on
+     the official button (Google's script draws it, logo included).
+     https://quidapp.co.uk must be an authorised JavaScript origin for it.
+     ------------------------------------------------------------------ */
+  var GOOGLE_CLIENT_ID='';
 
-  /* left-column copy per state */
+  var $=function(id){return document.getElementById(id)};
+  var SAMPLE='sample.student@gmail.com';
+  var state={view:'out',id:''};
   var A=function(t){return '<span class="headline-accent">'+t+'</span>'};
   var copy={
-    enter:{station:'Your account',title:"Let's get you "+A('in.'),lede:'Sign up or log in with Google. One tap, no password needed.',points:true,sticker:'No password needed',cls:'sticker-lime'},
-    loading:{station:'Your account',title:'Nearly '+A('there.'),lede:'',points:false,sticker:null},
-    account:{station:"You're in",title:'Now get the '+A('app.'),lede:'Quid lives on your phone. Scan the code, then continue with the same Google account.',points:false,sticker:'Scan me',cls:'sticker-white'},
-    confirm:{station:'Your account',title:'Before you '+A('go.'),lede:'Deleting your account here deletes it in the app too.',points:false,sticker:null},
-    deleted:{station:'Account deleted',title:'Sorry to see you '+A('go.'),lede:'Thanks for giving Quid a try.',points:false,sticker:null}
+    out:{station:'Your account',title:"Let's get you "+A('in.'),lede:'Sign in with Google, then pick Quid up on your phone. No password to remember.'},
+    'in':{station:"You're in",title:'Now get the '+A('app.'),lede:'Quid lives on your phone. Scan the code below and carry on there.'},
+    deleted:{station:'Account deleted',title:'Sorry to see you '+A('go.'),lede:'Thanks for giving Quid a try.'}
   };
 
-  function show(v){
+  function render(v){
     state.view=v;
-    views.forEach(function(n){$('v-'+n).hidden=(n!==v)});
-    var c=copy[v];
-    $('station').textContent=c.station;
-    $('title').innerHTML=c.title;
-    $('lede').textContent=c.lede; $('lede').hidden=!c.lede;
-    $('points').hidden=!c.points;
-    var s=$('sticker');
-    s.hidden=!c.sticker;
-    if(c.sticker){s.textContent=c.sticker;s.className='sticker '+c.cls}
-    var el=$('v-'+v);
-    el.style.animation='none'; void el.offsetWidth; el.style.animation='';
-    if(v!=='enter')el.focus({preventScroll:true});
+    var signedIn=(v==='in'||v==='confirm');
+    var c=copy[signedIn?'in':(v==='deleted'?'deleted':'out')];
+    $('station').textContent=c.station; $('title').innerHTML=c.title; $('lede').textContent=c.lede;
+    $('stop1').setAttribute('data-state',signedIn?'done':'current');
+    $('stop2').setAttribute('data-state',signedIn?'current':'upcoming');
+    $('s1out').hidden=signedIn; $('s1in').hidden=!signedIn;
+    $('s2out').hidden=signedIn; $('s2in').hidden=!signedIn;
+    $('sticker').hidden=(v!=='out');
+    $('leave').hidden=(v!=='in');
+    $('confirm').hidden=(v!=='confirm');
+    $('deletedNotice').hidden=(v!=='deleted');
+    if(signedIn){
+      $('acctId').textContent=state.id;
+      $('avatar').textContent=(state.id.charAt(0)||'Q').toUpperCase();
+    }
     document.querySelectorAll('[data-jump]').forEach(function(b){b.setAttribute('aria-pressed','false')});
   }
+  function say(t){$('live').textContent=t}
 
-  /* ---- Google sign-in (simulated: replace with the real Google flow) ---- */
+  /* ---- signing in ---- */
+  function signedIn(email){
+    state.id=email||SAMPLE; busy(false); render('in');
+    say('Signed in as '+state.id+'. Step 2: get the app.');
+    $('h2s').focus({preventScroll:true});
+  }
+  function busy(b){
+    var btn=$('googleBtn'); if(!btn)return;
+    btn.disabled=b;
+    btn.innerHTML=b?'<span class="spinner" aria-hidden="true"></span>Signing you in...':'Continue with Google';
+  }
+  /* stand-in used until GOOGLE_CLIENT_ID is set: signs in a sample account */
   $('googleBtn').addEventListener('click',function(){
-    state.id=SAMPLE;
-    show('loading');
-    setTimeout(function(){if(state.view==='loading')openAccount()},1100);
+    busy(true);
+    setTimeout(function(){if(state.view==='out'||state.view==='deleted')signedIn(SAMPLE)},1000);
   });
+
+  /* the real thing */
+  function onGoogleCredential(res){
+    /* res.credential is a Google ID token (JWT).
+       TODO: send it to the Quid backend to create the session. The email is
+       read here only to show who is signed in. */
+    var email='';
+    try{
+      var p=res.credential.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');
+      email=JSON.parse(decodeURIComponent(escape(atob(p)))).email||'';
+    }catch(e){}
+    signedIn(email);
+  }
+  function mountGoogle(){
+    if(!window.google||!google.accounts||!google.accounts.id)return;
+    var slot=$('googleSlot');
+    google.accounts.id.initialize({client_id:GOOGLE_CLIENT_ID,callback:onGoogleCredential});
+    slot.innerHTML='';
+    google.accounts.id.renderButton(slot,{type:'standard',theme:'filled_black',size:'large',shape:'pill',text:'continue_with',logo_alignment:'left',width:Math.max(200,Math.min(400,slot.offsetWidth))});
+  }
+  if(GOOGLE_CLIENT_ID){
+    var gs=document.createElement('script');
+    gs.src='https://accounts.google.com/gsi/client'; gs.async=true; gs.onload=mountGoogle;
+    document.head.appendChild(gs);
+  }
 
   /* ---- signed in ---- */
-  function openAccount(){$('acctId').textContent=state.id||SAMPLE;show('account')}
-  $('signOutBtn').addEventListener('click',function(){state.id='';show('enter');$('googleBtn').focus({preventScroll:true})});
-  $('deleteBtn').addEventListener('click',function(){show('confirm');$('keepBtn').focus({preventScroll:true})});
-  $('keepBtn').addEventListener('click',function(){show('account')});
+  function signOut(){
+    if(window.google&&google.accounts&&google.accounts.id)google.accounts.id.disableAutoSelect();
+    state.id='';
+  }
+  $('signOutBtn').addEventListener('click',function(){
+    signOut(); render('out'); say('Signed out.'); $('h1s').focus({preventScroll:true});
+  });
+  $('deleteBtn').addEventListener('click',function(){
+    render('confirm'); $('confirm').scrollIntoView({block:'nearest',behavior:'smooth'}); $('keepBtn').focus({preventScroll:true});
+  });
+  $('keepBtn').addEventListener('click',function(){render('in');$('deleteBtn').focus({preventScroll:true})});
   $('confirmDeleteBtn').addEventListener('click',function(){
     var b=$('confirmDeleteBtn'); b.disabled=true; b.textContent='Deleting...';
-    setTimeout(function(){b.disabled=false;b.textContent='Yes, delete it';state.id='';show('deleted')},900);
+    /* TODO: call the Quid backend to delete the account, then: */
+    setTimeout(function(){
+      b.disabled=false; b.textContent='Yes, delete it';
+      signOut(); render('deleted'); say('Your account is deleted.');
+      $('deletedNotice').focus({preventScroll:true}); window.scrollTo({top:0,behavior:'smooth'});
+    },900);
   });
-  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&state.view==='confirm')show('account')});
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&state.view==='confirm'){render('in');$('deleteBtn').focus({preventScroll:true})}
+  });
 
   /* ---- mobile menu ---- */
   var menu=$('mobileMenu');
@@ -456,14 +566,18 @@ header nav>a{display:inline-flex;align-items:center}
   /* ---- preview jump bar (not part of the site) ---- */
   document.querySelectorAll('[data-jump]').forEach(function(b){
     b.addEventListener('click',function(){
-      var j=b.getAttribute('data-jump');
-      if(j==='enter'){state.id='';show('enter')}
-      else if(j==='account'){openAccount()}
-      else if(j==='confirm'){$('acctId').textContent=state.id||SAMPLE;show('confirm')}
-      else if(j==='deleted'){show('deleted')}
+      var j=b.getAttribute('data-jump'); busy(false);
+      if(j==='out'){state.id='';render('out')}
+      else{
+        if(j!=='deleted'&&!state.id)state.id=SAMPLE;
+        if(j==='deleted')state.id='';
+        render(j);
+        if(j==='confirm')$('confirm').scrollIntoView({block:'nearest'});
+      }
       b.setAttribute('aria-pressed','true');
     });
   });
+  render('out');
 })();
 </script>
 
