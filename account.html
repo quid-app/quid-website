@@ -148,11 +148,13 @@ header nav>a{display:inline-flex;align-items:center}
 
 /* stop 1: Google */
 .google-slot{min-height:40px;max-width:400px}
-.g-fallback{width:100%;height:40px;border-radius:20px;background:#131314;color:#e3e3e3;font-size:14px;font-weight:500;letter-spacing:.25px;display:flex;align-items:center;justify-content:center;gap:10px;transition:background-color .2s,transform .2s var(--button-ease)}
+.g-fallback{width:100%;height:40px;padding:0 12px;border-radius:20px;background:#131314;border:1px solid #8e918f;color:#e3e3e3;font-family:Roboto,var(--font-sans);font-size:14px;line-height:20px;font-weight:500;letter-spacing:.25px;display:flex;align-items:center;justify-content:center;gap:10px;transition:background-color .2s,transform .2s var(--button-ease)}
 .g-fallback:hover{background:#2a2a2c}
 .g-fallback:active{transform:scale(.98)}
 .g-fallback:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
 .g-fallback[disabled]{cursor:progress}
+.g-mark{width:20px;height:20px;flex:0 0 auto}
+.g-fallback[disabled] .g-mark{display:none}
 .spinner{width:18px;height:18px;border-radius:50%;border:2.5px solid rgba(255,255,255,.25);border-top-color:#fff;animation:spin .7s linear infinite}
 .fineprint{margin-top:14px;max-width:400px;font-size:13px;color:rgba(13,13,13,.55)}
 .fineprint a,.text-link{color:var(--ink);font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--lime);text-decoration-thickness:2px}
@@ -344,10 +346,13 @@ header nav>a{display:inline-flex;align-items:center}
         <div id="s1out">
           <p class="stop-p">New or coming back, it's the same button.</p>
           <div class="stop-body">
-            <!-- Google's own script renders the official button (with the Google logo) into this slot
-                 once GOOGLE_CLIENT_ID is set in the script below. Until then this plain button shows. -->
+            <!-- Two ways to get the Google logo on this button, both from Google's branding guidelines:
+                 1. Set GOOGLE_CLIENT_ID in the script below. Google's own script then replaces this
+                    button with the official one, logo included. (Preferred.)
+                 2. Save Google's official "G" mark (from the branding guidelines download) as
+                    img/google-g.svg. It then shows here. If the file is missing, nothing shows. -->
             <div class="google-slot" id="googleSlot">
-              <button class="g-fallback" type="button" id="googleBtn">Continue with Google</button>
+              <button class="g-fallback" type="button" id="googleBtn"><img class="g-mark" src="img/google-g.svg" width="20" height="20" alt="" onerror="this.remove()"><span id="googleLabel">Continue with Google</span></button>
             </div>
             <p class="fineprint">By continuing, you agree to our <a href="/terms">Terms</a> and <a href="/privacy">Privacy Policy</a></p>
           </div>
@@ -492,7 +497,10 @@ header nav>a{display:inline-flex;align-items:center}
   function busy(b){
     var btn=$('googleBtn'); if(!btn)return;
     btn.disabled=b;
-    btn.innerHTML=b?'<span class="spinner" aria-hidden="true"></span>Signing you in...':'Continue with Google';
+    var sp=btn.querySelector('.spinner');
+    if(b&&!sp){sp=document.createElement('span');sp.className='spinner';sp.setAttribute('aria-hidden','true');btn.insertBefore(sp,$('googleLabel'))}
+    if(!b&&sp)sp.remove();
+    $('googleLabel').textContent=b?'Signing you in...':'Continue with Google';
   }
   /* stand-in used until GOOGLE_CLIENT_ID is set: signs in a sample account */
   $('googleBtn').addEventListener('click',function(){
