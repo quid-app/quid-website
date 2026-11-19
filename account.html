@@ -6,7 +6,6 @@
 <title>Log in to Quid | Quid</title>
 <meta name="description" content="Log in to your Quid account, get the app, or delete your account.">
 <link rel="canonical" href="/account">
-<!-- WORK IN PROGRESS: sign-in and deletion are simulated in the script below. Not wired to the backend. Do not merge to main until it is. -->
 <meta name="robots" content="noindex,nofollow">
 <meta name="theme-color" content="#0d0d0d">
 <link rel="icon" href="quid-logo-white.svg" type="image/svg+xml">
@@ -166,6 +165,20 @@ header nav>a{display:inline-flex;align-items:center}
 .who-v{font-weight:600;overflow-wrap:anywhere}
 .who+.text-link{display:inline-block;margin-top:14px}
 
+/* stop 1: email */
+.alt-toggle{margin-top:16px}
+.email-form{margin-top:20px;max-width:400px;display:grid;gap:10px}
+.email-form label{font-size:13px;font-weight:600;color:rgba(13,13,13,.7)}
+.email-form input{width:100%;height:46px;padding:0 16px;border-radius:14px;background:#fff;border:1px solid rgba(13,13,13,.18);color:var(--ink)}
+.email-form input:focus{outline:2px solid var(--ink);outline-offset:1px}
+.email-form .quid-button-primary{margin-top:6px;height:46px}
+.email-form .quid-button-primary[disabled]{opacity:.6;cursor:progress}
+.form-error{margin-top:12px;max-width:400px;font-size:14px;color:var(--danger)}
+.email-form .form-error,.confirm-card .form-error{margin-top:0}
+.confirm-card .form-error{color:var(--coral);grid-column:1/-1}
+.apple-note{margin-top:18px;max-width:400px;font-size:13px;color:rgba(13,13,13,.55)}
+.apple-note a{color:var(--ink);font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--lime);text-decoration-thickness:2px}
+
 /* stop 2: QR */
 .qr-wait{width:176px;height:176px;border-radius:24px;border:2px dashed rgba(13,13,13,.25);display:grid;place-items:center;padding:20px;text-align:center;font-size:14px;line-height:1.45;color:rgba(13,13,13,.6)}
 .qr-card{position:relative;width:176px;height:176px;background:#fff;border-radius:24px;padding:14px;transform:rotate(-3deg);box-shadow:rgba(13,13,13,.14) 0 24px 60px;border:1px solid rgba(0,0,0,.06)}
@@ -211,14 +224,6 @@ header nav>a{display:inline-flex;align-items:center}
 .footer-bottom-bar{border-top:1px solid var(--footer-divider);justify-content:space-between;align-items:center;gap:16px;margin-top:64px;padding:24px;display:flex}
 .footer-legal{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;font-size:14px;color:var(--muted-foreground)}
 
-/* ---------- preview bar (not part of the site) ---------- */
-.preview-bar{position:sticky;top:0;z-index:200;background:#fff;color:#0d0d0d;font:500 12px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;padding:8px 16px;display:flex;gap:8px 14px;align-items:center;flex-wrap:wrap;border-bottom:2px dashed #0d0d0d}
-.preview-bar strong{letter-spacing:.08em}
-.preview-bar span{color:rgba(13,13,13,.65)}
-.preview-jump{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
-.preview-jump button{font:inherit;color:#0d0d0d;border:1px solid rgba(13,13,13,.35);border-radius:6px;padding:3px 8px}
-.preview-jump button:hover,.preview-jump button[aria-pressed="true"]{background:#0d0d0d;color:#fff}
-
 /* ---------- responsive ---------- */
 @media (width <= 1023px){
   .site-header-links{display:none}
@@ -258,7 +263,6 @@ header nav>a{display:inline-flex;align-items:center}
   .footer-columns>:first-child{grid-column:1/-1}
   .footer-col .quid-button-footer{white-space:normal;text-align:left;overflow-wrap:anywhere}
   .footer-bottom-bar{flex-direction:column;text-align:center}
-  .preview-jump{margin-left:0}
 }
 @media (prefers-reduced-motion:reduce){
   *,::before,::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}
@@ -266,17 +270,6 @@ header nav>a{display:inline-flex;align-items:center}
 </style>
 </head>
 <body>
-
-<div class="preview-bar" role="note">
-  <strong>PREVIEW</strong>
-  <span>Not wired up yet. Nothing is sent or saved. The button signs you in as a sample account.</span>
-  <div class="preview-jump" aria-label="Jump to a state">
-    <button data-jump="out">Signed out</button>
-    <button data-jump="in">Signed in</button>
-    <button data-jump="confirm">Delete?</button>
-    <button data-jump="deleted">Deleted</button>
-  </div>
-</div>
 
 <header>
   <nav class="page-container">
@@ -346,14 +339,20 @@ header nav>a{display:inline-flex;align-items:center}
         <div id="s1out">
           <p class="stop-p">New or coming back, it's the same button.</p>
           <div class="stop-body">
-            <!-- Two ways to get the Google logo on this button, both from Google's branding guidelines:
-                 1. Set GOOGLE_CLIENT_ID in the script below. Google's own script then replaces this
-                    button with the official one, logo included. (Preferred.)
-                 2. Save Google's official "G" mark (from the branding guidelines download) as
-                    img/google-g.svg. It then shows here. If the file is missing, nothing shows. -->
             <div class="google-slot" id="googleSlot">
               <button class="g-fallback" type="button" id="googleBtn"><img class="g-mark" src="img/google-g.svg" width="20" height="20" alt="" onerror="this.remove()"><span id="googleLabel">Continue with Google</span></button>
             </div>
+            <p class="form-error" id="googleErr" role="alert" hidden></p>
+            <button class="text-link alt-toggle" type="button" id="emailToggle" aria-expanded="false" aria-controls="emailForm">Signed up with email? Use your password</button>
+            <form class="email-form view" id="emailForm" hidden novalidate>
+              <label for="emailIn">Email</label>
+              <input id="emailIn" type="email" autocomplete="email" required>
+              <label for="passIn">Password</label>
+              <input id="passIn" type="password" autocomplete="current-password" required>
+              <p class="form-error" id="emailErr" role="alert" hidden></p>
+              <button class="quid-button quid-button-primary" type="submit" id="emailBtn">Sign in</button>
+            </form>
+            <p class="apple-note">Signed up with Apple? Delete your account in the app under Settings, or <a href="mailto:contactquidapp@gmail.com?subject=Delete%20my%20Quid%20account">email us</a> from the address on your account.</p>
             <p class="fineprint">By continuing, you agree to our <a href="/terms">Terms</a> and <a href="/privacy">Privacy Policy</a></p>
           </div>
         </div>
@@ -382,7 +381,7 @@ header nav>a{display:inline-flex;align-items:center}
               <span class="sticker sticker-lime" aria-hidden="true">Scan me</span>
               <div role="img" aria-label="QR code that opens Quid on the App Store" style="width:100%;height:100%"><svg viewBox="0 0 41 41" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"><path fill="#0d0d0d" d="M2 2h1v1h-1zM3 2h1v1h-1zM4 2h1v1h-1zM5 2h1v1h-1zM6 2h1v1h-1zM7 2h1v1h-1zM8 2h1v1h-1zM13 2h1v1h-1zM15 2h1v1h-1zM20 2h1v1h-1zM22 2h1v1h-1zM23 2h1v1h-1zM24 2h1v1h-1zM26 2h1v1h-1zM28 2h1v1h-1zM32 2h1v1h-1zM33 2h1v1h-1zM34 2h1v1h-1zM35 2h1v1h-1zM36 2h1v1h-1zM37 2h1v1h-1zM38 2h1v1h-1zM2 3h1v1h-1zM8 3h1v1h-1zM12 3h1v1h-1zM13 3h1v1h-1zM14 3h1v1h-1zM15 3h1v1h-1zM16 3h1v1h-1zM17 3h1v1h-1zM21 3h1v1h-1zM29 3h1v1h-1zM30 3h1v1h-1zM32 3h1v1h-1zM38 3h1v1h-1zM2 4h1v1h-1zM4 4h1v1h-1zM5 4h1v1h-1zM6 4h1v1h-1zM8 4h1v1h-1zM10 4h1v1h-1zM11 4h1v1h-1zM13 4h1v1h-1zM20 4h1v1h-1zM21 4h1v1h-1zM22 4h1v1h-1zM23 4h1v1h-1zM26 4h1v1h-1zM29 4h1v1h-1zM32 4h1v1h-1zM34 4h1v1h-1zM35 4h1v1h-1zM36 4h1v1h-1zM38 4h1v1h-1zM2 5h1v1h-1zM4 5h1v1h-1zM5 5h1v1h-1zM6 5h1v1h-1zM8 5h1v1h-1zM10 5h1v1h-1zM15 5h1v1h-1zM17 5h1v1h-1zM18 5h1v1h-1zM19 5h1v1h-1zM20 5h1v1h-1zM21 5h1v1h-1zM26 5h1v1h-1zM27 5h1v1h-1zM28 5h1v1h-1zM29 5h1v1h-1zM30 5h1v1h-1zM32 5h1v1h-1zM34 5h1v1h-1zM35 5h1v1h-1zM36 5h1v1h-1zM38 5h1v1h-1zM2 6h1v1h-1zM4 6h1v1h-1zM5 6h1v1h-1zM6 6h1v1h-1zM8 6h1v1h-1zM10 6h1v1h-1zM11 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM21 6h1v1h-1zM22 6h1v1h-1zM25 6h1v1h-1zM30 6h1v1h-1zM32 6h1v1h-1zM34 6h1v1h-1zM35 6h1v1h-1zM36 6h1v1h-1zM38 6h1v1h-1zM2 7h1v1h-1zM8 7h1v1h-1zM10 7h1v1h-1zM11 7h1v1h-1zM12 7h1v1h-1zM20 7h1v1h-1zM22 7h1v1h-1zM24 7h1v1h-1zM27 7h1v1h-1zM28 7h1v1h-1zM29 7h1v1h-1zM32 7h1v1h-1zM38 7h1v1h-1zM2 8h1v1h-1zM3 8h1v1h-1zM4 8h1v1h-1zM5 8h1v1h-1zM6 8h1v1h-1zM7 8h1v1h-1zM8 8h1v1h-1zM10 8h1v1h-1zM12 8h1v1h-1zM14 8h1v1h-1zM16 8h1v1h-1zM18 8h1v1h-1zM20 8h1v1h-1zM22 8h1v1h-1zM24 8h1v1h-1zM26 8h1v1h-1zM28 8h1v1h-1zM30 8h1v1h-1zM32 8h1v1h-1zM33 8h1v1h-1zM34 8h1v1h-1zM35 8h1v1h-1zM36 8h1v1h-1zM37 8h1v1h-1zM38 8h1v1h-1zM10 9h1v1h-1zM11 9h1v1h-1zM12 9h1v1h-1zM13 9h1v1h-1zM16 9h1v1h-1zM18 9h1v1h-1zM25 9h1v1h-1zM29 9h1v1h-1zM2 10h1v1h-1zM4 10h1v1h-1zM5 10h1v1h-1zM6 10h1v1h-1zM7 10h1v1h-1zM8 10h1v1h-1zM11 10h1v1h-1zM12 10h1v1h-1zM13 10h1v1h-1zM20 10h1v1h-1zM21 10h1v1h-1zM22 10h1v1h-1zM23 10h1v1h-1zM24 10h1v1h-1zM26 10h1v1h-1zM27 10h1v1h-1zM29 10h1v1h-1zM30 10h1v1h-1zM32 10h1v1h-1zM33 10h1v1h-1zM34 10h1v1h-1zM35 10h1v1h-1zM36 10h1v1h-1zM3 11h1v1h-1zM5 11h1v1h-1zM6 11h1v1h-1zM9 11h1v1h-1zM14 11h1v1h-1zM15 11h1v1h-1zM17 11h1v1h-1zM18 11h1v1h-1zM19 11h1v1h-1zM27 11h1v1h-1zM28 11h1v1h-1zM33 11h1v1h-1zM37 11h1v1h-1zM2 12h1v1h-1zM4 12h1v1h-1zM5 12h1v1h-1zM7 12h1v1h-1zM8 12h1v1h-1zM9 12h1v1h-1zM10 12h1v1h-1zM11 12h1v1h-1zM12 12h1v1h-1zM15 12h1v1h-1zM16 12h1v1h-1zM22 12h1v1h-1zM24 12h1v1h-1zM25 12h1v1h-1zM26 12h1v1h-1zM28 12h1v1h-1zM29 12h1v1h-1zM30 12h1v1h-1zM32 12h1v1h-1zM33 12h1v1h-1zM34 12h1v1h-1zM35 12h1v1h-1zM37 12h1v1h-1zM38 12h1v1h-1zM2 13h1v1h-1zM4 13h1v1h-1zM5 13h1v1h-1zM6 13h1v1h-1zM10 13h1v1h-1zM12 13h1v1h-1zM13 13h1v1h-1zM14 13h1v1h-1zM15 13h1v1h-1zM16 13h1v1h-1zM18 13h1v1h-1zM23 13h1v1h-1zM24 13h1v1h-1zM25 13h1v1h-1zM29 13h1v1h-1zM31 13h1v1h-1zM32 13h1v1h-1zM33 13h1v1h-1zM34 13h1v1h-1zM35 13h1v1h-1zM38 13h1v1h-1zM4 14h1v1h-1zM6 14h1v1h-1zM8 14h1v1h-1zM11 14h1v1h-1zM12 14h1v1h-1zM14 14h1v1h-1zM16 14h1v1h-1zM19 14h1v1h-1zM24 14h1v1h-1zM25 14h1v1h-1zM26 14h1v1h-1zM27 14h1v1h-1zM28 14h1v1h-1zM29 14h1v1h-1zM30 14h1v1h-1zM31 14h1v1h-1zM32 14h1v1h-1zM34 14h1v1h-1zM35 14h1v1h-1zM36 14h1v1h-1zM37 14h1v1h-1zM38 14h1v1h-1zM3 15h1v1h-1zM6 15h1v1h-1zM7 15h1v1h-1zM9 15h1v1h-1zM10 15h1v1h-1zM12 15h1v1h-1zM15 15h1v1h-1zM18 15h1v1h-1zM19 15h1v1h-1zM21 15h1v1h-1zM22 15h1v1h-1zM23 15h1v1h-1zM25 15h1v1h-1zM30 15h1v1h-1zM31 15h1v1h-1zM33 15h1v1h-1zM37 15h1v1h-1zM2 16h1v1h-1zM3 16h1v1h-1zM4 16h1v1h-1zM8 16h1v1h-1zM13 16h1v1h-1zM16 16h1v1h-1zM17 16h1v1h-1zM18 16h1v1h-1zM19 16h1v1h-1zM22 16h1v1h-1zM23 16h1v1h-1zM27 16h1v1h-1zM28 16h1v1h-1zM29 16h1v1h-1zM30 16h1v1h-1zM33 16h1v1h-1zM34 16h1v1h-1zM35 16h1v1h-1zM37 16h1v1h-1zM38 16h1v1h-1zM2 17h1v1h-1zM4 17h1v1h-1zM7 17h1v1h-1zM9 17h1v1h-1zM10 17h1v1h-1zM11 17h1v1h-1zM14 17h1v1h-1zM15 17h1v1h-1zM16 17h1v1h-1zM17 17h1v1h-1zM18 17h1v1h-1zM19 17h1v1h-1zM20 17h1v1h-1zM22 17h1v1h-1zM23 17h1v1h-1zM24 17h1v1h-1zM25 17h1v1h-1zM28 17h1v1h-1zM29 17h1v1h-1zM31 17h1v1h-1zM32 17h1v1h-1zM33 17h1v1h-1zM34 17h1v1h-1zM3 18h1v1h-1zM5 18h1v1h-1zM8 18h1v1h-1zM9 18h1v1h-1zM10 18h1v1h-1zM12 18h1v1h-1zM13 18h1v1h-1zM14 18h1v1h-1zM16 18h1v1h-1zM17 18h1v1h-1zM18 18h1v1h-1zM23 18h1v1h-1zM25 18h1v1h-1zM27 18h1v1h-1zM29 18h1v1h-1zM30 18h1v1h-1zM31 18h1v1h-1zM32 18h1v1h-1zM34 18h1v1h-1zM36 18h1v1h-1zM37 18h1v1h-1zM2 19h1v1h-1zM3 19h1v1h-1zM4 19h1v1h-1zM6 19h1v1h-1zM9 19h1v1h-1zM11 19h1v1h-1zM12 19h1v1h-1zM13 19h1v1h-1zM14 19h1v1h-1zM17 19h1v1h-1zM20 19h1v1h-1zM22 19h1v1h-1zM23 19h1v1h-1zM24 19h1v1h-1zM26 19h1v1h-1zM28 19h1v1h-1zM36 19h1v1h-1zM37 19h1v1h-1zM2 20h1v1h-1zM3 20h1v1h-1zM4 20h1v1h-1zM8 20h1v1h-1zM10 20h1v1h-1zM11 20h1v1h-1zM12 20h1v1h-1zM14 20h1v1h-1zM15 20h1v1h-1zM17 20h1v1h-1zM18 20h1v1h-1zM21 20h1v1h-1zM23 20h1v1h-1zM28 20h1v1h-1zM29 20h1v1h-1zM30 20h1v1h-1zM32 20h1v1h-1zM33 20h1v1h-1zM37 20h1v1h-1zM38 20h1v1h-1zM4 21h1v1h-1zM6 21h1v1h-1zM9 21h1v1h-1zM11 21h1v1h-1zM12 21h1v1h-1zM15 21h1v1h-1zM16 21h1v1h-1zM17 21h1v1h-1zM21 21h1v1h-1zM22 21h1v1h-1zM23 21h1v1h-1zM24 21h1v1h-1zM26 21h1v1h-1zM28 21h1v1h-1zM29 21h1v1h-1zM32 21h1v1h-1zM33 21h1v1h-1zM38 21h1v1h-1zM4 22h1v1h-1zM7 22h1v1h-1zM8 22h1v1h-1zM9 22h1v1h-1zM10 22h1v1h-1zM11 22h1v1h-1zM12 22h1v1h-1zM13 22h1v1h-1zM14 22h1v1h-1zM16 22h1v1h-1zM17 22h1v1h-1zM18 22h1v1h-1zM19 22h1v1h-1zM21 22h1v1h-1zM22 22h1v1h-1zM24 22h1v1h-1zM26 22h1v1h-1zM27 22h1v1h-1zM31 22h1v1h-1zM32 22h1v1h-1zM34 22h1v1h-1zM35 22h1v1h-1zM36 22h1v1h-1zM2 23h1v1h-1zM4 23h1v1h-1zM11 23h1v1h-1zM12 23h1v1h-1zM13 23h1v1h-1zM15 23h1v1h-1zM18 23h1v1h-1zM20 23h1v1h-1zM21 23h1v1h-1zM22 23h1v1h-1zM24 23h1v1h-1zM25 23h1v1h-1zM26 23h1v1h-1zM30 23h1v1h-1zM31 23h1v1h-1zM35 23h1v1h-1zM4 24h1v1h-1zM7 24h1v1h-1zM8 24h1v1h-1zM9 24h1v1h-1zM10 24h1v1h-1zM12 24h1v1h-1zM13 24h1v1h-1zM14 24h1v1h-1zM15 24h1v1h-1zM16 24h1v1h-1zM17 24h1v1h-1zM20 24h1v1h-1zM22 24h1v1h-1zM24 24h1v1h-1zM28 24h1v1h-1zM29 24h1v1h-1zM31 24h1v1h-1zM32 24h1v1h-1zM33 24h1v1h-1zM34 24h1v1h-1zM35 24h1v1h-1zM37 24h1v1h-1zM38 24h1v1h-1zM4 25h1v1h-1zM6 25h1v1h-1zM9 25h1v1h-1zM11 25h1v1h-1zM13 25h1v1h-1zM14 25h1v1h-1zM16 25h1v1h-1zM17 25h1v1h-1zM18 25h1v1h-1zM30 25h1v1h-1zM32 25h1v1h-1zM33 25h1v1h-1zM34 25h1v1h-1zM37 25h1v1h-1zM38 25h1v1h-1zM5 26h1v1h-1zM7 26h1v1h-1zM8 26h1v1h-1zM10 26h1v1h-1zM11 26h1v1h-1zM15 26h1v1h-1zM16 26h1v1h-1zM17 26h1v1h-1zM20 26h1v1h-1zM22 26h1v1h-1zM23 26h1v1h-1zM24 26h1v1h-1zM25 26h1v1h-1zM26 26h1v1h-1zM27 26h1v1h-1zM30 26h1v1h-1zM32 26h1v1h-1zM34 26h1v1h-1zM36 26h1v1h-1zM37 26h1v1h-1zM38 26h1v1h-1zM2 27h1v1h-1zM6 27h1v1h-1zM9 27h1v1h-1zM12 27h1v1h-1zM13 27h1v1h-1zM17 27h1v1h-1zM18 27h1v1h-1zM19 27h1v1h-1zM23 27h1v1h-1zM27 27h1v1h-1zM28 27h1v1h-1zM31 27h1v1h-1zM33 27h1v1h-1zM36 27h1v1h-1zM2 28h1v1h-1zM5 28h1v1h-1zM7 28h1v1h-1zM8 28h1v1h-1zM10 28h1v1h-1zM12 28h1v1h-1zM14 28h1v1h-1zM16 28h1v1h-1zM19 28h1v1h-1zM20 28h1v1h-1zM22 28h1v1h-1zM23 28h1v1h-1zM25 28h1v1h-1zM26 28h1v1h-1zM27 28h1v1h-1zM28 28h1v1h-1zM29 28h1v1h-1zM30 28h1v1h-1zM32 28h1v1h-1zM34 28h1v1h-1zM35 28h1v1h-1zM37 28h1v1h-1zM38 28h1v1h-1zM2 29h1v1h-1zM5 29h1v1h-1zM6 29h1v1h-1zM7 29h1v1h-1zM10 29h1v1h-1zM13 29h1v1h-1zM14 29h1v1h-1zM15 29h1v1h-1zM18 29h1v1h-1zM23 29h1v1h-1zM25 29h1v1h-1zM30 29h1v1h-1zM32 29h1v1h-1zM33 29h1v1h-1zM37 29h1v1h-1zM2 30h1v1h-1zM6 30h1v1h-1zM8 30h1v1h-1zM10 30h1v1h-1zM13 30h1v1h-1zM15 30h1v1h-1zM18 30h1v1h-1zM19 30h1v1h-1zM20 30h1v1h-1zM22 30h1v1h-1zM24 30h1v1h-1zM25 30h1v1h-1zM26 30h1v1h-1zM27 30h1v1h-1zM28 30h1v1h-1zM29 30h1v1h-1zM30 30h1v1h-1zM31 30h1v1h-1zM32 30h1v1h-1zM33 30h1v1h-1zM34 30h1v1h-1zM35 30h1v1h-1zM36 30h1v1h-1zM37 30h1v1h-1zM10 31h1v1h-1zM12 31h1v1h-1zM15 31h1v1h-1zM16 31h1v1h-1zM18 31h1v1h-1zM19 31h1v1h-1zM20 31h1v1h-1zM21 31h1v1h-1zM22 31h1v1h-1zM23 31h1v1h-1zM24 31h1v1h-1zM25 31h1v1h-1zM27 31h1v1h-1zM29 31h1v1h-1zM30 31h1v1h-1zM34 31h1v1h-1zM35 31h1v1h-1zM2 32h1v1h-1zM3 32h1v1h-1zM4 32h1v1h-1zM5 32h1v1h-1zM6 32h1v1h-1zM7 32h1v1h-1zM8 32h1v1h-1zM11 32h1v1h-1zM12 32h1v1h-1zM14 32h1v1h-1zM17 32h1v1h-1zM18 32h1v1h-1zM19 32h1v1h-1zM22 32h1v1h-1zM23 32h1v1h-1zM30 32h1v1h-1zM32 32h1v1h-1zM34 32h1v1h-1zM36 32h1v1h-1zM37 32h1v1h-1zM38 32h1v1h-1zM2 33h1v1h-1zM8 33h1v1h-1zM10 33h1v1h-1zM11 33h1v1h-1zM13 33h1v1h-1zM15 33h1v1h-1zM16 33h1v1h-1zM19 33h1v1h-1zM20 33h1v1h-1zM21 33h1v1h-1zM22 33h1v1h-1zM23 33h1v1h-1zM24 33h1v1h-1zM25 33h1v1h-1zM28 33h1v1h-1zM29 33h1v1h-1zM30 33h1v1h-1zM34 33h1v1h-1zM35 33h1v1h-1zM38 33h1v1h-1zM2 34h1v1h-1zM4 34h1v1h-1zM5 34h1v1h-1zM6 34h1v1h-1zM8 34h1v1h-1zM10 34h1v1h-1zM12 34h1v1h-1zM13 34h1v1h-1zM14 34h1v1h-1zM16 34h1v1h-1zM17 34h1v1h-1zM18 34h1v1h-1zM21 34h1v1h-1zM23 34h1v1h-1zM25 34h1v1h-1zM26 34h1v1h-1zM27 34h1v1h-1zM29 34h1v1h-1zM30 34h1v1h-1zM31 34h1v1h-1zM32 34h1v1h-1zM33 34h1v1h-1zM34 34h1v1h-1zM36 34h1v1h-1zM37 34h1v1h-1zM38 34h1v1h-1zM2 35h1v1h-1zM4 35h1v1h-1zM5 35h1v1h-1zM6 35h1v1h-1zM8 35h1v1h-1zM10 35h1v1h-1zM11 35h1v1h-1zM14 35h1v1h-1zM15 35h1v1h-1zM16 35h1v1h-1zM17 35h1v1h-1zM19 35h1v1h-1zM20 35h1v1h-1zM22 35h1v1h-1zM23 35h1v1h-1zM24 35h1v1h-1zM26 35h1v1h-1zM28 35h1v1h-1zM30 35h1v1h-1zM31 35h1v1h-1zM32 35h1v1h-1zM34 35h1v1h-1zM35 35h1v1h-1zM36 35h1v1h-1zM37 35h1v1h-1zM2 36h1v1h-1zM4 36h1v1h-1zM5 36h1v1h-1zM6 36h1v1h-1zM8 36h1v1h-1zM10 36h1v1h-1zM12 36h1v1h-1zM13 36h1v1h-1zM14 36h1v1h-1zM15 36h1v1h-1zM17 36h1v1h-1zM18 36h1v1h-1zM21 36h1v1h-1zM23 36h1v1h-1zM27 36h1v1h-1zM29 36h1v1h-1zM31 36h1v1h-1zM38 36h1v1h-1zM2 37h1v1h-1zM8 37h1v1h-1zM11 37h1v1h-1zM14 37h1v1h-1zM15 37h1v1h-1zM16 37h1v1h-1zM17 37h1v1h-1zM21 37h1v1h-1zM22 37h1v1h-1zM23 37h1v1h-1zM25 37h1v1h-1zM26 37h1v1h-1zM28 37h1v1h-1zM30 37h1v1h-1zM31 37h1v1h-1zM32 37h1v1h-1zM34 37h1v1h-1zM38 37h1v1h-1zM2 38h1v1h-1zM3 38h1v1h-1zM4 38h1v1h-1zM5 38h1v1h-1zM6 38h1v1h-1zM7 38h1v1h-1zM8 38h1v1h-1zM10 38h1v1h-1zM13 38h1v1h-1zM16 38h1v1h-1zM17 38h1v1h-1zM18 38h1v1h-1zM19 38h1v1h-1zM21 38h1v1h-1zM26 38h1v1h-1zM27 38h1v1h-1zM28 38h1v1h-1zM29 38h1v1h-1zM34 38h1v1h-1zM35 38h1v1h-1zM36 38h1v1h-1zM37 38h1v1h-1zM38 38h1v1h-1z"/></svg></div>
             </div>
-            <p class="qr-note">Point your iPhone camera at the code, then continue with the same Google account in the app. iOS 16 or later.</p>
+            <p class="qr-note">Point your iPhone camera at the code, then sign in the same way in the app. iOS 16 or later.</p>
             <a href="https://apps.apple.com/gb/app/quid-uk-student-life/id6791167493?uo=4" target="_blank" rel="noopener noreferrer" aria-label="Download Quid: UK Student Life on the App Store" class="quid-button quid-button-primary quid-button-appstore">
               <span class="roll-label"><span class="roll"><span class="roll-text-stack"><span>Download on the</span><span>App Store</span></span><span class="roll-text-stack roll-copy" aria-hidden="true"><span>Download on the</span><span>App Store</span></span></span></span>
             </a>
@@ -405,6 +404,7 @@ header nav>a{display:inline-flex;align-items:center}
         <button class="quid-button quid-button-primary btn-block" type="button" id="keepBtn">Keep my account</button>
         <button class="quid-button btn-block btn-danger" type="button" id="confirmDeleteBtn">Yes, delete it</button>
       </div>
+      <p class="form-error" id="deleteErr" role="alert" hidden></p>
     </div>
   </div>
 </section>
@@ -448,17 +448,23 @@ header nav>a{display:inline-flex;align-items:center}
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
 <script>
 (function(){
   /* ------------------------------------------------------------------
-     Google sign-in. Set the WEB client ID from Google Cloud to switch on
-     the official button (Google's script draws it, logo included).
-     https://quidapp.co.uk must be an authorised JavaScript origin for it.
+     Same Supabase project and public key as the app, so this is the app
+     account: deleting it here deletes it in the app. Google sign-in comes
+     back to this page, so https://quidapp.co.uk/account (and www) must be
+     in Supabase > Authentication > URL Configuration > Redirect URLs.
      ------------------------------------------------------------------ */
-  var GOOGLE_CLIENT_ID='';
+  var SUPABASE_URL='https://iyqvovledyrmfduhkagx.supabase.co';
+  var SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml5cXZvdmxlZHlybWZkdWhrYWd4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwNzExODIsImV4cCI6MjA5MzY0NzE4Mn0.8HmWS7UryF3QIb4WkAxIaQycNJyBckilACOJa3fyECU';
+  var sb=window.supabase?window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{
+    auth:{flowType:'pkce',persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
+  }):null;
+  var CONTACT='contactquidapp@gmail.com';
 
   var $=function(id){return document.getElementById(id)};
-  var SAMPLE='sample.student@gmail.com';
   var state={view:'out',id:''};
   var A=function(t){return '<span class="headline-accent">'+t+'</span>'};
   var copy={
@@ -480,19 +486,20 @@ header nav>a{display:inline-flex;align-items:center}
     $('leave').hidden=(v!=='in');
     $('confirm').hidden=(v!=='confirm');
     $('deletedNotice').hidden=(v!=='deleted');
+    if(v!=='confirm')showErr('deleteErr','');
     if(signedIn){
       $('acctId').textContent=state.id;
       $('avatar').textContent=(state.id.charAt(0)||'Q').toUpperCase();
     }
-    document.querySelectorAll('[data-jump]').forEach(function(b){b.setAttribute('aria-pressed','false')});
   }
   function say(t){$('live').textContent=t}
+  function showErr(id,t){var e=$(id);e.textContent=t;e.hidden=!t}
 
   /* ---- signing in ---- */
-  function signedIn(email){
-    state.id=email||SAMPLE; busy(false); render('in');
-    say('Signed in as '+state.id+'. Step 2: get the app.');
-    $('h2s').focus({preventScroll:true});
+  function signedIn(user,announce){
+    state.id=(user&&(user.email||(user.user_metadata&&user.user_metadata.full_name)))||'your Quid account';
+    busy(false); render('in');
+    if(announce){say('Signed in as '+state.id+'. Step 2: get the app.');$('h2s').focus({preventScroll:true})}
   }
   function busy(b){
     var btn=$('googleBtn'); if(!btn)return;
@@ -502,57 +509,73 @@ header nav>a{display:inline-flex;align-items:center}
     if(!b&&sp)sp.remove();
     $('googleLabel').textContent=b?'Signing you in...':'Continue with Google';
   }
-  /* stand-in used until GOOGLE_CLIENT_ID is set: signs in a sample account */
   $('googleBtn').addEventListener('click',function(){
+    showErr('googleErr','');
+    if(!sb){showErr('googleErr',"We couldn't reach Quid. Refresh the page and try again.");return}
     busy(true);
-    setTimeout(function(){if(state.view==='out'||state.view==='deleted')signedIn(SAMPLE)},1000);
+    sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:location.origin+'/account'}}).then(function(r){
+      if(r.error){busy(false);showErr('googleErr',"Google sign-in didn't start. Try again in a moment.")}
+    });
   });
 
-  /* the real thing */
-  function onGoogleCredential(res){
-    /* res.credential is a Google ID token (JWT).
-       TODO: send it to the Quid backend to create the session. The email is
-       read here only to show who is signed in. */
-    var email='';
-    try{
-      var p=res.credential.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');
-      email=JSON.parse(decodeURIComponent(escape(atob(p)))).email||'';
-    }catch(e){}
-    signedIn(email);
-  }
-  function mountGoogle(){
-    if(!window.google||!google.accounts||!google.accounts.id)return;
-    var slot=$('googleSlot');
-    google.accounts.id.initialize({client_id:GOOGLE_CLIENT_ID,callback:onGoogleCredential});
-    slot.innerHTML='';
-    google.accounts.id.renderButton(slot,{type:'standard',theme:'filled_black',size:'large',shape:'pill',text:'continue_with',logo_alignment:'left',width:Math.max(200,Math.min(400,slot.offsetWidth))});
-  }
-  if(GOOGLE_CLIENT_ID){
-    var gs=document.createElement('script');
-    gs.src='https://accounts.google.com/gsi/client'; gs.async=true; gs.onload=mountGoogle;
-    document.head.appendChild(gs);
-  }
+  $('emailToggle').addEventListener('click',function(){
+    var f=$('emailForm'),open=f.hidden;
+    f.hidden=!open; $('emailToggle').setAttribute('aria-expanded',String(open));
+    if(open)$('emailIn').focus();
+  });
+  $('emailForm').addEventListener('submit',function(e){
+    e.preventDefault(); showErr('emailErr','');
+    var email=$('emailIn').value.trim(),pass=$('passIn').value;
+    if(!email||!pass){showErr('emailErr','Enter your email and password.');return}
+    if(!sb){showErr('emailErr',"We couldn't reach Quid. Refresh the page and try again.");return}
+    var b=$('emailBtn'); b.disabled=true; b.textContent='Signing in...';
+    sb.auth.signInWithPassword({email:email,password:pass}).then(function(r){
+      b.disabled=false; b.textContent='Sign in';
+      if(r.error){
+        var m=/confirm/i.test(r.error.message)?'Confirm your email from the app first, then try again.':"That email and password don't match. Signed up with Google? Use the button above.";
+        showErr('emailErr',m); return;
+      }
+      $('passIn').value=''; signedIn(r.data.user,true);
+    });
+  });
 
   /* ---- signed in ---- */
-  function signOut(){
-    if(window.google&&google.accounts&&google.accounts.id)google.accounts.id.disableAutoSelect();
-    state.id='';
-  }
   $('signOutBtn').addEventListener('click',function(){
-    signOut(); render('out'); say('Signed out.'); $('h1s').focus({preventScroll:true});
+    if(sb)sb.auth.signOut();
+    state.id=''; render('out'); say('Signed out.'); $('h1s').focus({preventScroll:true});
   });
   $('deleteBtn').addEventListener('click',function(){
     render('confirm'); $('confirm').scrollIntoView({block:'nearest',behavior:'smooth'}); $('keepBtn').focus({preventScroll:true});
   });
   $('keepBtn').addEventListener('click',function(){render('in');$('deleteBtn').focus({preventScroll:true})});
+
+  /* Same steps as authApi.deleteAccount in the app: files go through the
+     Storage API first (Postgres can't delete them), then delete_own_account
+     removes the user and their data. Only sign out once that succeeds. */
+  function deleteAccount(){
+    return sb.auth.getUser().then(function(r){
+      var uid=r.data&&r.data.user&&r.data.user.id;
+      if(!uid)throw new Error('not signed in');
+      return Promise.all(['profile-photos','community-media'].map(function(bucket){
+        return sb.storage.from(bucket).list(uid).then(function(l){
+          if(l.data&&l.data.length)return sb.storage.from(bucket).remove(l.data.map(function(f){return uid+'/'+f.name}));
+        }).catch(function(){});
+      }));
+    }).then(function(){return sb.rpc('delete_own_account')}).then(function(r){
+      if(r.error)throw r.error;
+      return sb.auth.signOut().catch(function(){});
+    });
+  }
   $('confirmDeleteBtn').addEventListener('click',function(){
-    var b=$('confirmDeleteBtn'); b.disabled=true; b.textContent='Deleting...';
-    /* TODO: call the Quid backend to delete the account, then: */
-    setTimeout(function(){
+    var b=$('confirmDeleteBtn'); b.disabled=true; b.textContent='Deleting...'; showErr('deleteErr','');
+    deleteAccount().then(function(){
       b.disabled=false; b.textContent='Yes, delete it';
-      signOut(); render('deleted'); say('Your account is deleted.');
+      state.id=''; render('deleted'); say('Your account is deleted.');
       $('deletedNotice').focus({preventScroll:true}); window.scrollTo({top:0,behavior:'smooth'});
-    },900);
+    },function(){
+      b.disabled=false; b.textContent='Yes, delete it';
+      showErr('deleteErr',"Your account wasn't deleted. Try again, or email "+CONTACT+' and we will do it for you.');
+    });
   });
   document.addEventListener('keydown',function(e){
     if(e.key==='Escape'&&state.view==='confirm'){render('in');$('deleteBtn').focus({preventScroll:true})}
@@ -563,21 +586,19 @@ header nav>a{display:inline-flex;align-items:center}
   $('menuBtn').addEventListener('click',function(){menu.classList.add('open');$('menuBtn').setAttribute('aria-expanded','true');$('menuClose').focus()});
   $('menuClose').addEventListener('click',function(){menu.classList.remove('open');$('menuBtn').setAttribute('aria-expanded','false');$('menuBtn').focus()});
 
-  /* ---- preview jump bar (not part of the site) ---- */
-  document.querySelectorAll('[data-jump]').forEach(function(b){
-    b.addEventListener('click',function(){
-      var j=b.getAttribute('data-jump'); busy(false);
-      if(j==='out'){state.id='';render('out')}
-      else{
-        if(j!=='deleted'&&!state.id)state.id=SAMPLE;
-        if(j==='deleted')state.id='';
-        render(j);
-        if(j==='confirm')$('confirm').scrollIntoView({block:'nearest'});
-      }
-      b.setAttribute('aria-pressed','true');
-    });
-  });
+  /* ---- coming back from Google, or already signed in ---- */
   render('out');
+  var q=new URLSearchParams(location.search+'&'+location.hash.slice(1));
+  var cameBack=q.has('code')||q.has('error');
+  if(q.has('error'))showErr('googleErr',"Google sign-in didn't finish. Try again.");
+  if(sb){
+    sb.auth.getSession().then(function(r){
+      if(cameBack)history.replaceState(null,'',location.pathname);
+      if(r.data&&r.data.session)signedIn(r.data.session.user,cameBack);
+    });
+  }else{
+    showErr('googleErr',"We couldn't reach Quid. Refresh the page and try again.");
+  }
 })();
 </script>
 
