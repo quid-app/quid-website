@@ -1038,6 +1038,28 @@ a.inapp svg{color:var(--lime);font-size:16px}
 .sicos{gap:8px}
 .getapp .acc-sub{text-wrap:balance;max-width:24em}
 .qrc{width:172px;height:172px;padding:12px}
+.authsplit{width:min(100%,940px);display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:16px;align-items:stretch}
+.authsplit[hidden]{display:none}
+.authsplit .auth{width:100%}
+.authside{border-radius:28px;padding:32px 30px 28px;background:var(--lime);color:var(--black);display:flex;flex-direction:column;gap:18px;position:relative;overflow:hidden}
+.authside:before{content:"";position:absolute;right:-40px;top:-40px;width:220px;height:220px;border-radius:50%;background-image:radial-gradient(rgba(13,13,13,.24) 1.6px,transparent 1.7px);background-size:11px 11px;-webkit-mask-image:radial-gradient(closest-side,#000 40%,transparent);mask-image:radial-gradient(closest-side,#000 40%,transparent)}
+.authside>*{position:relative}
+.authside{justify-content:space-between;gap:24px}
+.sidehd{display:grid;gap:14px}
+.authside .klab{color:rgba(13,13,13,.6)}
+.authside h2{font-family:var(--head);font-weight:600;font-size:clamp(30px,3vw,42px);letter-spacing:-.035em;line-height:1.02}
+.authside h2 em{font-family:var(--serif);font-weight:400;letter-spacing:-.01em}
+.authside ul{list-style:none;margin:0;padding:0;display:grid;gap:16px}
+.authside li{display:flex;gap:14px;align-items:center;font-size:16px;line-height:1.35}
+@media (max-width:820px){.authside li{font-size:15px}}
+.authside li i{width:34px;height:34px;flex:none;border-radius:50%;background:var(--black);color:var(--lime);display:grid;place-items:center}
+.authside li i svg{width:16px;height:16px}
+.sidego{display:flex;align-items:center;gap:14px;padding:12px;border-radius:20px;background:var(--black);color:#fff;text-decoration:none;transition:transform .3s var(--ease)}
+.sidego:hover{transform:translateY(-2px)}
+.sidego span{font-size:13.5px;color:#a8a8a8;line-height:1.35}.sidego b{display:block;color:#fff;font-size:15px;font-weight:600}
+.sidego>svg{margin-left:auto;margin-right:6px;font-size:20px;color:var(--lime);flex:none}
+.qrmini .qrc{width:78px;height:78px;padding:5px;border-radius:12px}
+@media (max-width:820px){.authsplit{grid-template-columns:1fr;justify-items:center}.authsplit .auth,.authside{width:min(100%,420px)}.authside{padding:26px 22px 22px}}
 .story2 p.big{font-size:clamp(20px,2.2vw,32px);line-height:1.25}
 @media (max-width:600px){.story2 p.big{font-size:19px;line-height:1.35}}
 .consent{position:fixed;left:16px;right:16px;bottom:max(16px,env(safe-area-inset-bottom));z-index:150;max-width:420px;margin-inline:auto;background:#1a1a1a;color:#fff;border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:18px 20px;box-shadow:0 24px 48px rgba(0,0,0,.4);font-size:14px;line-height:1.5;display:none}
@@ -1117,7 +1139,8 @@ gtag('js',new Date());gtag('config','G-NHKZQNR4QR',{anonymize_ip:true,send_page_
 <main id="main">
   <section class="sec acc-wrap" data-theme="dark"><div class="acc2">
 
-    <div class="auth" id="authBox">
+    <div class="authsplit" id="authBox">
+    <div class="auth">
       <h1 class="acc-h" id="authTitle">Welcome back</h1>
       <p class="acc-sub" id="authSub">Log in with the account you use in the app.</p>
       <div class="seg" role="tablist"><button type="button" role="tab" aria-selected="true" data-mode="login">Log in</button><button type="button" role="tab" aria-selected="false" data-mode="signup">Create account</button></div>
@@ -1132,6 +1155,17 @@ gtag('js',new Date());gtag('config','G-NHKZQNR4QR',{anonymize_ip:true,send_page_
         <button class="pill wide" type="submit" id="eSubmit">Log in</button>
       </form>
       <p class="fine" id="authFine">New to Quid? <button class="link" type="button" data-mode="signup">Create an account</button></p>
+    </div>
+    <aside class="authside">
+      <div class="sidehd"><span class="klab">Your Quid account</span>
+      <h2>One login. <em>Web and app.</em></h2></div>
+      <ul>
+        <li><i><svg class="i"><use href="#i-repeat"/></svg></i><span>The same account you use in Quid for iPhone.</span></li>
+        <li><i><svg class="i"><use href="#i-x"/></svg></i><span>Delete it here any time, with all its data.</span></li>
+        <li><i><svg class="i"><use href="#i-bank"/></svg></i><span>Quid never asks for your bank login.</span></li>
+      </ul>
+      <a class="sidego" href="https://apps.apple.com/gb/app/quid-uk-student-life/id6791167493" target="_blank" rel="noopener"><div class="qrmini"><div id="qr2" class="qrc" role="img" aria-label="QR code that opens Quid on the App Store"></div></div><span><b>No account yet?</b>Scan to get Quid on your iPhone.</span><svg class="i"><use href="#i-arrow"/></svg></a>
+    </aside>
     </div>
 
     <div class="dash" id="dash" hidden>
@@ -1370,7 +1404,7 @@ document.getElementById('consent-no').addEventListener('click',function(){set('d
     var out='<svg viewBox="0 0 '+n+' '+n+'" xmlns="http://www.w3.org/2000/svg">';
     for(var r=0;r<n;r++) for(var k=0;k<n;k++){ if(!q.isDark(r,k)||inF(r,k)) continue; out+='<rect x="'+(k+.1)+'" y="'+(r+.1)+'" width=".8" height=".8" rx=".4" fill="#0D0D0D"/>'; }
     [[0,0],[0,n-7],[n-7,0]].forEach(function(p){ out+='<rect x="'+(p[1]+.5)+'" y="'+(p[0]+.5)+'" width="6" height="6" rx="1.8" fill="none" stroke="#0D0D0D" stroke-width="1"/><rect x="'+(p[1]+2)+'" y="'+(p[0]+2)+'" width="3" height="3" rx="1" fill="#0D0D0D"/>'; });
-    $('qr').innerHTML=out+'</svg>';
+    ['qr','qr2'].forEach(function(id){ var el=$(id); if(el) el.innerHTML=out+'</svg>'; });
   }
 
   setMode('login');
@@ -1381,6 +1415,7 @@ document.getElementById('consent-no').addEventListener('click',function(){set('d
     if(q.has('code')||q.has('error')) history.replaceState(null,'',location.pathname);
     if(r.data&&r.data.session) signedIn(r.data.session.user);
   });
+  drawQR();
 })();
 </script>
 
