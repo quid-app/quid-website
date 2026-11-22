@@ -1061,7 +1061,14 @@ a.inapp svg{color:var(--lime);font-size:16px}
 .dock .skip:hover{color:var(--fg)}
 .cue{display:none}
 @media (max-width:900px){
-  .story{height:100vh;height:100svh}
+  .story{height:calc(var(--steps) * 85vh + 100vh)}
+  /* softer, slower cross-fades on phones; no blur, which stutters on iOS */
+  .swap>*{filter:none;transform:translateY(10px);transition:opacity .28s ease,transform .4s ease}
+  .swap>.on{transform:none;transition:opacity .6s var(--ease) .3s,transform .8s var(--ease) .3s}
+  .swap>.past{transform:translateY(-10px)}
+  .scr{transform:translateY(16px) scale(.99);transition:opacity .8s var(--ease),transform 1s var(--ease)}
+  .scr.on{transform:none}
+  .scr.past{transform:translateY(-16px) scale(.99)}
   .dock{top:56%}
   .dock .skip{width:30px;height:34px;padding:0;margin-top:6px;justify-content:center;border-top:1px solid var(--rule);color:var(--fg)}
   .dock .skip span{display:none}
