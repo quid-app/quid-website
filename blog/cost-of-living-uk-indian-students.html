@@ -1131,6 +1131,15 @@ try{if(localStorage.getItem('quid-consent')==='granted'){gtag('consent','update'
 gtag('js',new Date());gtag('config','G-NHKZQNR4QR',{anonymize_ip:true,send_page_view:true});
 </script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-NHKZQNR4QR"></script>
+<style>
+/* post and legal headers: back link on its own row, meta on one line, less air before the body */
+.post-top .back{display:flex;width:fit-content;margin-bottom:28px}
+.post-top .kick{display:flex;margin-bottom:16px}
+.post-top .psub,.post-top .legal-updated{display:inline-block;margin-top:22px}
+.post-top .psub+.legal-updated:before{content:"\00B7";margin:0 10px}
+.post-top+.post-body{padding-top:clamp(36px,5vw,64px)}
+@media (max-width:760px){.post-top .back{margin-bottom:22px}.post-top{padding-bottom:0!important}.post-top+.post-body{padding-top:28px!important}.post-top .psub,.post-top .legal-updated{display:block;margin-top:10px}.post-top .psub{margin-top:18px}.post-top .psub+.legal-updated:before{content:none}}
+</style>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
