@@ -963,6 +963,23 @@ a.inapp svg{color:var(--lime);font-size:16px}
 .soc:hover i{background:var(--lime);color:var(--black)}
 .fgrid{grid-template-columns:1.6fr 1fr 1.7fr 1fr;padding-bottom:48px}
 @media (max-width:900px){.fgrid{grid-template-columns:1fr 1fr}.fcontact{grid-column:1/-1}}
+/* ---------- v10: hero layout fixes ---------- */
+.phone{--pw:clamp(190px,calc((100svh - 210px) * .45),280px)}
+.fl.L{right:calc(100% - 44px)}.fl.R{left:calc(100% - 44px)}
+@media (max-width:1440px){.fl.L{display:none}}
+@media (max-width:900px){
+  .stage{padding-top:70px;grid-template-rows:auto auto minmax(0,1fr)}
+  .col-l .swap>*{font-size:clamp(28px,7.6vw,38px)}
+  .col-r{margin-top:6px}
+  .col-r p{font-size:13.5px;line-height:1.45}
+  .col-r p.hook{font-size:18px;margin-bottom:2px}
+  .col-r p.hook+p,.col-r p.soon,.col-r .pill,.col-r small{display:none!important}
+  .col-r .swap>div:not(.on){display:none}
+  .col-c{margin-top:14px;align-self:start}
+  .phone{--pw:min(60vw,calc((100svh - 270px) * .45))}
+  .badge{display:none}
+}
+@media (min-width:768px){.consent{left:24px;right:auto;bottom:24px;margin:0}}
 /* ---------- v5: blog cards, one title per card ---------- */
 .bcard img{width:92px;height:92px;aspect-ratio:1;border-radius:22px;margin:24px 0 0 24px;object-fit:cover;flex:none}
 .bcard div{padding:20px 24px 26px}
@@ -995,6 +1012,7 @@ a.inapp svg{color:var(--lime);font-size:16px}
 .consent-actions{display:flex;gap:10px;margin-top:14px}
 .consent-actions button{font:inherit;font-weight:600;font-size:13px;border-radius:999px;padding:10px 16px;cursor:pointer;border:1px solid rgba(255,255,255,.18);background:transparent;color:#fff}
 .consent-actions button.yes{background:var(--lime,#c6ff3d);color:#0d0d0d;border-color:transparent}
+@media (min-width:768px){.consent{left:24px;right:auto;bottom:24px;margin:0}}
 </style>
 <!-- ga4-consent -->
 <script>
