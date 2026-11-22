@@ -1076,6 +1076,21 @@ a.inapp svg{color:var(--lime);font-size:16px}
   .col-c{margin-top:30px}
   .phone{--pw:min(62vw,calc((100svh - 330px) * .5))}
 }
+/* v16: skip control, steadier phone story */
+.dock .skip{position:relative;z-index:1;display:flex;align-items:center;gap:8px;height:32px;padding:0 14px 0 9px;margin-top:4px;border-top:1px solid var(--rule);font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--mut);text-decoration:none;transition:color .3s}
+.dock .skip svg{width:13px;height:13px;transform:rotate(90deg)}
+.dock .skip:hover{color:var(--fg)}
+.cue{display:none}
+@media (max-width:900px){
+  .story{height:calc(var(--steps) * 92vh + 50vh)}
+  .dock{top:56%}
+  .dock .skip{width:30px;height:34px;padding:0;margin-top:6px;justify-content:center;border-top:1px solid var(--rule);color:var(--fg)}
+  .dock .skip span{display:none}
+  .dock .skip svg{width:14px;height:14px}
+  .dock.play button[aria-current="true"]:before{opacity:.3}
+  .dock.play button[aria-current="true"]:after{content:"";position:absolute;left:50%;top:50%;width:7px;height:20px;margin:-10px 0 0 -3.5px;border-radius:999px;background:var(--fg);transform-origin:top;animation:fillv 5.5s linear forwards}
+}
+@keyframes fillv{from{transform:scaleY(0)}to{transform:scaleY(1)}}
 .story2 p.big{font-size:clamp(20px,2.2vw,32px);line-height:1.25}
 @media (max-width:600px){.story2 p.big{font-size:19px;line-height:1.35}}
 .consent{position:fixed;left:16px;right:16px;bottom:max(16px,env(safe-area-inset-bottom));z-index:150;max-width:420px;margin-inline:auto;background:#1a1a1a;color:#fff;border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:18px 20px;box-shadow:0 24px 48px rgba(0,0,0,.4);font-size:14px;line-height:1.5;display:none}
@@ -1332,7 +1347,7 @@ gtag('js',new Date());gtag('config','G-NHKZQNR4QR',{anonymize_ip:true,send_page_
 
     <div class="badge on" aria-hidden="true"><svg viewBox="0 0 120 120"><defs><path id="circ" d="M60 60m-48 0a48 48 0 1 1 96 0a48 48 0 1 1-96 0"/></defs><text textLength="300" lengthAdjust="spacing"><textPath href="#circ" textLength="300" lengthAdjust="spacing">FREE ON IPHONE · ANDROID SOON · FOR STUDENTS · </textPath></text></svg><i><svg class="i"><use href="#i-arrow"/></svg></i></div>
     <div class="cue on" data-i="0" aria-hidden="true"></div>
-    <div class="dock" role="tablist" aria-label="Jump to a feature"><i></i><button aria-current="true">Home</button><button>First week</button><button>Quid AI</button><button>Money</button><button>Deals</button><button>Community</button></div>
+    <div class="dock" role="tablist" aria-label="Jump to a feature"><i></i><button aria-current="true">Home</button><button>First week</button><button>Quid AI</button><button>Money</button><button>Deals</button><button>Community</button><a class="skip" href="#setup" aria-label="Skip to how it works"><svg class="i"><use href="#i-arrow"/></svg><span>Skip</span></a></div>
   </div>
 </section>
 
@@ -1446,9 +1461,11 @@ document.getElementById('consent-no').addEventListener('click',function(){set('d
   var themes=['lime','light','dark','light','lime','dark'], tabFor=[0,0,-1,1,3,2], N=themes.length, cur=-1;
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   var slides=stage.querySelectorAll('[data-i]');
+  var mob=matchMedia('(max-width:900px)'), settled=0, touching=false, jumping=false, idleT=null, autoT=null, AUTO=5500;
   var floats=stage.querySelectorAll('.fl'), dock=stage.querySelector('.dock'), dockBtns=dock.querySelectorAll('button'), dockHi=dock.querySelector('i');
   function dockTo(i){ var b=dockBtns[i]; dockBtns.forEach(function(x,k){x.setAttribute('aria-current',k===i?'true':'false');}); dockHi.style.height=b.offsetHeight+'px'; dockHi.style.transform='translateY('+b.offsetTop+'px)'; }
-  dockBtns.forEach(function(b,k){ b.addEventListener('click',function(){ var total=story.offsetHeight-innerHeight; scrollTo({top:story.offsetTop+total*((k+0.5)/N),behavior:reduce?'auto':'smooth'}); }); });
+  dockBtns.forEach(function(b,k){ b.addEventListener('click',function(){ settled=k; goStep(k); }); });
+  dock.querySelector('.skip').addEventListener('click',function(){ jumping=true; clearTimeout(autoT); });
   var wm=document.querySelector('.wordmark'); if(wm) wm.appendChild(document.querySelector('.logo svg').cloneNode(true));
 
   function fit(){ phone.style.setProperty('--s', phone.clientWidth/390); }
@@ -1491,9 +1508,11 @@ document.getElementById('consent-no').addEventListener('click',function(){set('d
   function frame(){
     var vh=innerHeight, r=story.getBoundingClientRect(), total=story.offsetHeight-vh;
     var p=Math.max(0,Math.min(1,-r.top/total));
-    setStep(Math.min(N-1,Math.floor(p*N*0.999+0.0001)));
-    // gentle continuous drift on the phone within each step
-    if(!reduce){ var local=(p*N)%1; phone.style.transform='translateY('+((0.5-local)*14).toFixed(1)+'px)'; for(var f=0;f<floats.length;f++) floats[f].style.setProperty('--py',((0.5-local)*46*(+floats[f].dataset.p)).toFixed(1)); }
+    var ri=Math.min(N-1,Math.floor(p*N*0.999+0.0001));
+    if(mob.matches&&!jumping) ri=Math.max(settled-1,Math.min(settled+1,ri));
+    setStep(ri);
+    // gentle continuous drift on the phone within each step (desktop only, phones stay steady)
+    if(!reduce&&!mob.matches){ var local=(p*N)%1; phone.style.transform='translateY('+((0.5-local)*14).toFixed(1)+'px)'; for(var f=0;f<floats.length;f++) floats[f].style.setProperty('--py',((0.5-local)*46*(+floats[f].dataset.p)).toFixed(1)); }
 
     // nav theme follows whatever sits under it
     var th=r.bottom>40?themes[cur]:'dark';
@@ -1514,6 +1533,32 @@ document.getElementById('consent-no').addEventListener('click',function(){set('d
   var tick=false;
   function onScroll(){ if(!tick){tick=true;requestAnimationFrame(function(){tick=false;frame();});} }
   addEventListener('scroll',onScroll,{passive:true});
+
+  // phones: one step per swipe, each step rests in place, autoplay when left alone
+  function rawStep(){ var total=story.offsetHeight-innerHeight, p=Math.max(0,Math.min(1,-story.getBoundingClientRect().top/total)); return Math.min(N-1,Math.floor(p*N*0.999+0.0001)); }
+  function stepPos(i){ return i===0?story.offsetTop:Math.round(story.offsetTop+(story.offsetHeight-innerHeight)*(i+0.3)/N); }
+  function pinned(){ var r=story.getBoundingClientRect(); return r.top<=1&&r.bottom>=innerHeight-1; }
+  function goStep(i){ jumping=true; clearTimeout(autoT); scrollTo({top:stepPos(i),behavior:reduce?'auto':'smooth'}); }
+  function arm(){
+    clearTimeout(autoT); dock.classList.remove('play');
+    if(!mob.matches||reduce||touching||!pinned()||settled>=N-1) return;
+    void dock.offsetWidth; dock.classList.add('play');
+    autoT=setTimeout(function(){ if(!touching&&pinned()){ settled=Math.min(N-1,settled+1); goStep(settled); } },AUTO);
+  }
+  function settle(){
+    if(touching) return;
+    var i=rawStep();
+    if(!mob.matches||!pinned()){ settled=i; jumping=false; dock.classList.remove('play'); return; }
+    var t=jumping?i:Math.max(settled-1,Math.min(settled+1,i)), want=stepPos(t), y=scrollY;
+    jumping=false; settled=t;
+    if(!(t===N-1&&y>want)&&Math.abs(y-want)>4){ jumping=true; scrollTo({top:want,behavior:'smooth'}); return; }
+    frame(); arm();
+  }
+  function wait(){ clearTimeout(idleT); clearTimeout(autoT); dock.classList.remove('play'); idleT=setTimeout(settle,180); }
+  addEventListener('scroll',wait,{passive:true});
+  addEventListener('touchstart',function(){ touching=true; clearTimeout(idleT); clearTimeout(autoT); dock.classList.remove('play'); },{passive:true});
+  addEventListener('touchend',function(){ touching=false; wait(); },{passive:true});
+  addEventListener('touchcancel',function(){ touching=false; wait(); },{passive:true});
   addEventListener('resize',function(){fit();cur=-1;frame();});
 
   if('IntersectionObserver' in window){
@@ -1521,7 +1566,7 @@ document.getElementById('consent-no').addEventListener('click',function(){set('d
     document.querySelectorAll('.rev').forEach(function(el,i){el.style.transitionDelay=(i%4*70)+'ms';io.observe(el);});
   } else document.querySelectorAll('.rev').forEach(function(el){el.classList.add('in');});
 
-  root.dataset.theme='lime'; fit(); frame();
+  root.dataset.theme='lime'; fit(); frame(); arm();
 
   // ---------- pages (hash routes) ----------
   var home=document.getElementById('top'), viewEls=document.querySelectorAll('.view'), navEl=document.querySelector('.nav'), menuBtn=document.querySelector('.menu');
