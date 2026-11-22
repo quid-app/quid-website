@@ -1050,6 +1050,19 @@ a.inapp svg{color:var(--lime);font-size:16px}
   .featside .bcard .go{display:none}
 }
 
+/* ---------- v13: aesthetic pass ---------- */
+.stats .tile{justify-content:flex-start;gap:0;min-height:0}
+.stats .tile.lime{justify-content:center}
+.stats .tile .lbl+div{margin-top:clamp(28px,3vw,44px)}
+.stats .tile p{margin-top:10px!important}
+.mailto{font-size:clamp(16px,1.15vw,18px)}
+.mailto svg{font-size:15px}
+.sico{width:38px;height:38px}.sico svg{width:16px;height:16px}
+.sicos{gap:8px}
+.getapp .acc-sub{text-wrap:balance;max-width:24em}
+.qrc{width:172px;height:172px;padding:12px}
+.story2 p.big{font-size:clamp(20px,2.2vw,32px);line-height:1.25}
+@media (max-width:600px){.story2 p.big{font-size:19px;line-height:1.35}}
 .consent{position:fixed;left:16px;right:16px;bottom:max(16px,env(safe-area-inset-bottom));z-index:150;max-width:420px;margin-inline:auto;background:#1a1a1a;color:#fff;border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:18px 20px;box-shadow:0 24px 48px rgba(0,0,0,.4);font-size:14px;line-height:1.5;display:none}
 .consent[data-open]{display:block}
 .consent p{margin:0;color:rgba(255,255,255,.8)}
@@ -1166,6 +1179,13 @@ if(!v){b.setAttribute('data-open','')}
 function set(val){try{localStorage.setItem(k,val)}catch(e){}b.removeAttribute('data-open');if(val==='granted'&&window.gtag){gtag('consent','update',{analytics_storage:'granted'})}}
 document.getElementById('consent-yes').addEventListener('click',function(){set('granted')});
 document.getElementById('consent-no').addEventListener('click',function(){set('denied')});})();
+</script>
+<script>
+(function(){
+  function set(on){ document.querySelectorAll('a[href="/account"]').forEach(function(a){ var t=a.textContent.trim(); if(t==='Log in'||t==='Account') a.textContent=on?'Account':'Log in'; }); }
+  window.quidNav=set;
+  try{ for(var i=0;i<localStorage.length;i++){ var k=localStorage.key(i); if(/^sb-.+-auth-token$/.test(k)){ var v=JSON.parse(localStorage.getItem(k)); if(v&&v.refresh_token){ set(true); break; } } } }catch(e){}
+})();
 </script>
 <script>
 (function(){

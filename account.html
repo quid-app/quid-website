@@ -1027,6 +1027,19 @@ a.inapp svg{color:var(--lime);font-size:16px}
   .featside .bcard .go{display:none}
 }
 
+/* ---------- v13: aesthetic pass ---------- */
+.stats .tile{justify-content:flex-start;gap:0;min-height:0}
+.stats .tile.lime{justify-content:center}
+.stats .tile .lbl+div{margin-top:clamp(28px,3vw,44px)}
+.stats .tile p{margin-top:10px!important}
+.mailto{font-size:clamp(16px,1.15vw,18px)}
+.mailto svg{font-size:15px}
+.sico{width:38px;height:38px}.sico svg{width:16px;height:16px}
+.sicos{gap:8px}
+.getapp .acc-sub{text-wrap:balance;max-width:24em}
+.qrc{width:172px;height:172px;padding:12px}
+.story2 p.big{font-size:clamp(20px,2.2vw,32px);line-height:1.25}
+@media (max-width:600px){.story2 p.big{font-size:19px;line-height:1.35}}
 .consent{position:fixed;left:16px;right:16px;bottom:max(16px,env(safe-area-inset-bottom));z-index:150;max-width:420px;margin-inline:auto;background:#1a1a1a;color:#fff;border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:18px 20px;box-shadow:0 24px 48px rgba(0,0,0,.4);font-size:14px;line-height:1.5;display:none}
 .consent[data-open]{display:block}
 .consent p{margin:0;color:rgba(255,255,255,.8)}
@@ -1134,7 +1147,7 @@ gtag('js',new Date());gtag('config','G-NHKZQNR4QR',{anonymize_ip:true,send_page_
         <div class="acc-card getapp">
           <span class="klab">Get Quid on your phone</span>
           <div class="qrwrap"><div id="qr" class="qrc" role="img" aria-label="QR code that opens Quid on the App Store"></div></div>
-          <p class="acc-sub" style="margin:0;text-align:center">Point your iPhone camera here, then log in the same way.</p>
+          <p class="acc-sub" style="margin:0;text-align:center">Scan with your iPhone camera to get Quid.</p>
           <a class="pill wide" href="https://apps.apple.com/gb/app/quid-uk-student-life/id6791167493" target="_blank" rel="noopener">Download on the App Store</a>
         </div>
       </div>
@@ -1180,6 +1193,13 @@ if(!v){b.setAttribute('data-open','')}
 function set(val){try{localStorage.setItem(k,val)}catch(e){}b.removeAttribute('data-open');if(val==='granted'&&window.gtag){gtag('consent','update',{analytics_storage:'granted'})}}
 document.getElementById('consent-yes').addEventListener('click',function(){set('granted')});
 document.getElementById('consent-no').addEventListener('click',function(){set('denied')});})();
+</script>
+<script>
+(function(){
+  function set(on){ document.querySelectorAll('a[href="/account"]').forEach(function(a){ var t=a.textContent.trim(); if(t==='Log in'||t==='Account') a.textContent=on?'Account':'Log in'; }); }
+  window.quidNav=set;
+  try{ for(var i=0;i<localStorage.length;i++){ var k=localStorage.key(i); if(/^sb-.+-auth-token$/.test(k)){ var v=JSON.parse(localStorage.getItem(k)); if(v&&v.refresh_token){ set(true); break; } } } }catch(e){}
+})();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
@@ -1235,7 +1255,7 @@ document.getElementById('consent-no').addEventListener('click',function(){set('d
   }
   document.addEventListener('click',function(e){ var b=e.target.closest('[data-mode]'); if(b&&b.closest('.auth')) setMode(b.dataset.mode); });
 
-  function show(v){ $('authBox').hidden=v!=='auth'; $('dash').hidden=v!=='dash'; $('gone').hidden=v!=='gone'; }
+  function show(v){ if(window.quidNav) quidNav(v==='dash'); $('authBox').hidden=v!=='auth'; $('dash').hidden=v!=='dash'; $('gone').hidden=v!=='gone'; }
   function signedIn(user){
     if(!user) return;
     var meta=user.user_metadata||{}, name=meta.full_name||meta.name||(user.email||'').split('@')[0]||'You';
@@ -1345,12 +1365,11 @@ document.getElementById('consent-no').addEventListener('click',function(){set('d
   var drawn=false;
   function drawQR(){
     if(drawn||typeof qrcode!=='function') return; drawn=true;
-    var q=qrcode(0,'H'); q.addData(AS); q.make(); var n=q.getModuleCount(), c=Math.floor(n/2), hole=4;
+    var q=qrcode(0,'M'); q.addData(AS); q.make(); var n=q.getModuleCount();
     var inF=function(r,k){ return (r<7&&k<7)||(r<7&&k>=n-7)||(r>=n-7&&k<7); };
     var out='<svg viewBox="0 0 '+n+' '+n+'" xmlns="http://www.w3.org/2000/svg">';
-    for(var r=0;r<n;r++) for(var k=0;k<n;k++){ if(!q.isDark(r,k)||inF(r,k)) continue; if(Math.abs(r-c)<=hole&&Math.abs(k-c)<=hole) continue; out+='<rect x="'+(k+.1)+'" y="'+(r+.1)+'" width=".8" height=".8" rx=".4" fill="#0D0D0D"/>'; }
+    for(var r=0;r<n;r++) for(var k=0;k<n;k++){ if(!q.isDark(r,k)||inF(r,k)) continue; out+='<rect x="'+(k+.1)+'" y="'+(r+.1)+'" width=".8" height=".8" rx=".4" fill="#0D0D0D"/>'; }
     [[0,0],[0,n-7],[n-7,0]].forEach(function(p){ out+='<rect x="'+(p[1]+.5)+'" y="'+(p[0]+.5)+'" width="6" height="6" rx="1.8" fill="none" stroke="#0D0D0D" stroke-width="1"/><rect x="'+(p[1]+2)+'" y="'+(p[0]+2)+'" width="3" height="3" rx="1" fill="#0D0D0D"/>'; });
-    out+='<rect x="'+(c-hole+.4)+'" y="'+(c-hole+.4)+'" width="'+(2*hole+.2)+'" height="'+(2*hole+.2)+'" rx="2.2" fill="#0D0D0D"/><text x="'+(c+.5)+'" y="'+(c+2.4)+'" text-anchor="middle" font-family="Instrument Serif,Georgia,serif" font-style="italic" font-size="6.4" fill="#C6FF3D">q</text>';
     $('qr').innerHTML=out+'</svg>';
   }
 
