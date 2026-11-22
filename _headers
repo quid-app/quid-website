@@ -9,3 +9,6 @@
   X-Frame-Options: SAMEORIGIN
   X-Content-Type-Options: nosniff
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+/app-version.json
+  Cache-Control: no-cache
+  Access-Control-Allow-Origin: *
