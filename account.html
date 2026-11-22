@@ -1088,6 +1088,17 @@ a.inapp svg{color:var(--lime);font-size:16px}
 .consent-actions button{font:inherit;font-weight:600;font-size:13px;border-radius:999px;padding:10px 16px;cursor:pointer;border:1px solid rgba(255,255,255,.18);background:transparent;color:#fff}
 .consent-actions button.yes{background:var(--lime,#c6ff3d);color:#0d0d0d;border-color:transparent}
 @media (min-width:768px){.consent{left:24px;right:auto;bottom:24px;margin:0}}
+
+/* compact header on phones */
+@media (max-width:760px){
+  .nav{padding:6px 16px!important;gap:10px}
+  .nav .logo{height:21px}
+  .nav .pill,.menu{min-height:34px!important;height:34px!important;font-size:13px!important}
+  .nav .pill{padding:0 14px!important}
+  .menu{padding:0 12px 0 10px!important;gap:6px;box-shadow:inset 0 0 0 1.25px var(--fg)}
+  .menu svg{font-size:15px}
+  .nav-r{gap:6px!important}
+}
 </style>
 <!-- ga4-consent -->
 <script>
@@ -1424,5 +1435,20 @@ document.getElementById('consent-no').addEventListener('click',function(){set('d
 })();
 </script>
 
+<script>
+/* header follows the colour of whatever section sits under it */
+(function(){
+  var root=document.documentElement, nav=document.querySelector('.nav'), secs=document.querySelectorAll('.sec[data-theme]'), tick=false;
+  if(!nav||!secs.length) return;
+  function upd(){
+    tick=false; var y=nav.offsetHeight/2, th='dark';
+    for(var k=0;k<secs.length;k++){ var r=secs[k].getBoundingClientRect(); if(r.top<=y&&r.bottom>y){ th=secs[k].dataset.theme; break; } }
+    if(scrollY<=0&&secs[0].getBoundingClientRect().top<=y+4) th=secs[0].dataset.theme;
+    if(root.dataset.theme!==th) root.dataset.theme=th;
+  }
+  function on(){ if(!tick){ tick=true; requestAnimationFrame(upd); } }
+  addEventListener('scroll',on,{passive:true}); addEventListener('resize',on); addEventListener('load',on); upd();
+})();
+</script>
 </body>
 </html>

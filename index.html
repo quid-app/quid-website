@@ -1108,6 +1108,38 @@ a.inapp svg{color:var(--lime);font-size:16px}
 .consent-actions button{font:inherit;font-weight:600;font-size:13px;border-radius:999px;padding:10px 16px;cursor:pointer;border:1px solid rgba(255,255,255,.18);background:transparent;color:#fff}
 .consent-actions button.yes{background:var(--lime,#c6ff3d);color:#0d0d0d;border-color:transparent}
 @media (min-width:768px){.consent{left:24px;right:auto;bottom:24px;margin:0}}
+
+/* compact header on phones */
+@media (max-width:760px){
+  .nav{padding:6px 16px!important;gap:10px}
+  .nav .logo{height:21px}
+  .nav .pill,.menu{min-height:34px!important;height:34px!important;font-size:13px!important}
+  .nav .pill{padding:0 14px!important}
+  .menu{padding:0 12px 0 10px!important;gap:6px;box-shadow:inset 0 0 0 1.25px var(--fg)}
+  .menu svg{font-size:15px}
+  .nav-r{gap:6px!important}
+}
+
+/* ---------- story: fixed step length, stage colour continues behind the browser bars ---------- */
+.story{height:calc((var(--steps) - 1) * 64vh + 100vh)!important;height:calc((var(--steps) - 1) * 64svh + 100svh)!important;background:var(--bg);transition:background-color .7s var(--ease)}
+html{scroll-behavior:auto!important}
+@media (max-width:900px){
+  /* every step keeps the same text height, so the phone never jumps between steps */
+  .stage{padding-top:calc(58px + env(safe-area-inset-top,0px))!important;grid-template-rows:auto auto minmax(0,1fr)!important}
+  .col-l .swap>*{font-size:clamp(26px,7.2vw,36px)!important;line-height:1.02!important}
+  .col-r{margin-top:10px!important}
+  .col-r .swap>div:not(.on){display:block!important}
+  .col-r .swap>div{min-height:0}
+  .col-r p{font-size:14px!important;line-height:1.45!important}
+  .col-r p.hook{font-size:16.5px!important;margin-bottom:3px!important}
+  .col-c{margin-top:16px!important;align-self:start}
+  .phone{--pw:min(60vw,calc((100svh - 300px) * .46))}
+}
+@media (max-width:380px){.col-r p{font-size:13.5px!important}.col-r p.hook{font-size:15.5px!important}.col-r{width:min(100% - 44px,360px)!important}}
+@media (max-width:900px) and (max-height:620px){
+  .col-r p.hook+p,.col-r p.mb:not(.hook){display:-webkit-box!important;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .col-l .swap>*{font-size:clamp(24px,6.6vw,30px)!important}
+}
 </style>
 <!-- ga4-consent -->
 <script>
@@ -1474,7 +1506,19 @@ document.getElementById('consent-no').addEventListener('click',function(){set('d
   dockBtns.forEach(function(b,k){ b.addEventListener('click',function(){ goStep(k); }); });
   var wm=document.querySelector('.wordmark'); if(wm) wm.appendChild(document.querySelector('.logo svg').cloneNode(true));
 
-  function fit(){ phone.style.setProperty('--s', phone.clientWidth/390); }
+  var colc=stage.querySelector('.col-c');
+  // phones: the mockup takes exactly the room left under the text, so it is never cut off
+  function fit(){
+    if(mob.matches){
+      var vv=window.visualViewport?visualViewport.height:innerHeight, vis=Math.min(vv,innerHeight), land=innerWidth>innerHeight;
+      if(fit.land!==land||!fit.h||vis<fit.h){ fit.land=land; fit.h=vis; }
+      if(fit.h>200) stage.style.height=Math.round(fit.h)+'px';
+      var avail=stage.clientHeight-colc.offsetTop-18;
+      var pw=Math.max(84,Math.min(avail*390/844,innerWidth*0.66,300));
+      phone.style.setProperty('--pw',pw.toFixed(1)+'px');
+    } else { phone.style.removeProperty('--pw'); stage.style.height=''; }
+    phone.style.setProperty('--s', phone.clientWidth/390);
+  }
 
   function count(el,dur){
     var to=+el.dataset.count; if(reduce){el.textContent=to.toLocaleString('en-GB');return;}
@@ -1499,7 +1543,7 @@ document.getElementById('consent-no').addEventListener('click',function(){set('d
   }
   function setStep(i){
     if(i===cur)return; cur=i;
-    stage.dataset.step=i; stage.dataset.theme=themes[i];
+    stage.dataset.step=i; stage.dataset.theme=themes[i]; story.dataset.theme=themes[i];
     slides.forEach(function(el){var k=+el.dataset.i; el.classList.toggle('on',k===i); el.classList.toggle('past',k<i);});
     var t=tabFor[i]; tab.classList.toggle('off',t<0);
     if(t>=0){ tabs.forEach(function(b,k){b.classList.toggle('a',k===t);}); var w=(tab.clientWidth-16)/4; tabHi.style.transform='translateX('+(t*w)+'px)'; }
@@ -1512,14 +1556,14 @@ document.getElementById('consent-no').addEventListener('click',function(){set('d
   var scrollCount=document.querySelector('[data-scroll]'), sections=document.querySelectorAll('.sec[data-theme]');
 
   function frame(){
-    var vh=innerHeight, r=story.getBoundingClientRect(), total=story.offsetHeight-vh;
-    var p=Math.max(0,Math.min(1,-r.top/total));
-    // on phones a step only changes once you are clearly past the boundary, so it never flickers
-    var q=p*N, ri=Math.min(N-1,Math.floor(q*0.999+0.0001));
-    if(mob.matches&&cur>=0&&ri!==cur&&q<=cur+1.12&&q>=cur-0.12) ri=cur;
+    var vh=innerHeight, r=story.getBoundingClientRect();
+    var q=Math.max(0,Math.min(N-1,-r.top/stepLen())), ri=Math.round(q);
+    // while a controlled step is moving, the step shown is the one being moved to
+    if(ctl.lock) ri=ctl.to;
+    else if(cur>=0&&ri!==cur&&Math.abs(q-cur)<0.62) ri=cur;
     setStep(ri);
     // gentle continuous drift on the phone within each step (desktop only, phones stay steady)
-    if(!reduce&&!mob.matches){ var local=(p*N)%1; phone.style.transform='translateY('+((0.5-local)*14).toFixed(1)+'px)'; for(var f=0;f<floats.length;f++) floats[f].style.setProperty('--py',((0.5-local)*46*(+floats[f].dataset.p)).toFixed(1)); }
+    if(!reduce&&!mob.matches){ var local=(q+0.5)%1; phone.style.transform='translateY('+((0.5-local)*14).toFixed(1)+'px)'; for(var f=0;f<floats.length;f++) floats[f].style.setProperty('--py',((0.5-local)*46*(+floats[f].dataset.p)).toFixed(1)); }
 
     // nav theme follows whatever sits under it
     var th=r.bottom>40?themes[cur]:'dark';
@@ -1543,18 +1587,16 @@ document.getElementById('consent-no').addEventListener('click',function(){set('d
 
   // phones: normal scrolling drives the story; left alone for a few seconds, it scrolls
   // itself on to the next step. Any touch or scroll hands control straight back.
-  function stepPos(i){ return Math.round(story.offsetTop+(story.offsetHeight-innerHeight)*(i===0?0:(i+0.4)/N)); }
+  function stepLen(){ return Math.max(1,(story.offsetHeight-stage.offsetHeight)/(N-1)); }
+  function stepPos(i){ return Math.round(story.offsetTop+i*stepLen()); }
   function pinned(){ var r=story.getBoundingClientRect(); return r.top<=2&&r.bottom>=innerHeight-2; }
   function play(){
     clearTimeout(autoT); dock.classList.remove('play');
-    if(!mob.matches||reduce||document.hidden||touching||cur<0||cur>=N-1||!pinned()) return;
+    if(manual||!mob.matches||reduce||document.hidden||touching||cur<0||cur>=N-1||!pinned()) return;
     void dock.offsetWidth; dock.classList.add('play');
-    autoT=setTimeout(function(){ if(!touching&&pinned()) scrollTo({top:stepPos(cur+1),behavior:'smooth'}); },HOLD);
+    autoT=setTimeout(function(){ if(!touching&&pinned()&&!ctl.lock) stepTo(cur+1); },HOLD);
   }
-  function goStep(i){
-    var total=story.offsetHeight-innerHeight;
-    scrollTo({top:mob.matches?stepPos(i):story.offsetTop+total*((i+0.5)/N),behavior:reduce?'auto':'smooth'});
-  }
+  function goStep(i){ manual=true; stepTo(i); }
   function idle(){ clearTimeout(idleT); clearTimeout(autoT); dock.classList.remove('play'); idleT=setTimeout(play,300); }
   dock.style.setProperty('--hold',HOLD+'ms');
   addEventListener('scroll',function(){ if(mob.matches) idle(); },{passive:true});
@@ -1567,9 +1609,102 @@ document.getElementById('consent-no').addEventListener('click',function(){set('d
     fit();
     // iOS resizes as its toolbar slides; keep the current step rather than restarting it
     if(mob.matches!==wasMob||!mob.matches){ wasMob=mob.matches; cur=-1; }
+    if(!ctl.lock&&inStory()&&cur>0) setY(stepPos(cur));
     frame(); play();
   });
 
+
+
+  // ---------- controlled stepping: one gesture moves exactly one step, however hard it is flung ----------
+  var ctl={lock:false,to:0,at:0,t0:0,raf:0,next:0}, wT=0, wDir=0, wGap=0, wN=0, wPrev=0, wFall=0, wLow=0, wMom=false, manual=false;
+  function setY(y){ try{ scrollTo({top:y,left:0,behavior:'instant'}); }catch(e){ scrollTo(0,y); } }
+  function stepTo(i){
+    i=Math.max(0,Math.min(N-1,i));
+    cancelAnimationFrame(ctl.raf);
+    var from=scrollY, to=stepPos(i), t0=performance.now(), dur=reduce?0:Math.min(860,460+90*Math.max(0,Math.abs(i-cur)-1));
+    ctl.lock=true; ctl.to=i; ctl.at=t0; ctl.t0=t0; ctl.next=0; setStep(i);
+    if(Math.abs(to-from)<2||!dur){ setY(to); ctl.lock=false; return; }
+    (function f(t){
+      var p=Math.min(1,(t-t0)/dur), e=p<.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2;
+      setY(from+(to-from)*e);
+      if(p<1) ctl.raf=requestAnimationFrame(f); else { ctl.lock=false; ctl.at=performance.now(); var nx=ctl.next, sg=nx>0?1:-1; ctl.next=0; if(nx&&cur+sg>=0&&cur+sg<=N-1) setTimeout(function(){ if(!ctl.lock){ stepTo(cur+sg); ctl.next=nx-sg; } },120); }
+    })(t0);
+  }
+  function inStory(){ var hm=document.getElementById('top'); if(hm&&hm.hidden) return false; var r=story.getBoundingClientRect(); return r.top<=2&&r.bottom>=stage.offsetHeight-2; }
+  // direction d (+1 down, -1 up). Returns true when the gesture belongs to the story.
+  function want(d){ var n=(ctl.lock?ctl.to:cur)+d; return n>=0&&n<=N-1; }
+
+  addEventListener('wheel',function(e){
+    if(e.ctrlKey||!inStory()) return;
+    var d=e.deltaY>0?1:e.deltaY<0?-1:0; if(!d) return;
+    var now=performance.now(), abs=Math.abs(e.deltaY);
+    // a new gesture: a pause, a change of direction, or a harder push than the fading tail before it
+    var gap=now-wT, fresh=false;
+    if(d!==wDir) fresh=true;
+    else if(gap>160){
+      // a lone click after a lone click is deliberate; after a dense burst (a spinning wheel slowing down) it must be a clear pause
+      fresh = wN<3 || gap>600 || gap>2.2*Math.max(wGap,40);
+    } else if(wMom&&abs>wLow*1.4&&abs>=wLow+10&&now-ctl.t0>300){
+      fresh=true;                                                               // speed was falling (momentum), then it jumped: a new swipe
+    }
+    if(fresh){ wN=1; wFall=0; wMom=false; wLow=abs; } else { wN++; if(abs<=wPrev){ if(++wFall>=4&&!wMom){ wMom=true; wLow=abs; } } else if(!wMom&&abs>wPrev*1.15) wFall=0; if(wMom&&abs<wLow) wLow=abs; }
+    wPrev=abs; wGap=gap; wT=now; wDir=d;
+    if(!want(d)){ if(ctl.lock||!fresh) e.preventDefault(); return; }             // at an end: a new gesture scrolls the page on
+    e.preventDefault();
+    if(!fresh) return;                                                          // tail of the same swipe never steps again
+    manual=true;
+    if(ctl.lock){ ctl.next=Math.max(-3,Math.min(3,ctl.next+d)); return; }                                         // arrived mid-move: take it next, never drop it
+    stepTo(cur+d);
+  },{passive:false});
+
+  addEventListener('keydown',function(e){
+    if(e.altKey||e.ctrlKey||e.metaKey||!inStory()) return;
+    var t=e.target; if(t&&/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
+    var d=(e.key==='ArrowDown'||e.key==='PageDown'||(e.key===' '&&!e.shiftKey))?1:(e.key==='ArrowUp'||e.key==='PageUp'||(e.key===' '&&e.shiftKey))?-1:0;
+    if(!d||(e.key===' '&&t&&/^(BUTTON|A)$/.test(t.tagName))) return;
+    if(!want(d)) return;
+    e.preventDefault(); manual=true; if(ctl.lock) ctl.next=d; else stepTo(cur+d);
+  });
+
+  var tY=0,tX=0,tOn=false,tDone=false,tFree=false,tHeld=false;
+  addEventListener('touchstart',function(e){ if(e.touches.length!==1){tOn=false;return;} tY=e.touches[0].clientY; tX=e.touches[0].clientX; tOn=inStory(); tDone=false; tFree=false; tHeld=false; },{passive:true});
+  addEventListener('touchmove',function(e){
+    if(!tOn||tFree||e.touches.length!==1) return;
+    var dy=tY-e.touches[0].clientY, dx=tX-e.touches[0].clientX;
+    if(!tDone&&!tHeld&&Math.abs(dx)>Math.abs(dy)*1.3&&Math.abs(dx)>6){ tFree=true; return; }
+    var d=dy>0?1:dy<0?-1:0;
+    if(!tDone&&!tHeld&&d&&!ctl.lock&&!want(d)){ tFree=true; return; }           // at an end: hand the swipe to the page
+    if(e.cancelable) e.preventDefault();
+    tHeld=true; if(!d) return;
+    if(!tDone&&Math.abs(dy)>14){ tDone=true; manual=true; if(ctl.lock) ctl.next=d; else stepTo(cur+d); }
+  },{passive:false});
+
+  // free scrolling that ends inside the story (coming back up from below, dragging the scrollbar) settles on the nearest step
+  var setT=0, fingers=0;
+  addEventListener('touchstart',function(e){ fingers=e.touches.length; },{passive:true});
+  addEventListener('touchend',function(e){ fingers=e.touches.length; settleSoon(); },{passive:true});
+  addEventListener('touchcancel',function(e){ fingers=e.touches.length; settleSoon(); },{passive:true});
+  function settleSoon(){ clearTimeout(setT); setT=setTimeout(function(){
+    if(fingers||ctl.lock||!inStory()) return;
+    var q=Math.max(0,Math.min(N-1,(scrollY-story.offsetTop)/stepLen())), n=Math.round(q);
+    if(Math.abs(scrollY-stepPos(n))>3) stepTo(n);
+  },150); }
+  addEventListener('scroll',settleSoon,{passive:true});
+
+  // a fling that starts below the story and carries up into it stops at the last step instead of running through
+  var wasIn=inStory(), lastY=scrollY;
+  addEventListener('scroll',function(){
+    var now=inStory(), y=scrollY;
+    if(now&&!wasIn&&!ctl.lock&&y<lastY&&!tOn){
+      var end=stepPos(N-1);
+      if(y<=end+2){
+        ctl.at=performance.now(); wT=ctl.at;
+        var de=document.documentElement; de.style.overflow='hidden'; setY(end);
+        requestAnimationFrame(function(){ de.style.overflow=''; setY(end); });
+      }
+    }
+    wasIn=now; lastY=y;
+  },{passive:true});
 
   if('IntersectionObserver' in window){
     var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{rootMargin:'0px 0px -8% 0px'});
@@ -1624,6 +1759,8 @@ document.getElementById('consent-no').addEventListener('click',function(){set('d
   route(readHash()); topBtn();
 
   if(document.fonts&&document.fonts.ready) document.fonts.ready.then(function(){fit();});
+  if(window.visualViewport) visualViewport.addEventListener('resize',function(){ fit(); });
+  addEventListener('orientationchange',function(){ setTimeout(function(){ fit(); frame(); },250); });
 })();
 </script>
 </body>
