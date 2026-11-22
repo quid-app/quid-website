@@ -1062,13 +1062,13 @@ a.inapp svg{color:var(--lime);font-size:16px}
 .dock .skip:hover{color:var(--fg)}
 .cue{display:none}
 @media (max-width:900px){
-  .story{height:calc(var(--steps) * 92vh + 50vh)}
+  .story{height:100vh;height:100svh}
   .dock{top:56%}
   .dock .skip{width:30px;height:34px;padding:0;margin-top:6px;justify-content:center;border-top:1px solid var(--rule);color:var(--fg)}
   .dock .skip span{display:none}
   .dock .skip svg{width:14px;height:14px}
   .dock.play button[aria-current="true"]:before{opacity:.3}
-  .dock.play button[aria-current="true"]:after{content:"";position:absolute;left:50%;top:50%;width:7px;height:20px;margin:-10px 0 0 -3.5px;border-radius:999px;background:var(--fg);transform-origin:top;animation:fillv 5.5s linear forwards}
+  .dock.play button[aria-current="true"]:after{content:"";position:absolute;left:50%;top:50%;width:7px;height:20px;margin:-10px 0 0 -3.5px;border-radius:999px;background:var(--fg);transform-origin:top;animation:fillv var(--hold,7s) linear forwards}
 }
 @keyframes fillv{from{transform:scaleY(0)}to{transform:scaleY(1)}}
 .story2 p.big{font-size:clamp(20px,2.2vw,32px);line-height:1.25}

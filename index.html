@@ -1082,13 +1082,13 @@ a.inapp svg{color:var(--lime);font-size:16px}
 .dock .skip:hover{color:var(--fg)}
 .cue{display:none}
 @media (max-width:900px){
-  .story{height:calc(var(--steps) * 92vh + 50vh)}
+  .story{height:100vh;height:100svh}
   .dock{top:56%}
   .dock .skip{width:30px;height:34px;padding:0;margin-top:6px;justify-content:center;border-top:1px solid var(--rule);color:var(--fg)}
   .dock .skip span{display:none}
   .dock .skip svg{width:14px;height:14px}
   .dock.play button[aria-current="true"]:before{opacity:.3}
-  .dock.play button[aria-current="true"]:after{content:"";position:absolute;left:50%;top:50%;width:7px;height:20px;margin:-10px 0 0 -3.5px;border-radius:999px;background:var(--fg);transform-origin:top;animation:fillv 5.5s linear forwards}
+  .dock.play button[aria-current="true"]:after{content:"";position:absolute;left:50%;top:50%;width:7px;height:20px;margin:-10px 0 0 -3.5px;border-radius:999px;background:var(--fg);transform-origin:top;animation:fillv var(--hold,7s) linear forwards}
 }
 @keyframes fillv{from{transform:scaleY(0)}to{transform:scaleY(1)}}
 .story2 p.big{font-size:clamp(20px,2.2vw,32px);line-height:1.25}
@@ -1461,11 +1461,10 @@ document.getElementById('consent-no').addEventListener('click',function(){set('d
   var themes=['lime','light','dark','light','lime','dark'], tabFor=[0,0,-1,1,3,2], N=themes.length, cur=-1;
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   var slides=stage.querySelectorAll('[data-i]');
-  var mob=matchMedia('(max-width:900px)'), settled=0, touching=false, jumping=false, idleT=null, autoT=null, AUTO=5500;
+  var mob=matchMedia('(max-width:900px)'), autoT=null, paused=false, inView=true;
   var floats=stage.querySelectorAll('.fl'), dock=stage.querySelector('.dock'), dockBtns=dock.querySelectorAll('button'), dockHi=dock.querySelector('i');
   function dockTo(i){ var b=dockBtns[i]; dockBtns.forEach(function(x,k){x.setAttribute('aria-current',k===i?'true':'false');}); dockHi.style.height=b.offsetHeight+'px'; dockHi.style.transform='translateY('+b.offsetTop+'px)'; }
-  dockBtns.forEach(function(b,k){ b.addEventListener('click',function(){ settled=k; goStep(k); }); });
-  dock.querySelector('.skip').addEventListener('click',function(){ jumping=true; clearTimeout(autoT); });
+  dockBtns.forEach(function(b,k){ b.addEventListener('click',function(){ goStep(k); }); });
   var wm=document.querySelector('.wordmark'); if(wm) wm.appendChild(document.querySelector('.logo svg').cloneNode(true));
 
   function fit(){ phone.style.setProperty('--s', phone.clientWidth/390); }
@@ -1508,9 +1507,8 @@ document.getElementById('consent-no').addEventListener('click',function(){set('d
   function frame(){
     var vh=innerHeight, r=story.getBoundingClientRect(), total=story.offsetHeight-vh;
     var p=Math.max(0,Math.min(1,-r.top/total));
-    var ri=Math.min(N-1,Math.floor(p*N*0.999+0.0001));
-    if(mob.matches&&!jumping) ri=Math.max(settled-1,Math.min(settled+1,ri));
-    setStep(ri);
+    // phones play the story on a timer instead (see below), so scroll only drives it on desktop
+    if(!mob.matches) setStep(Math.min(N-1,Math.floor(p*N*0.999+0.0001)));
     // gentle continuous drift on the phone within each step (desktop only, phones stay steady)
     if(!reduce&&!mob.matches){ var local=(p*N)%1; phone.style.transform='translateY('+((0.5-local)*14).toFixed(1)+'px)'; for(var f=0;f<floats.length;f++) floats[f].style.setProperty('--py',((0.5-local)*46*(+floats[f].dataset.p)).toFixed(1)); }
 
@@ -1534,39 +1532,42 @@ document.getElementById('consent-no').addEventListener('click',function(){set('d
   function onScroll(){ if(!tick){tick=true;requestAnimationFrame(function(){tick=false;frame();});} }
   addEventListener('scroll',onScroll,{passive:true});
 
-  // phones: one step per swipe, each step rests in place, autoplay when left alone
-  function rawStep(){ var total=story.offsetHeight-innerHeight, p=Math.max(0,Math.min(1,-story.getBoundingClientRect().top/total)); return Math.min(N-1,Math.floor(p*N*0.999+0.0001)); }
-  function stepPos(i){ return i===0?story.offsetTop:Math.round(story.offsetTop+(story.offsetHeight-innerHeight)*(i+0.3)/N); }
-  function pinned(){ var r=story.getBoundingClientRect(); return r.top<=1&&r.bottom>=innerHeight-1; }
-  function goStep(i){ jumping=true; clearTimeout(autoT); scrollTo({top:stepPos(i),behavior:reduce?'auto':'smooth'}); }
-  function arm(){
+  // phones: the story is one screen that plays itself, one step at a time, and the page
+  // always scrolls natively. Swipe sideways or tap the rail to move; scroll down to leave.
+  function hold(i){ return (LOOP[i]||7000)+900; }
+  function play(){
     clearTimeout(autoT); dock.classList.remove('play');
-    if(!mob.matches||reduce||touching||!pinned()||settled>=N-1) return;
+    if(!mob.matches||reduce||paused||cur<0) return;
+    dock.style.setProperty('--hold',hold(cur)+'ms');
     void dock.offsetWidth; dock.classList.add('play');
-    autoT=setTimeout(function(){ if(!touching&&pinned()){ settled=Math.min(N-1,settled+1); goStep(settled); } },AUTO);
+    autoT=setTimeout(function(){ show((cur+1)%N); },hold(cur));
   }
-  function settle(){
-    if(touching) return;
-    var i=rawStep();
-    if(!mob.matches||!pinned()){ settled=i; jumping=false; dock.classList.remove('play'); return; }
-    var t=jumping?i:Math.max(settled-1,Math.min(settled+1,i)), want=stepPos(t), y=scrollY;
-    jumping=false; settled=t;
-    if(!(t===N-1&&y>want)&&Math.abs(y-want)>4){ jumping=true; scrollTo({top:want,behavior:'smooth'}); return; }
-    frame(); arm();
+  function show(i){ setStep(i); frame(); play(); }
+  function goStep(i){
+    if(mob.matches){ show(i); return; }
+    var total=story.offsetHeight-innerHeight; scrollTo({top:story.offsetTop+total*((i+0.5)/N),behavior:reduce?'auto':'smooth'});
   }
-  function wait(){ clearTimeout(idleT); clearTimeout(autoT); dock.classList.remove('play'); idleT=setTimeout(settle,180); }
-  addEventListener('scroll',wait,{passive:true});
-  addEventListener('touchstart',function(){ touching=true; clearTimeout(idleT); clearTimeout(autoT); dock.classList.remove('play'); },{passive:true});
-  addEventListener('touchend',function(){ touching=false; wait(); },{passive:true});
-  addEventListener('touchcancel',function(){ touching=false; wait(); },{passive:true});
-  addEventListener('resize',function(){fit();cur=-1;frame();});
+  function setPaused(){ var p=!inView||document.hidden; if(p!==paused){ paused=p; play(); } }
+  if('IntersectionObserver' in window) new IntersectionObserver(function(es){ inView=es[0].intersectionRatio>0.5; setPaused(); },{threshold:[0,0.5,1]}).observe(story);
+  document.addEventListener('visibilitychange',setPaused);
+  var sx=0, sy=0;
+  stage.addEventListener('touchstart',function(e){ var t=e.touches[0]; sx=t.clientX; sy=t.clientY; },{passive:true});
+  stage.addEventListener('touchend',function(e){ if(!mob.matches) return; var t=e.changedTouches[0], dx=t.clientX-sx, dy=t.clientY-sy; if(Math.abs(dx)>48&&Math.abs(dx)>Math.abs(dy)*1.5) show((cur+(dx<0?1:N-1))%N); },{passive:true});
+  var wasMob=mob.matches;
+  addEventListener('resize',function(){
+    fit();
+    // iOS fires resize as the toolbar shows and hides; only re-lay out when the layout mode changes
+    if(mob.matches!==wasMob){ wasMob=mob.matches; var k=Math.max(0,cur); cur=-1; if(wasMob) show(k); else { clearTimeout(autoT); dock.classList.remove('play'); frame(); } }
+    else if(!wasMob){ cur=-1; frame(); }
+  });
+
 
   if('IntersectionObserver' in window){
     var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{rootMargin:'0px 0px -8% 0px'});
     document.querySelectorAll('.rev').forEach(function(el,i){el.style.transitionDelay=(i%4*70)+'ms';io.observe(el);});
   } else document.querySelectorAll('.rev').forEach(function(el){el.classList.add('in');});
 
-  root.dataset.theme='lime'; fit(); frame(); arm();
+  root.dataset.theme='lime'; fit(); if(mob.matches) show(0); frame();
 
   // ---------- pages (hash routes) ----------
   var home=document.getElementById('top'), viewEls=document.querySelectorAll('.view'), navEl=document.querySelector('.nav'), menuBtn=document.querySelector('.menu');
@@ -1584,7 +1585,7 @@ document.getElementById('consent-no').addEventListener('click',function(){set('d
     document.querySelectorAll('.nav-links a').forEach(function(a){ var t=a.getAttribute('href').slice(1); if(v&&(t===h||(t==='blog'&&h.indexOf('post-')===0))) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
     if(v){ scrollTo(0,0); document.title=(v.querySelector('h1')?v.querySelector('h1').textContent+' | ':'')+'Quid'; }
     else {  var t=h&&document.getElementById(h); if(t&&home.contains(t)){ fit(); t.scrollIntoView({behavior:'auto',block:'start'}); } else scrollTo(0,0); }
-    fit(); cur=-1; frame(); spy(); topBtn();
+    fit(); var k=Math.max(0,cur); cur=-1; if(mob.matches) show(k); frame(); spy(); topBtn();
   }
   addEventListener('hashchange',function(){ var h=readHash(); if(h!==here) route(h); });
   menuBtn.addEventListener('click',function(){ var o=navEl.classList.toggle('open'); menuBtn.setAttribute('aria-expanded',o?'true':'false'); });
