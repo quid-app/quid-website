@@ -21,6 +21,8 @@ Facts: Free. iPhone only (iOS 16 or later), Android planned. Category: Finance. 
   - [A month in the UK for an Indian student, in pounds and in rupees.](https://quidapp.co.uk/blog/cost-of-living-uk-indian-students)
   - [IHS, eVisa, BRP: which one each person actually wants.](https://quidapp.co.uk/blog/ihs-evisa-brp-what-you-need-in-week-one)
   - [Is £2,000 a month enough in the UK? Yes. Here is the margin.](https://quidapp.co.uk/blog/is-2000-pounds-a-month-enough-uk-student)
+  - [Going home for the break: five eVisa checks before you fly.](https://quidapp.co.uk/blog/travelling-home-student-visa-evisa-checks)
+  - [Do you need a TV licence at uni? Only for live TV and BBC iPlayer.](https://quidapp.co.uk/blog/tv-licence-students-uk)
 - [About](https://quidapp.co.uk/about): the founders and why Quid exists.
 - [Deals](https://quidapp.co.uk/deals): student deal categories (SIMs and eSIMs, tech and security, banking, travel, food and entertainment, health and storage).
 - [Privacy Policy](https://quidapp.co.uk/privacy)
