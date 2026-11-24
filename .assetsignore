@@ -7,3 +7,5 @@ CNAME
 .wrangler
 .DS_Store
 node_modules
+BLOG-PLAYBOOK.md
+.github
