@@ -1,0 +1,19 @@
+{
+  // quidapp.co.uk is the Cloudflare Worker "quid-site": the /go/<code> QR
+  // tracking script (go.js) plus this folder's static files. Deploy with
+  // `npx wrangler deploy` from a clean export of main. Do NOT deploy the
+  // files without go.js: that breaks every QR code.
+  "name": "quid-site",
+  "main": "go.js",
+  "compatibility_date": "2026-07-29",
+  "assets": {
+    "directory": ".",
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/go/*"]
+  },
+  "kv_namespaces": [
+    { "binding": "QUID_GO", "id": "da0667975f5a4d21999afb9067592119" }
+  ]
+}

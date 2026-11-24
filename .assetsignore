@@ -1,0 +1,9 @@
+go.js
+wrangler.jsonc
+.assetsignore
+README.md
+CNAME
+.git
+.wrangler
+.DS_Store
+node_modules
