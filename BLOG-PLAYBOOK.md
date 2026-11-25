@@ -22,7 +22,7 @@ Only features that are live in the app today:
 - Spend logging, including from the home-screen widget
 - First-week checklist (bank, SIM, GP, NI number if working, 18+ Oyster, council tax, eVisa, Railcard), with links and reminders
 - Before-you-fly mode: halls that fit your rent, travel eSIM, money sent for less, arrival-date countdown
-- Student deals, Community (your uni, your country, The Lineup for events), Quid AI
+- Student deals, Community (your uni, your country, The Lineup for events), Quid AI (not offered on the China App Store from version 1.0.4, so never promise it to readers in mainland China)
 - Income, recurring costs and savings goals
 
 Not built: automatic logging from Apple Wallet (may only be called "coming soon"), Android, tuition payment, guarantor, anything bank-connected. Quid is not a bank and gives no financial or immigration advice. If unsure whether a feature exists, do not mention it.
