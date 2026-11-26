@@ -62,7 +62,7 @@ Posts publish without human review, so nothing goes out unverified.
 ## Calls to action for the app
 
 Each post carries both:
-1. One sentence inside the article, near the end of the body, saying what Quid does about this exact problem, using only live features, with a link to the App Store: `https://apps.apple.com/gb/app/quid-uk-student-life/id6791167493`.
+1. One sentence inside the article, near the end of the body, saying what Quid does about this exact problem, using only live features, with a link to the App Store tagged for this post, so App Store Connect can count its downloads: `https://apps.apple.com/gb/app/quid-uk-student-life/id6791167493?pt=129157769&ct=blog-<slug>&mt=8` (ct at most 40 characters; cut the slug if longer). Every App Store button copied from the template must get the same ct; leave the JSON-LD links untagged.
 2. The lime "Your UK move, minus the panic." section with the "Download on the App Store" button at the bottom, as in the existing posts.
 
 No more than that. The post has to be useful to someone who never downloads the app.
